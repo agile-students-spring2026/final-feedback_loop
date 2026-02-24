@@ -1,19 +1,64 @@
-# Project Repository
+# FeedbackLoop
 
-This repository will be used for team projects.
+## Product Vision Statement
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+Helping small game teams organize playtests, collect player feedback, and share development updates — all in one place.
 
-1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
+Indie developers currently use multiple platforms (Discord, itch.io, social media) to interact with players, making feedback scattered and hard to track. FeedbackLoop simplifies this by providing structured tools for managing playtests and feedback.
 
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-0c-project-setup.md)
+---
 
-1. See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
+## Description
 
-1. See the [Front-End Development instructions](./instructions-1-front-end.md) for the requirements of the initial Front-End Development.
+FeedbackLoop provides a single platform for developers and players to interact efficiently. Key features include:
 
-1. See the [Back-End Development instructions](./instructions-2-back-end.md) for the requirements of the initial Back-End Development.
+- **Project Pages** – Developers create project pages for their games with descriptions, updates, and playtest links.  
+- **Custom Feedback Forms** – Developers design forms with ratings, questions, and optional comments.  
+- **Browse & Join Playtests** – Players can find and participate in games that interest them.  
+- **Feedback Organization** – Developers can tag, filter, and summarize feedback for analysis.  
+- **Notifications & Following** – Players follow projects to receive updates, and trending projects are highlighted.  
 
-1. See the [Database Integration instructions](./instructions-3-database.md) for the requirements of integrating a database into the back-end.
+### Example User Flow
 
-1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app.
+1. Player registers an account and selects their role.  
+2. Developer creates a project page with a playtest.  
+3. Player browses and joins the playtest.  
+4. Player submits feedback through a custom form.  
+5. Developer views and organizes feedback to plan updates.
+
+---
+
+## Team Members
+
+| Role | Name | GitHub | Email |
+|------|------|--------|-------|
+| Developer | Angela Gao | [@Xuan4781](https://github.com/Xuan4781) | ag8969@nyu.edu |
+| Product Owner & Developer | Shutong Zhang | [@ShutongZhang2023](https://github.com/ShutongZhang2023) | sz3832@nyu.edu |
+| Scrum Master & Developer | Jania Jones | [@janiajones](https://github.com/username3) | jaj9365@nyu.edu |
+| Developer | Nicholas Michael | [@NMichael111](https://github.com/NMichael111) | ngm9720@nyu.edu |
+| Developer | Felix Hall | [@fh2303](https://github.com/fh2303) | fh2303@nyu.edu |
+
+---
+
+## Project History & Contributing
+
+*TBD*
+
+To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## Building and Testing
+
+*TBD*
+
+---
+
+## Additional Documents
+
+- See the [App Map & Wireframes](instructions-0a-app-map_wireframes.md) and [Prototyping](instructions-0b-prototyping.md) instructions for the initial user experience design requirements.  
+- See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for requirements for each sprint.  
+- See the [Front-End Development instructions](instructions-1-front-end.md) for the initial front-end implementation.  
+- See the [Back-End Development instructions](instructions-2-back-end.md) for the initial back-end implementation.  
+- See the [Database Integration instructions](instructions-3-database.md) for integrating a database into the back-end.  
+- See the [Deployment instructions](instructions-4-deployment.md) for deploying the application.
