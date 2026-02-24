@@ -32,8 +32,8 @@ FeedbackLoop provides a single platform for developers and players to interact e
 
 | Role | Name | GitHub | Email |
 |------|------|--------|-------|
-| Developer | Angela Gao | [@Xuan4781](https://github.com/Xuan4781) | ag8969@nyu.edu |
-| Product Owner & Developer | Shutong Zhang | [@ShutongZhang2023](https://github.com/ShutongZhang2023) | sz3832@nyu.edu |
+| Product Owner & Developer | Angela Gao | [@Xuan4781](https://github.com/Xuan4781) | ag8969@nyu.edu |
+| Developer | Shutong Zhang | [@ShutongZhang2023](https://github.com/ShutongZhang2023) | sz3832@nyu.edu |
 | Scrum Master & Developer | Jania Jones | [@janiajones](https://github.com/username3) | jaj9365@nyu.edu |
 | Developer | Nicholas Michael | [@NMichael111](https://github.com/NMichael111) | ngm9720@nyu.edu |
 | Developer | Felix Hall | [@fh2303](https://github.com/fh2303) | fh2303@nyu.edu |
