@@ -1,8 +1,8 @@
-# User Experience Design
+# App Map
 
-This repository contains instructions and files for two assignments that together comprise the user experience design phase of a web app.
+![App Map](ux-design/app-map.png)
 
-Replace the contents of this file with the completed assignments, as described in:
 
-- [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
-- [prototype instructions](instructions-0b-prototyping.md)
+# Login / Register 
+![Login / Signup](ux-design/signin.png)
+
