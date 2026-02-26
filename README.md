@@ -56,7 +56,7 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Additional Documents
 
-- See the [App Map & Wireframes](instructions-0a-app-map_wireframes.md) and [Prototyping](instructions-0b-prototyping.md) instructions for the initial user experience design requirements.  
+- See the [UX Design](UX-DESIGN.md) for the app map, wireframes, and prototype.  
 - See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for requirements for each sprint.  
 - See the [Front-End Development instructions](instructions-1-front-end.md) for the initial front-end implementation.  
 - See the [Back-End Development instructions](instructions-2-back-end.md) for the initial back-end implementation.  
