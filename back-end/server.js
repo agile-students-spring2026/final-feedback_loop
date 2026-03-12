@@ -1,16 +1,14 @@
-const app = require('./app')
-require('dotenv').config({ silent: true }) 
+import app from "./app.js";
+import dotenv from "dotenv";
+
+dotenv.config({ silent: true });
 
 const PORT = process.env.PORT || 7002;
 
-app.listen(PORT, () => {
+const listener = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const close = () => {
-  listener.close()
-}
-
-module.exports = {
-  close
-}
+export const close = () => {
+  listener.close();
+};
