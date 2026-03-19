@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import CreateProjectForm from './CreateProjectForm';
+import EditProjectInfo from './EditProjectInfoForm';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CreateProjectForm />
+    <EditProjectInfo />
   </React.StrictMode>
 );
 
