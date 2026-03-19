@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import CreateProjectForm from './CreateProjectForm';
-import EditProjectInfo from './EditProjectInfoForm';
+import CreateProjectForm from './pages/CreateProjectForm';
+import EditProjectInfo from './pages/EditProjectInfoForm';
+import CreateNewFeedback from './pages/CreateNewFeedback';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <EditProjectInfo />
+    <CreateProjectForm />
   </React.StrictMode>
 );
 

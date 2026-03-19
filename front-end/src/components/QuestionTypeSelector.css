@@ -1,0 +1,61 @@
+.qts-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.qts-window {
+  width: 40%;
+  background: #14112eea;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 10px #00000081;
+}
+
+.qts-title {
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.qts-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.qts-option-btn {
+  padding: 12px;
+  border-radius: 8px;
+  border: 0px;
+  color: #14112e;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.qts-option-btn:hover {
+  background: #9d9abeea;
+  color: white;
+}
+
+.qts-close-btn {
+  padding: 12px;
+  border-radius: 8px;
+  border: 0px;
+  color: #a30000;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.qts-close-btn:hover {
+  background: #a3000000;
+  color: white;
+}

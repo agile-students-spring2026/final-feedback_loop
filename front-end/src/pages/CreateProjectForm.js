@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TagSelector from "./TagSelector";
+import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 
 const tagOption = [
@@ -21,26 +21,6 @@ const genreOption = [
   { value: "Sport", label: "Sport" },
   { value: "Strategy", label: "Strategy" },
 ];
-
-//hard code data (temp)
-const projectData = {
-  title: "Dreamwalker",
-  description:
-    "A narrative puzzle game ...",
-  genre: { value: "Adventure", label: "Adventure" },
-  tags: [
-    { value: "puzzle", label: "puzzle" },
-    { value: "2D", label: "2D" },
-    { value: "visual-novel", label: "visual-novel" },
-  ],
-  coverImage: null,
-  coverPreview:
-    "https://sm.pcmag.com/pcmag_me/review/g/google-pla/google-play-games_w6hm.jpg",
-  uploadType: "url",
-  uploadFile: null,
-  uploadUrl: "https://example.com/my-project-build",
-  visibility: "draft",
-};
 
 function UploadSection({
   uploadType,
@@ -118,22 +98,20 @@ function UploadSection({
   );
 }
 
-function EditProjectInfo() {
-  const [title, setTitle] = useState(projectData.title);
-  const [description, setDescription] = useState(projectData.description);
-  const [genre, setGenre] = useState(projectData.genre);
-  const [tags, setTags] = useState(projectData.tags);
+function CreateProjectForm() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("");
+  const [tags, setTags] = useState([]);
 
-  const [coverImage, setCoverImage] = useState(projectData.coverImage);
-  const [coverPreview, setCoverPreview] = useState(
-    projectData.coverPreview
-  );
+  const [coverImage, setCoverImage] = useState(null);
+  const [coverPreview, setCoverPreview] = useState("");
 
-  const [uploadType, setUploadType] = useState(projectData.uploadType);
-  const [uploadFile, setUploadFile] = useState(projectData.uploadFile);
-  const [uploadUrl, setUploadUrl] = useState(projectData.uploadUrl);
+  const [uploadType, setUploadType] = useState("download");
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploadUrl, setUploadUrl] = useState("");
 
-  const [visibility, setVisibility] = useState(projectData.visibility);
+  const [visibility, setVisibility] = useState("");
 
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
@@ -158,35 +136,33 @@ function EditProjectInfo() {
       uploadFile,
       uploadUrl,
     };
-    console.log("Updated Project Data:", formData);
-    alert("Project info updated. Then navigate to project info page.");
+    console.log("Submitted Data:", formData);
+    alert("Form submitted then nacigate to project info page");
     //navigate("/project", { state: formData });
   };
 
   const handleDiscard = () => {
-    const confirmReset = window.confirm(
-      "Discard all changes and restore original project info?"
-    );
-    if (!confirmReset) return;
+    const confirmClear = window.confirm("Discard all changes?");
+    if (!confirmClear) return;
 
-    setTitle(projectData.title);
-    setDescription(projectData.description);
-    setGenre(projectData.genre);
-    setTags(projectData.tags);
-    setVisibility(projectData.visibility);
-    setUploadType(projectData.uploadType);
-    setCoverImage(projectData.coverImage);
-    setCoverPreview(projectData.coverPreview);
-    setUploadFile(projectData.uploadFile);
-    setUploadUrl(projectData.uploadUrl);
+    setTitle("");
+    setDescription("");
+    setGenre("");
+    setTags("");
+    setVisibility("");
+    setUploadType("download");
+    setCoverImage(null);
+    setCoverPreview("");
+    setUploadFile(null);
+    setUploadUrl("");
   };
 
   return (
     <div className="container">
       <div className="top-nav">
-        <span className="nav-link">Project Name</span>
+        <span className="nav-link"> Dashboard</span>
       </div>
-      <div className="header">Edit Project Information</div>
+      <div className="header">Create a New Project!</div>
 
       <form onSubmit={handleSubmit}>
         <div className="info-container">
@@ -318,4 +294,4 @@ function EditProjectInfo() {
   );
 }
 
-export default EditProjectInfo;
+export default CreateProjectForm;

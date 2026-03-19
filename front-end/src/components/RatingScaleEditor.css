@@ -1,0 +1,55 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rse-label {
+  font-weight: normal !important;
+  font-size: 16px !important;
+}
+
+.num-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.num-input {
+  width: 70px;
+  padding: 12px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.num-input:focus {
+  outline: none;
+  border-color: #484866;
+  box-shadow: 0 0 0 2px rgba(130, 123, 255, 0.329);
+}
+
+.slider {
+  -webkit-appearance: none;
+  height: 8px;
+  background: #484866;
+  border-radius: 5px;
+  margin: 20px 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #222230;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
