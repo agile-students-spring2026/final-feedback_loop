@@ -1,0 +1,104 @@
+.projectPage {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+}
+
+.backButton {
+  background: black;
+  color: white;
+  padding: 5px 7px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: block;
+ 
+}
+
+.header {
+  display: flex;
+  align-items: stretch;
+}
+
+.projIcon {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  margin-left: auto;
+}
+
+.welcome {
+  text-align: left;
+  margin: 0 0 0 5px;
+}
+
+.headerText h1 {
+  margin: 0 0 8px 0;
+  font-size: 34px;
+  font-weight: normal;
+}
+
+.lastUpdated {
+  margin: 0;
+  font-size: 14px;
+}
+
+.projectSection {
+  text-align: left;
+}
+
+.projectSection h2 {
+  margin: 6px 0 8px 0;
+}
+
+.projectSection p {
+  margin: 2px 0;
+}
+
+.plainButton {
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  margin: 6px 0 6px 0;
+}
+
+.logNum,
+.logAuthor {
+  margin: 0 0 6px 0;
+}
+
+.feedbackSection {
+  border: 2px solid black;
+  margin-bottom: 14px;
+}
+
+.formTitle {
+  text-align: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid black;
+  font-size: 16px;
+}
+
+.formStats {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+}
+
+.feedbackActions {
+  display: flex;
+  justify-content: space-around;
+  background: black;
+  padding: 8px 0;
+}
+
+.feedbackActions button {
+  background: none;
+  border: none;
+  color: white;
+  text-decoration: underline;
+  font-size: 14px;
+}
