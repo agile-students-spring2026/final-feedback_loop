@@ -43,8 +43,11 @@ const PlayerExplore = () => {
             <ProjectDetails game={selectedGame} />
           ) : (
             <PlayerPlaytest
+              activeTab={activeTab}
               games={games}
               myPlaytests={myPlaytests}
+              setActiveTab={setActiveTab}
+              setSelectedGame={setSelectedGame}
               handleJoinPlaytest={handleJoinPlaytest}
             />
           )}
