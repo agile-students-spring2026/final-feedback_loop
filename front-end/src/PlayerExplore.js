@@ -26,7 +26,9 @@ const PlayerExplore = () => {
 
   return (
     <div className="container">
-      <nav>[ LOGO ]</nav>
+      <nav className="nav">
+        <div className="logo">[ LOGO ]</div>
+      </nav>
 
       <div className="layout">
         <Sidebar
@@ -49,7 +51,9 @@ const PlayerExplore = () => {
         </main>
       </div>
 
-      <footer className="footer">Footer</footer>
+      <footer className="footer">
+        <span className="footer-text">Footer</span>
+      </footer>
     </div>
   );
 };
