@@ -59,6 +59,10 @@
   overflow-y: auto;
 }
 
+.main.full {
+  padding: 0;
+}
+
 .footer {
   background-color: #000;
   height: 40px;

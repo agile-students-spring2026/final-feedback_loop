@@ -38,7 +38,7 @@ const PlayerExplore = () => {
           myPlaytests={myPlaytests}
         />
 
-        <main className="main">
+        <main className={`main ${activeTab === "Playtest Detail" ? "full" : ""}`}>
           {activeTab === "Playtest Detail" && selectedGame ? (
             <ProjectDetails game={selectedGame} />
           ) : (
