@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PlayerPlaytest from "./PlayerPlaytest";
 import ProjectDetails from "./ProjectDetails";
 import Sidebar from "./Sidebar";
+import "./PlayerExplore.css";
 
 const PlayerExplore = () => {
   const [activeTab, setActiveTab] = useState("Explore");
@@ -9,21 +10,25 @@ const PlayerExplore = () => {
   const [myPlaytests, setMyPlaytests] = useState([]);
 
   const [games] = useState([
-    { id: 1, title: "Pixel Quest" },
-    { id: 2, title: "Rogue Galaxy" },
-    { id: 3, title: "Puzzle Mania" }
+    { id: 1, title: "Pixel Quest", description: "Retro puzzle adventure", genre: "Adventure" },
+    { id: 2, title: "Rogue Galaxy", description: "Roguelike RPG", genre: "RPG" },
+    { id: 3, title: "Puzzle Mania", description: "Brain teasers", genre: "Puzzle" },
+    { id: 4, title: "Cyber Drift", description: "Neon racing", genre: "Racing" },
+    { id: 5, title: "Mystic Isle", description: "Survival mystery", genre: "Survival" },
   ]);
 
   const handleJoinPlaytest = (game) => {
-    setMyPlaytests([...myPlaytests, game]);
+    if (!myPlaytests.find(p => p.id === game.id)) {
+      setMyPlaytests([...myPlaytests, { ...game, joined: true }]);
+    }
     setActiveTab("My Playtests");
   };
 
   return (
-    <div>
+    <div className="container">
       <nav>[ LOGO ]</nav>
 
-      <div style={{ display: "flex" }}>
+      <div className="layout">
         <Sidebar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -31,7 +36,7 @@ const PlayerExplore = () => {
           myPlaytests={myPlaytests}
         />
 
-        <main>
+        <main className="main">
           {activeTab === "Playtest Detail" && selectedGame ? (
             <ProjectDetails game={selectedGame} />
           ) : (
@@ -44,7 +49,7 @@ const PlayerExplore = () => {
         </main>
       </div>
 
-      <footer>Footer</footer>
+      <footer className="footer">Footer</footer>
     </div>
   );
 };

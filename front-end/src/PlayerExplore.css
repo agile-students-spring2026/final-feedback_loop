@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  height: 60px;
+  border-bottom: 2px solid black;
+}
+
+.layout {
+  display: flex;
+}
+
+.main {
+  padding: 20px;
+  background: #f3f4f6;
+}
+
+.footer {
+  background: black;
+  color: white;
+}
