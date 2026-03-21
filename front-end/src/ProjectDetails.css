@@ -1,6 +1,8 @@
 .project-wrapper {
   width: 100%;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
@@ -28,4 +30,33 @@
 
 .header-spacer {
   width: 60px;
+}
+
+/* Content */
+.content-area {
+  padding: 40px;
+}
+
+.top-grid {
+  display: flex;
+  gap: 40px;
+}
+
+.left-col {
+  flex: 1 1 65%;
+}
+
+.right-col {
+  flex: 1 1 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-box,
+.config-block,
+.action-box {
+  border: 2px solid #000;
+  padding: 20px;
+  min-height: 200px;
 }

@@ -19,6 +19,29 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
 
         <div className="header-spacer" />
       </div>
+
+      {/* Content */}
+      <div className="content-area">
+        <div className="top-grid">
+
+          <div className="left-col">
+            <div className="section-box">
+              LEFT CONTENT
+            </div>
+          </div>
+          
+          <div className="right-col">
+            <div className="config-block">
+              CONFIG
+            </div>
+
+            <div className="action-box">
+              ACTIONS
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 };
