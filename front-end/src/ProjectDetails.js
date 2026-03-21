@@ -38,11 +38,30 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
 
           <div className="right-col">
             <div className="config-block">
-              CONFIG
+              <span className="label">Configuration</span>
+
+              <div className="dropdown">
+                VERSION: {game.version}
+              </div>
+
+              <div className="dropdown">
+                STATUS: ACTIVE
+              </div>
             </div>
 
             <div className="action-box">
-              ACTIONS
+              <span className="label">Launch Options</span>
+
+              <button
+                className="action-btn"
+                onClick={() => handleJoinPlaytest(game)}
+              >
+                Playtest Link
+              </button>
+
+              <button className="action-btn secondary">
+                Download Client
+              </button>
             </div>
           </div>
 

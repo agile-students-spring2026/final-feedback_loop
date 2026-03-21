@@ -80,3 +80,47 @@
   color: #6b7280;
   margin-top: 12px;
 }
+
+.config-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdown {
+  border: 2px solid #000;
+  padding: 12px 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.action-box {
+  border: 2px solid #000;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 14px;
+  border: 2px solid #000;
+  background: #000;
+  color: #fff;
+
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.action-btn.secondary {
+  background: #fff;
+  color: #000;
+}
