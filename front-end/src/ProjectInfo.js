@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function ProjectInfo() {
   const navigate = useNavigate();
   return (
+    
     <div className="projectPage">
       <button className="backButton" onClick={() => navigate("/")}> Back </button>
 

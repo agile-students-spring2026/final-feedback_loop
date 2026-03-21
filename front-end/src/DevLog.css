@@ -1,7 +1,43 @@
+input,
+textarea,
+button,
+select,
+label,
+span {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.backButton {
+  display: block;
+  margin: 0 0 20px 0;
+  background-color: #14112E;
+  color: white;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  background-color: #201c50;
+}
+
+.backButton:active {
+  transform: scale(0.98);
+}
+
 .devlog {
-  width: 100%;
-  max-width: 420px;
-  margin: 20px auto;
+  max-width: 60%;
+  margin: 40px auto;
+  background: #ffffff;
+  overflow: hidden;
+  color: #14112E;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .devlogSection {
@@ -9,26 +45,39 @@
 }
 
 .devlogSection h2 {
-  margin: 6px 0 8px 0;
+  margin: 0 0 16px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #14112E;
 }
 
 .devlogSection label {
   display: block;
-  margin: 10px 0 4px;
-  font-size: 16px;
+  margin: 16px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #14112E;
 }
 
 .devlogSection input,
 .devlogSection textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid black;
+  padding: 12px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 6px;
   font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }
 
-.devlogSection textarea {
-  min-height: 120px;
-  resize: none;
+.devlogSection input:focus,
+.devlogSection textarea:focus {
+  outline: none;
+  border-color: #484866;
+  box-shadow: 0 0 0 2px rgba(130, 123, 255, 0.25);
 }
 
+.devlogSection textarea {
+  min-height: 140px;
+  resize: vertical;
+}
