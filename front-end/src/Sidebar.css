@@ -28,3 +28,7 @@
   border: none;
   background: transparent;
 }
+
+.nav-btn.active {
+  font-weight: 900;
+}
