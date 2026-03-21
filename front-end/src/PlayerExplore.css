@@ -1,23 +1,32 @@
 .container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  background: #fff;
 }
 
 .nav {
   height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
   border-bottom: 2px solid black;
 }
 
 .layout {
   display: flex;
+  flex: 1;
 }
 
 .main {
-  padding: 20px;
+  flex: 1;
+  padding: 40px;
   background: #f3f4f6;
 }
 
 .footer {
-  background: black;
-  color: white;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
 }
