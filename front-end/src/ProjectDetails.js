@@ -26,10 +26,16 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
 
           <div className="left-col">
             <div className="section-box">
-              LEFT CONTENT
+              <span className="label">
+                PROJECT NAME: {game.title}
+              </span>
+
+              <div className="project-img">
+                PROJECT IMAGE
+              </div>
             </div>
           </div>
-          
+
           <div className="right-col">
             <div className="config-block">
               CONFIG

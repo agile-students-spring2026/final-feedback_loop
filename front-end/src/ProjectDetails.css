@@ -60,3 +60,23 @@
   padding: 20px;
   min-height: 200px;
 }
+
+.label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.project-img {
+  background: #e5e7eb;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  color: #6b7280;
+  margin-top: 12px;
+}
