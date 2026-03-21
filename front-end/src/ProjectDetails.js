@@ -20,7 +20,6 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
         <div className="header-spacer" />
       </div>
 
-      {/* Content */}
       <div className="content-area">
         <div className="top-grid">
 
@@ -31,7 +30,7 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
               </span>
 
               <div className="project-img">
-                PROJECT IMAGE
+                PROJECT IMG
               </div>
             </div>
           </div>
@@ -66,6 +65,24 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
           </div>
 
         </div>
+
+        {/* Patch Notes */}
+        <div className="patch-box">
+
+          <div className="patch-header">
+            <div className="patch-tag">
+              BUILD {game.version}
+            </div>
+
+            <h3>Patch Notes</h3>
+          </div>
+
+          <p className="patch-text">
+            {game.description}. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+
+        </div>
+
       </div>
     </div>
   );
