@@ -1,6 +1,6 @@
 import React from "react";
 
-const PlayerPlaytest = ({ activeTab, games, handleJoinPlaytest, myPlaytests, }) => {
+const PlayerPlaytest = ({ activeTab, setActiveTab, setSelectedGame, games, handleJoinPlaytest, myPlaytests, }) => {
   if (activeTab === "My Playtests") {
     return (
       <div>
@@ -23,16 +23,31 @@ const PlayerPlaytest = ({ activeTab, games, handleJoinPlaytest, myPlaytests, }) 
   return (
     <div>
       <h1>Explore Projects</h1>
-        {games.map((game) => (
-          <div key={game.id}>
-            <h3>{game.title}</h3>
+        {games.map((game) => {
+          const isJoined = myPlaytests.find((p) => p.id === game.id);
+          return (
+            <div 
+              key={game.id}
+              onClick={() => {
+                setSelectedGame(game);
+                setActiveTab("Playtest Detail");
+              }}
+            >
+              <h3>{game.title}</h3>
+              <p>{game.description}</p>
 
-            <button onClick={() => handleJoinPlaytest(game)}>
-              Join Test
-            </button>
-          </div>
-        ))}
-      </div>
+              <button 
+                disabled={isJoined} onClick={(e) => {
+                e.stopPropagation();
+                handleJoinPlaytest(game);
+                }}
+              >
+                {isJoined ? "Joined" : "Join Test"}
+              </button>
+            </div>
+        );
+      })}
+    </div>
   );
 };
 
