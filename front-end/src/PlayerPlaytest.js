@@ -1,9 +1,17 @@
 import React from "react";
 
-const PlayerPlaytest = ({ activeTab, games }) => {
+const PlayerPlaytest = ({ games }) => {
   return (
     <div>
-      <h1>Playtest Page</h1>
+      <h1>Explore Projects</h1>
+      <div>
+        {games.map((game) => (
+          <div key={game.id}>
+            <h3>{game.title}</h3>
+            <p>{game.description}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
