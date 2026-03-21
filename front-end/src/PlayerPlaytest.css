@@ -1,0 +1,186 @@
+.header {
+  border-bottom: 2px solid #000;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Explore grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  border: 2px solid #000;
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px 0px #000;
+  transition: transform 0.1s ease;
+}
+
+.card:hover {
+  transform: translate(-2px, -2px);
+}
+
+.cardThumb {
+  background-color: #e5e7eb;
+  aspect-ratio: 16 / 10;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardBody {
+  padding: 16px;
+}
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cardTitle {
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: #4b5563;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+/* Buttons */
+.btnGroup {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 2px 2px 0px 0px #000;
+  transform: translate(-1px, -1px);
+}
+
+.btnPrimary {
+  background-color: #000;
+  color: #fff;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Library view */
+.libraryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.libraryCard {
+  display: flex;
+  border: 2px solid #000;
+  background-color: #fff;
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.thumbBox {
+  width: 120px;
+  background-color: #e5e7eb;
+  border-right: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbText {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.libraryBody {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.libraryTop {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.versionBox {
+  border: 1px solid #000;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
+.statusBox {
+  border: 2px solid #000;
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #000;
+}
+
+.statusText {
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+/* Empty state */
+.empty {
+  border: 2px dashed #000;
+  padding: 64px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.emptyText {
+  font-weight: 800;
+  color: #9ca3af;
+  font-size: 12px;
+  text-transform: uppercase;
+}
