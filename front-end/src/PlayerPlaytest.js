@@ -1,14 +1,31 @@
 import React from "react";
 
-const PlayerPlaytest = ({ games, handleJoinPlaytest }) => {
+const PlayerPlaytest = ({ activeTab, games, handleJoinPlaytest, myPlaytests, }) => {
+  if (activeTab === "My Playtests") {
+    return (
+      <div>
+        <h1>My Playtests</h1>
+
+        {myPlaytests.length === 0 ? (
+          <p>No active playtests found.</p>
+        ) : (
+          myPlaytests.map((game) => (
+            <div key={game.id}>
+              <h3>{game.title}</h3>
+              <button>Launch</button>
+              <button>Feedback</button>
+            </div>
+          ))
+        )}
+      </div>
+    );
+  }
   return (
     <div>
       <h1>Explore Projects</h1>
-      <div>
         {games.map((game) => (
           <div key={game.id}>
             <h3>{game.title}</h3>
-            <p>{game.description}</p>
 
             <button onClick={() => handleJoinPlaytest(game)}>
               Join Test
@@ -16,8 +33,8 @@ const PlayerPlaytest = ({ games, handleJoinPlaytest }) => {
           </div>
         ))}
       </div>
-    </div>
   );
 };
+
 
 export default PlayerPlaytest;
