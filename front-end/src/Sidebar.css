@@ -1,0 +1,30 @@
+.sidebar {
+  width: 240px;
+  border-right: 2px solid #000;
+  padding: 24px;
+}
+
+.sidebar-section {
+  margin-bottom: 32px;
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 6px;
+  border: none;
+  background: transparent;
+}
