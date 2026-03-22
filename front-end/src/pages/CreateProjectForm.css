@@ -35,6 +35,7 @@ body {
   background: #ffffff;
   overflow: hidden;
   color: #14112E;
+  border-radius: 15px;
 }
 
 .header {

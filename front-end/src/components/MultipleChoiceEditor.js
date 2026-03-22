@@ -1,4 +1,5 @@
 import React from "react";
+import "./MultipleChoiceEditor.css";
 
 function MultipleChoiceEditor(props) {
   const q = props.question;
@@ -65,11 +66,11 @@ function MultipleChoiceEditor(props) {
             </div>
           );
         })}
-      </div>
 
-      <button type="button" onClick={addOption}>
-        + Add Option
-      </button>
+        <button className="basic-button" onClick={addOption}>
+          + Add Option
+        </button>
+      </div>
     </div>
   );
 }

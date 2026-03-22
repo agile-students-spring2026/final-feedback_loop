@@ -1,0 +1,13 @@
+:root{
+  --dark-eggplant: #1e141d; 
+  --eggplant: #682d70; 
+  --purple: #9e399c;
+  --dark-indigo: #3e2d51; 
+  --pale-lavender: hsl(260, 31%, 90%); 
+  --black1: #030101;
+  --black2: #0c0507;
+  --twilightGradient: linear-gradient(
+    rgba(17, 11, 22, 0.459),
+    rgba(27, 18, 37, 0.678)
+  );
+}

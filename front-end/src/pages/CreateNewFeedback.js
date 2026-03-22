@@ -4,8 +4,10 @@ import MultipleChoiceEditor from "../components/MultipleChoiceEditor";
 import RatingScaleEditor from "../components/RatingScaleEditor";
 import ShortAnswerEditor from "../components/ShortAnswerEditor";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
+import { useNavigate } from "react-router-dom";
 
 function CreateNewFeedback() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showSelector, setShowSelector] = useState(false);
@@ -70,6 +72,7 @@ function CreateNewFeedback() {
 
     console.log("Submit data:", data);
     alert("Saved!)");
+    navigate("/feedbackPlayerView:id");
   }
 
   function handleDiscard() {

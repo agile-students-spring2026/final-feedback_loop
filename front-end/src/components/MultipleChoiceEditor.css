@@ -1,0 +1,19 @@
+.option-list {
+  width: 90%;
+  margin-top: 10px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.option .single-line-input {
+  flex: 1;
+}
+
