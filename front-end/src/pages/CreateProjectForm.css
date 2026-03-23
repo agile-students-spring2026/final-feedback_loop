@@ -24,7 +24,6 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(180deg, #484866 0%, #14112e 100%);
   min-height: 100vh;
   align-items: center;
   justify-content: center;
@@ -39,7 +38,7 @@ body {
   background: #ffffff;
   overflow: hidden;
   color: var(--dark-eggplant);
-  border-radius: 15px;
+  border: 3px solid var(--dark-eggplant);
 }
 
 .create-project-header {
@@ -70,6 +69,7 @@ body {
 }
 
 .create-peoject-form {
+  display: block !important;
   padding: 30px 40px;
   background-color: white;
 }
