@@ -13,6 +13,10 @@ import FollowingPage from "./FollowingPage";
 import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
 import FeedbackForm from "./FeedbackForm";
+import CreateProjectForm from "./pages/CreateProjectForm";
+import EditProjectInfo from "./pages/EditProjectInfoForm";
+import CreateNewFeedback from "./pages/CreateNewFeedback";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -36,6 +40,9 @@ function App() {
         <Route path="/notifications" element={<NotificationCenter />} />
         <Route path="/game-feedback" element={<GameFeedback />} />
         <Route path="/feedback-form" element={<FeedbackForm />} />
+        <Route path="/createProjectForm" element={<CreateProjectForm />} />
+        <Route path="/editProjectInfo" element={<EditProjectInfo />} />
+        <Route path="/createNewFeedback" element={<CreateNewFeedback />} />
 
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>

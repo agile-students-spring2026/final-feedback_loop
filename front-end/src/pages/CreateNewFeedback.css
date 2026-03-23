@@ -1,0 +1,17 @@
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.delete-button {
+  background-color: transparent;
+  border: 2px solid black;
+  box-shadow: 2px 2px 0px 0px black;
+  height: auto;          /* 不要写死 */
+  align-self: stretch;
+}
+
+.delete-button:hover {
+  background-color: var(--pale-lavender);
+}
