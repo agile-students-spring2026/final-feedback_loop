@@ -15,12 +15,12 @@ function SettingsPage() {
     nav("/login");
   };
 
-  const [buttonText, setButtonText] = useState("Account Code");
+  const [accButtonText, setAccButtonText] = useState("Account Code");
   const handleAccCode = async () => {
     const min = 1000000000;
     const max = 9999999999;
     const accCode = Math.floor(Math.random() * (max - min + 1)) + min;
-    setButtonText(accCode);
+    setAccButtonText(accCode);
     try {
       await navigator.clipboard.writeText(accCode);
     } catch (err) {
@@ -45,7 +45,7 @@ function SettingsPage() {
             </div>
             <div className={styles.info}>
               <p className={styles.p}>Change Password:</p>
-              <InfoInput placeholderText="Enter new password" />
+              <InfoInput type="password" placeholderText="Enter new password" />
             </div>
             <div className={styles.buttonWrapper}>
               <Button type="submit" variant="submit">
@@ -56,7 +56,7 @@ function SettingsPage() {
           <Outline variant="acc" legendText="Utilities">
             <div className={styles.accCodeWrapper}>
               <Button variant="accCode" onClick={handleAccCode}>
-                {buttonText}
+                {accButtonText}
               </Button>
             </div>
             <Button variant="report" onClick={handleReport}>

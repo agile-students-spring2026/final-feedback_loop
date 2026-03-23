@@ -1,7 +1,14 @@
 import React from "react";
 import "./PlayerPlaytest.css";
 
-const PlayerPlaytest = ({ activeTab, setActiveTab, setSelectedGame, games, handleJoinPlaytest, myPlaytests, }) => {
+const PlayerPlaytest = ({
+  activeTab,
+  setActiveTab,
+  setSelectedGame,
+  games,
+  handleJoinPlaytest,
+  myPlaytests,
+}) => {
   if (activeTab === "My Playtests") {
     return (
       <div>
@@ -100,6 +107,5 @@ const PlayerPlaytest = ({ activeTab, setActiveTab, setSelectedGame, games, handl
     </div>
   );
 };
-
 
 export default PlayerPlaytest;
