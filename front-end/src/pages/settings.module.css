@@ -36,3 +36,17 @@
   margin-top: -4px;
   margin-bottom: 4px;
 }
+
+.user {
+  color: var(--pale-lavender);
+  font-size: large;
+  margin-top: -3px;
+  margin-bottom: 4px;
+}
+
+.buttonWrapper button {
+  margin-top: 0;
+  padding: 10px 40px;
+  width: 100%;
+  border-color: var(--even-paler-lavender);
+}

@@ -1,6 +1,6 @@
 import styles from "./button.module.css";
 
-function Button({ variant = "accCode", children, type = "button" }) {
+function Button({ variant = "accCode", children, type = "button", onClick }) {
   let className = styles.accCode;
 
   if (variant === "report") {
@@ -14,7 +14,7 @@ function Button({ variant = "accCode", children, type = "button" }) {
   }
 
   return (
-    <button type={type} className={className}>
+    <button type={type} className={className} onClick={onClick}>
       {children}
     </button>
   );
