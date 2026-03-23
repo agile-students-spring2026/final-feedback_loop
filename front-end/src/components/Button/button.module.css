@@ -1,0 +1,55 @@
+.accCode,
+.report,
+.logout,
+.delete {
+  font-family: "Saira", monospace;
+  color: var(--pale-lavender);
+  background-color: var(--sunset);
+  border-radius: 15px;
+  border: 2px solid var(--black2);
+  width: 160px;
+  padding: 15px 0;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.submit {
+  font-family: "Saira", monospace;
+  margin-top: 30px;
+  align-self: center;
+  width: 50%;
+  border-radius: 15px;
+  border-color: var(--pale-lavender);
+  border-style: solid;
+  font-size: 0.95rem;
+  color: whitesmoke;
+  background-color: transparent;
+}
+
+.delete {
+  background-color: hsl(350, 70%, 30%);
+}
+
+.accCode:hover,
+.report:hover,
+.logout:hover,
+.submit:hover {
+  background-color: #3f3870;
+}
+
+.delete:hover {
+  background-color: hsl(350, 70%, 36%);
+}
+
+.accCode:focus,
+.report:focus,
+.logout:focus,
+.delete:focus,
+.submit:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--pale-lavender);
+}
+
+.submit:focus {
+  box-shadow: 0 0 5px var(--pale-lavender);
+}

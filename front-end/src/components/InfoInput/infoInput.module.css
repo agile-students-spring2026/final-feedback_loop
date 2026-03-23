@@ -1,0 +1,42 @@
+.mainInput {
+  color: var(--pale-lavender);
+  box-sizing: border-box;
+  border: 2px solid var(--even-paler-lavender);
+  padding: 18px 100px 18px 18px;
+  border-radius: 15px;
+  background-color: transparent;
+  width: 100%;
+  max-width: 300px;
+  font-family: inherit;
+}
+
+.mainInput:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--pale-lavender);
+}
+
+.username,
+.password,
+.confirmPass {
+  box-sizing: border-box;
+  margin-top: 15px;
+  background: transparent;
+  height: 2.5rem;
+  width: 16rem;
+  color: var(--pale-lavender);
+  font-size: 1rem;
+  padding: 0 0.9rem;
+  border: 1.2px solid var(--pale-lavender);
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.password {
+  margin-top: 0;
+}
+
+.username:focus,
+.password:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--pale-lavender);
+}
