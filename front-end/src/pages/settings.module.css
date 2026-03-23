@@ -1,0 +1,56 @@
+.body {
+  font-family: "Saira", monospace;
+  background-color: var(--bcgColor);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-image: linear-gradient(
+      rgba(28, 9, 46, 0.459),
+      rgba(30, 15, 48, 0.678)
+    ),
+    url("../assets/bg.jpg");
+  background-size: cover;
+}
+
+.img {
+  margin-top: 1rem;
+  align-self: flex-start;
+  max-width: 100%;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  border: 2px solid var(--black2);
+  box-shadow: 0 0 8px var(--pale-lavender);
+}
+
+.info {
+  min-width: 40px;
+}
+
+.p {
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
+
+.user {
+  color: var(--pale-lavender);
+  font-size: large;
+  margin-top: -3px;
+  margin-bottom: 4px;
+}
+
+.buttonWrapper button {
+  margin-top: 0;
+  padding: 10px 40px;
+  width: 100%;
+  border-color: var(--even-paler-lavender);
+}
+/* 
+.accCodeWrapper button {
+  height: 100%;
+} */

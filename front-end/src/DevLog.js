@@ -4,33 +4,53 @@ import "./DevLog.css";
 
 function DevLog() {
   const navigate = useNavigate();
+
   return (
-    <div className="devlog">
-      <button className="backButton" onClick={() => navigate("/project")}> Back </button>
-        <div className="header">
-               <div className="headerText">
-                 <p className="welcome">Welcome to</p>
-                 <h1>My Project</h1>
-                 <p className="lastUpdated">Last updated: mm/dd/yyyy</p>
-               </div>
-               <img src={projectImg} alt="Project Icon" className="projIcon" />
-        </div>
+    <div className="container">
+      <nav className="nav">
+        <div className="logo">[ LOGO ]</div>
+      </nav>
 
-        <div className="devlogSection">
-            <h2>Submit Dev Log</h2>
-            <label>Team member</label>
-            <input type="text" placeholder="@Margot" />
+      <div className="layout">
+        <main className="devMain">
+          <div className="devlog">
+            <button className="backButton" onClick={() => navigate("/project")}>
+              Back
+            </button>
 
-            <label>Submission Date</label>
-            <input type="text" placeholder="mm/dd/yyyy" />
+            <div className="devHeader">
+              <div className="headerText">
+                <p className="welcome">Welcome to</p>
+                <h1>My Project</h1>
+                <p className="lastUpdated">Last updated: mm/dd/yyyy</p>
+              </div>
 
-            <label>Developer Notes</label>
-            <textarea placeholder="Enter notes here..." />
+              <img src={projectImg} alt="Project Icon" className="projIcon" />
+            </div>
 
-            <button className="plainButton">Save Changes</button>
-        </div>
+            <div className="devlogSection">
+              <h2>Submit Dev Log</h2>
+
+              <label>Team member</label>
+              <input type="text" placeholder="@Margot" />
+
+              <label>Submission Date</label>
+              <input type="text" placeholder="mm/dd/yyyy" />
+
+              <label>Developer Notes</label>
+              <textarea placeholder="Enter notes here..." />
+
+              <button className="plainButton">Save Changes</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="footer">
+        <span className="footer-text">Footer</span>
+      </footer>
     </div>
-
   );
 }
+
 export default DevLog;

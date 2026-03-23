@@ -1,0 +1,161 @@
+.project-wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.launcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 2px solid #000;
+}
+
+.back-btn {
+  border: 1px solid #000;
+  background: transparent;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.launcher-title {
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.header-spacer {
+  width: 60px;
+}
+
+/* Content */
+.content-area {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.top-grid {
+  display: flex;
+  gap: 40px;
+}
+
+.left-col {
+  flex: 1 1 65%;
+}
+
+.right-col {
+  flex: 1 1 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-box,
+.config-block,
+.action-box {
+  border: 2px solid #000;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.project-img {
+  background: #e5e7eb;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  color: #6b7280;
+  margin-top: 12px;
+}
+
+.config-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdown {
+  border: 2px solid #000;
+  padding: 12px 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.action-box {
+  border: 2px solid #000;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 14px;
+  border: 2px solid #000;
+  background: #000;
+  color: #fff;
+
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.action-btn.secondary {
+  background: #fff;
+  color: #000;
+}
+
+.patch-box {
+  border: 2px solid #000;
+  padding: 30px;
+}
+
+.patch-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.patch-tag {
+  border: 1px solid #000;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.patch-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.patch-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1f2937;
+}

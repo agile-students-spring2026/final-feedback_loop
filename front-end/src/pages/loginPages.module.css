@@ -1,0 +1,53 @@
+.body {
+  font-family: "Saira", monospace;
+  background-color: var(--bcgColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-image: linear-gradient(
+      rgba(28, 9, 46, 0.459),
+      rgba(30, 15, 48, 0.678)
+    ),
+    url("../assets/bg.jpg");
+  background-size: cover;
+}
+
+.usernameDiv {
+  margin-top: 10px;
+  align-self: center;
+}
+
+.passwordDiv {
+  margin-top: 30px;
+  align-self: center;
+}
+
+.signHead {
+  align-self: center;
+  margin-top: 1rem;
+  font-size: 2.5rem;
+}
+
+.switchPage {
+  align-self: center;
+  margin-top: -45px;
+  text-decoration: underline;
+}
+
+form {
+  display: contents;
+  margin: 0;
+  padding: 0;
+}
+
+a:visited {
+  color: var(--pale-lavender);
+}
+
+a:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--pale-lavender);
+}
