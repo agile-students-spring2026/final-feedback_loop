@@ -1,0 +1,136 @@
+.notifPage {
+  min-height: 100vh;
+}
+
+.notifHeaderBar {
+  background-color: #000;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.notifBody {
+  padding: 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.notifRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 2px solid #000;
+}
+
+.notifMessage {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.notifActions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 16px;
+}
+
+.notifBtn {
+  padding: 8px 14px;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+}
+
+.notifBtnPrimary {
+  background-color: #000;
+  color: #fff;
+}
+
+.notifSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0 20px 0;
+}
+
+.notifSectionTitle {
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.notifCard {
+  border: 2px solid #000;
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.notifCardTop {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.notifCardImg {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border: 2px solid #000;
+  flex-shrink: 0;
+}
+
+.notifCardInfo {
+  flex: 1;
+}
+
+.notifCardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notifCardTitle {
+  font-weight: 800;
+  font-size: 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.notifCardTitle:hover {
+  text-decoration: underline;
+}
+
+.notifCardTime {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.notifCardDev {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+.notifCardDesc {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 8px 0 0 0;
+}
