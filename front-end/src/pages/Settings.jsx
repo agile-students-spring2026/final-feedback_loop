@@ -4,6 +4,7 @@ import blankPfp from "../assets/blank-pfp.png";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function SettingsPage() {
   const nav = useNavigate();
@@ -12,6 +13,19 @@ function SettingsPage() {
   };
   const handleLogout = () => {
     nav("/login");
+  };
+
+  const [buttonText, setButtonText] = useState("Account Code");
+  const handleAccCode = async () => {
+    const min = 1000000000;
+    const max = 9999999999;
+    const accCode = Math.floor(Math.random() * (max - min + 1)) + min;
+    setButtonText(accCode);
+    try {
+      await navigator.clipboard.writeText(accCode);
+    } catch (err) {
+      console.log("Failed to copy code");
+    }
   };
 
   return (
@@ -40,7 +54,11 @@ function SettingsPage() {
             </div>
           </Outline>
           <Outline variant="acc" legendText="Utilities">
-            <Button variant="accCode">Account Code</Button>
+            <div className={styles.accCodeWrapper}>
+              <Button variant="accCode" onClick={handleAccCode}>
+                {buttonText}
+              </Button>
+            </div>
             <Button variant="report" onClick={handleReport}>
               Report
             </Button>
