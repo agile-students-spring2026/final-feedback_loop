@@ -17,16 +17,6 @@
   box-sizing: border-box;
 }
 
-input,
-textarea,
-button,
-select,
-label,
-span {
-  font-family: inherit;
-  font-size: inherit;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -151,7 +141,6 @@ body {
 }
 
 .welcome {
-  text-align: left;
   margin: 0;
   font-size: 13px;
   font-weight: 700;
@@ -218,7 +207,6 @@ body {
   font-size: 14px;
   color: var(--black1);
   background: #fff;
-  box-sizing: border-box;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
@@ -262,11 +250,11 @@ body {
 }
 
 @media (max-width: 768px) {
-  .main {
+  .devMain {
     padding: 20px 16px;
   }
 
-  .header {
+  .devHeader {
     flex-direction: column;
     align-items: flex-start;
   }

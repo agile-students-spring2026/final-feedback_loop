@@ -25,11 +25,6 @@
   margin: 0;
 }
 
-button,
-span {
-  font-family: inherit;
-  font-size: inherit;
-}
 
 body {
   margin: 0;
@@ -42,9 +37,7 @@ body {
 
 .dashboard {
   width: 100%;
-  min-height: 100vh;
   padding: 32px 24px;
-  background: #f3f4f6;
   color: var(--black1);
 }
 
@@ -52,15 +45,11 @@ body {
   width: 100%;
   max-width: 900px;
   background: #fff;
-
   border: 2px solid #000;
-  border-radius: 4px; 
-
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 0;
   box-shadow: 4px 4px 0px #000;
-
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -77,8 +66,7 @@ body {
 }
 
 .main {
-    flex: 1 1;
-    /* padding: 40px; */
+    flex: 1;
     background: #f3f4f6;
     min-height: 0;
     overflow-y: auto;
@@ -89,7 +77,7 @@ body {
   height: 90px;
   object-fit: cover;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 0;
   border: 2px solid #000;
   background: #e5e7eb;
 }
@@ -137,7 +125,6 @@ body {
 
 .actions button {
   display: inline-block;
-  margin: 0 0 20px 0;
   background: var(--dark-eggplant);
   color: var(--pale-lavender);
   padding: 10px 14px;
@@ -165,10 +152,6 @@ body {
 @media (max-width: 768px) {
   .dashboard {
     padding: 20px 16px;
-  }
-
-  .profileToggle {
-    max-width: 100%;
   }
 
   .projectContainer {

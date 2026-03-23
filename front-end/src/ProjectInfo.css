@@ -17,12 +17,6 @@
   box-sizing: border-box;
 }
 
-button,
-span {
-  font-family: inherit;
-  font-size: inherit;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -75,10 +69,9 @@ body {
   background: #f3f4f6;
   min-height: 0;
   overflow-y: auto;
-
   display: flex;
-  justify-content: center;   /* centers projectPage horizontally */
-  align-items: flex-start;   /* keeps it near the top */
+  justify-content: center;   
+  align-items: flex-start;   
 }
 
 .footer {
@@ -302,11 +295,11 @@ body {
 }
 
 @media (max-width: 768px) {
-  .main {
+  .projMain {
     padding: 20px 16px;
   }
 
-  .header {
+  .projHeader {
     flex-direction: column;
     align-items: flex-start;
   }
