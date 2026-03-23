@@ -18,6 +18,8 @@ function Outline({ children, variant = "main", legendText }) {
     className = styles.signOutline;
   } else if (variant === "register") {
     className = styles.regisOutline;
+  } else if (variant === "report") {
+    className = styles.reportOutline;
   }
 
   if (Element === "fieldset" && legendText) {
