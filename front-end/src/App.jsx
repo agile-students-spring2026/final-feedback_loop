@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import SettingsPage from "./pages/Settings";
 import SignIn from "./pages/SignIn";
@@ -10,6 +9,10 @@ import DevLog from "./DevLog";
 import PlayerPlaytest from "./PlayerPlaytest";
 import ProjectDetails from "./ProjectDetails";
 import PlayerExplore from "./PlayerExplore";
+import FollowingPage from "./FollowingPage";
+import NotificationCenter from "./NotificationCenter";
+import GameFeedback from "./GameFeedback";
+import FeedbackForm from "./FeedbackForm";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -29,6 +32,10 @@ function App() {
         <Route path="/playtest" element={<PlayerPlaytest />} />
         <Route path="/explore" element={<PlayerExplore />} />
         <Route path="/project/:id" element={<ProjectDetails />} />
+        <Route path="/following" element={<FollowingPage />} />
+        <Route path="/notifications" element={<NotificationCenter />} />
+        <Route path="/game-feedback" element={<GameFeedback />} />
+        <Route path="/feedback-form" element={<FeedbackForm />} />
 
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>

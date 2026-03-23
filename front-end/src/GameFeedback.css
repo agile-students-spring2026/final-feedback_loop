@@ -1,0 +1,173 @@
+.fbPage {
+  min-height: 100vh;
+}
+
+.fbHeaderBar {
+  background-color: #000;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.fbBody {
+  padding: 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.fbBackBtn {
+  padding: 10px 14px;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.fbBanner {
+  border: 2px solid #000;
+  margin-bottom: 20px;
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.fbBannerTitle {
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  margin: 0;
+}
+
+.fbBannerImg {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-top: 2px solid #000;
+}
+
+.fbFormBtn {
+  width: 100%;
+  padding: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px 0px #000;
+  margin-bottom: 30px;
+}
+
+.fbComments {
+  margin-bottom: 20px;
+}
+
+.fbComment {
+  padding: 20px 0;
+  border-bottom: 2px solid #000;
+}
+
+.fbCommentHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.fbAvatar {
+  width: 36px;
+  height: 36px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.fbAvatarDev {
+  background: #000;
+}
+
+.fbCommentName {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.fbCommentTime {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-left: auto;
+}
+
+.fbCommentText {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+
+.fbCommentActions {
+  display: flex;
+  gap: 8px;
+}
+
+.fbSmallBtn {
+  padding: 6px 12px;
+  font-weight: 800;
+  font-size: 10px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+
+.fbSendBtn {
+  background-color: #000;
+  color: #fff;
+}
+
+.fbReply {
+  margin-left: 46px;
+  margin-top: 16px;
+}
+
+.fbInputRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.fbInput {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #000;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.fbInput:focus {
+  outline: none;
+}
+
+.fbDiscardBtn {
+  width: 100%;
+  padding: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  margin-top: 12px;
+}
