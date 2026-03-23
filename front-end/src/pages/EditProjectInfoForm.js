@@ -182,13 +182,13 @@ function EditProjectInfo() {
   };
 
   return (
-    <div className="container">
+    <div className="create-peoject-container">
       <div className="top-nav">
         <span className="nav-link">Project Name</span>
       </div>
-      <div className="header">Edit Project Information</div>
+      <div className="create-project-header">Edit Project Information</div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="create-peoject-form">
         <div className="info-container">
           <label>Title</label>
           <input

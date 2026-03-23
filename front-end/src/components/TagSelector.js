@@ -4,33 +4,90 @@ function TagSelector({ value, onChange, options, isMulti = true }) {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      borderColor: state.isFocused ? "#14112E" : "rgb(204, 204, 204)",
-      boxShadow: state.isFocused ? "0 0 0 2px rgba(130, 123, 255, 0.329)" : "none",
+      border: "2px solid black",
+      borderRadius: "0",
+      boxShadow: "2px 2px 0 black",
+      color: "#1e141d",
+      transform: state.isFocused ? "translate(2px, 2px)" : "translate(0, 0)",
+      cursor: "text",
+      "&:hover": {
+        border: "2px solid black",
+      },
     }),
+
+    placeholder: (base) => ({
+      ...base,
+      color: "#666",
+      fontSize: "14px",
+    }),
+
+    input: (base) => ({
+      ...base,
+      color: "#1e141d",
+      fontSize: "14px",
+    }),
+
+    singleValue: (base) => ({
+      ...base,
+      fontSize: "14px",
+    }),
+
+    menu: (base) => ({
+      ...base,
+      border: "3px solid black",
+      boxShadow: "2px 2px 0 black",
+      overflow: "hidden",
+      borderRadius: "0",
+      zIndex: 20,
+    }),
+
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
-        ? "#14112E"
+        ? "#1e141d"
         : state.isFocused
-          ? "#d2d0f7"
-          : "white",
-      color: state.isSelected ? "white" : "#333",
+          ? "#ddd"
+          : "#f5f5f5",
+      color: state.isSelected ? "#ffffff" : "#1e141d",
+      fontSize: "14px",
       ":active": {
-        backgroundColor: "#14112E",
+        backgroundColor: "#1e141d",
+        color: "#ffffff",
       },
     }),
+
+
+    dropdownIndicator: (base, state) => ({
+      ...base,
+      color: "#1e141d",
+    }),
+
+    clearIndicator: (base) => ({
+      ...base,
+      color: "#1e141d"
+    }),
+
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#1e141d",
+      border: "21x solid #1e141d",
+      borderRadius: "0",
+      boxShadow: "2px 2px 0 black",
+    }),
+
     multiValueLabel: (base) => ({
       ...base,
-      color: "#ffffff",
-      backgroundColor: "#14112ebe",
+      color: "#ffffff"
     }),
 
     multiValueRemove: (base) => ({
       ...base,
       color: "#ffffff",
-      backgroundColor: "#14112ebe",
+      borderLeft: "2px solid black",
+      cursor: "pointer",
       ":hover": {
-        backgroundColor: "#3d348b8f"
+        backgroundColor: "#3a335f",
+        color: "#ffffff",
       },
     }),
   };

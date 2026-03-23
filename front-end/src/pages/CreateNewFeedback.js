@@ -88,13 +88,13 @@ function CreateNewFeedback() {
   }
 
   return (
-    <div className="container">
+    <div className="create-peoject-container">
       <div className="top-nav">
         <span className="nav-link">project name</span>
       </div>
-      <div className="header">Create a New Feedback Form</div>
+      <div className="create-project-header">Create a New Feedback Form</div>
 
-      <div className="form">
+      <div className="create-peoject-form">
         <div className="info-container">
           <label>Title</label>
           <input
@@ -155,7 +155,7 @@ function CreateNewFeedback() {
             Save & View
           </button>
 
-          <button onClick={handleDiscard} className="basic-button" id="discard">
+          <button onClick={handleDiscard} className="basic-button" type="cancel">
             Discard
           </button>
         </div>

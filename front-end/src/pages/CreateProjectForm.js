@@ -158,13 +158,13 @@ function CreateProjectForm() {
   };
 
   return (
-    <div className="container">
+    <div className="create-peoject-container">
       <div className="top-nav">
         <span className="nav-link"> Dashboard</span>
       </div>
-      <div className="header">Create a New Project!</div>
+      <div className="create-project-header">Create a New Project!</div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="create-peoject-form">
         <div className="info-container">
           <label>Title</label>
           <input
@@ -282,7 +282,7 @@ function CreateProjectForm() {
 
         <div>
           <button
-            type="button"
+            type="cancel"
             className="basic-button"
             onClick={handleDiscard}
           >
