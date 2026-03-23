@@ -2,6 +2,7 @@ import "./App.css";
 import SettingsPage from "./pages/Settings";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
+import ReportForm from "./pages/reportForm";
 import FollowingPage from "./FollowingPage";
 import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/report" element={<ReportForm />} />
         <Route path="/following" element={<FollowingPage />} />
         <Route path="/notifications" element={<NotificationCenter />} />
         <Route path="/game-feedback" element={<GameFeedback />} />
