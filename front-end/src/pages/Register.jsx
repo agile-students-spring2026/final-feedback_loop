@@ -25,7 +25,7 @@ function Register() {
   return (
     <div className={styles.body}>
       <section className="registerPage">
-        <Outline variant="register">
+        <Outline variant="test">
           <form onSubmit={checkPasses}>
             <p className={styles.signHead}>Register</p>
             <Link to="/signin" className={styles.switchPage}>
@@ -34,7 +34,7 @@ function Register() {
             <div className={styles.usernameDiv}>
               <InfoInput
                 type="email"
-                variant="username"
+                variant="test"
                 placeholderText="Email Address"
                 autoComplete="new-password"
                 required
@@ -44,7 +44,7 @@ function Register() {
               <InfoInput
                 name="password"
                 type="password"
-                variant="password"
+                variant="test"
                 placeholderText="Password"
                 required
               />
@@ -53,16 +53,18 @@ function Register() {
               <InfoInput
                 name="confirm"
                 type="password"
-                variant="password"
+                variant="test"
                 placeholderText="Confirm Password"
                 required
                 autoComplete="new-password"
               />
             </div>
             {error && <p className={styles2.errorMsg}>{error}</p>}
-            <Button type="submit" variant="submit">
-              <p>Join Us!</p>
-            </Button>
+            <div className={styles.buttonWrapper}>
+              <Button type="submit" variant="settings">
+                Join Us!
+              </Button>
+            </div>
           </form>
         </Outline>
       </section>

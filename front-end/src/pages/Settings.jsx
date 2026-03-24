@@ -17,13 +17,13 @@ function SettingsPage() {
     nav("/signin");
   };
 
-  const [buttonText, setButtonText] = useState("Account Code");
+  const [accButtonText, setAccButtonText] = useState("Account Code");
   const [clicked, setClicked] = useState(false);
   const handleAccCode = async () => {
     const min = 1000000000;
     const max = 9999999999;
     const accCode = Math.floor(Math.random() * (max - min + 1)) + min;
-    setButtonText(accCode);
+    setAccButtonText(accCode);
     setClicked(true);
     try {
       await navigator.clipboard.writeText(accCode);
@@ -86,7 +86,7 @@ function SettingsPage() {
                   onClick={handleAccCode}
                   disabled={clicked}
                 >
-                  {buttonText}
+                  {accButtonText}
                 </Button>
                 <Button variant="settings" onClick={handleReport}>
                   Report
