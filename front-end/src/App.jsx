@@ -33,7 +33,6 @@ function App() {
         <Route path="/devdash" element={<DeveloperDashboard />} />
         <Route path="/project" element={<ProjectInfo />} /> 
         <Route path="/devlog" element={<DevLog />} /> 
-        <Route path="/playtest" element={<PlayerPlaytest />} />
         <Route path="/explore" element={<PlayerExplore />} />
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/following" element={<FollowingPage />} />
@@ -43,6 +42,9 @@ function App() {
         <Route path="/createProjectForm" element={<CreateProjectForm />} />
         <Route path="/editProjectInfo" element={<EditProjectInfo />} />
         <Route path="/createNewFeedback" element={<CreateNewFeedback />} />
+        <Route path="/playtest/:id" element={<ProjectDetails />} />
+        <Route path="/my-playtests" element={<PlayerPlaytest />} />
+
 
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>
