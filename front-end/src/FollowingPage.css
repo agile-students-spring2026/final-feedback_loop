@@ -1,5 +1,7 @@
 .followPage {
-  padding: 40px;
+  width: 100%;
+  background: #f3f4f6;
+  min-height: 100vh;
 }
 
 .followHeader {
@@ -133,4 +135,10 @@
   color: #fff;
   box-shadow: none;
   transform: none;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 16px;
+  }
 }

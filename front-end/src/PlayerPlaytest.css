@@ -184,3 +184,123 @@
   font-size: 12px;
   text-transform: uppercase;
 }
+
+@media (max-width: 1024px) {
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .libraryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .libraryCard {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .h1 {
+    font-size: 22px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    box-shadow: 2px 2px 0px 0px #000;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .cardBody {
+    padding: 12px;
+  }
+
+  .cardTitle {
+    font-size: 13px;
+  }
+
+  .cardDesc {
+    font-size: 11px;
+  }
+
+  .btnGroup {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 10px;
+    padding: 10px;
+  }
+
+  .libraryCard {
+    flex-direction: column;
+  }
+
+  /* .thumbBox {
+    width: 100%;
+    height: 120px;
+    border-right: none;
+    border-bottom: 2px solid #000;
+  } */
+
+  .thumbBox {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-bottom: 2px solid #000;
+  display: block;
+}
+
+  .libraryBody {
+    padding: 14px;
+  }
+
+  .libraryTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .empty {
+    padding: 32px 16px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .h1 {
+    font-size: 18px;
+  }
+
+  .cardDesc {
+    display: none; 
+  }
+
+  .btn {
+    font-size: 9px;
+    padding: 8px;
+  }
+}
