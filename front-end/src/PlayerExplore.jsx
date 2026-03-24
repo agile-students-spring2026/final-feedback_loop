@@ -40,9 +40,11 @@ const PlayerExplore = () => {
               className="card"
               onClick={() => navigate(`/playtest/${game.id}`)}
             >
-              <div className="cardThumb">
-                <span className="thumbText">Preview</span>
-              </div>
+              <img
+                src="https://picsum.photos/seed/alpha/300/200"
+                alt="preview"
+                className="cardThumb"
+              />
 
               <div className="cardBody">
                 <div className="cardTitleRow">

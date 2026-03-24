@@ -86,7 +86,7 @@
   display: block;
 }
 
-.project-img {
+/* .project-img {
   flex: 1;
   background: #e5e7eb;
   display: flex;
@@ -96,6 +96,14 @@
   font-weight: 700;
   color: #6b7280;
   margin-top: 12px;
+} */
+
+.project-img {
+  width: 100%;
+  height: 220px; /* adjust if you want bigger */
+  object-fit: cover;
+  border: 2px solid #000;
+  display: block;
 }
 
 .config-block {

@@ -38,7 +38,12 @@ const ProjectDetails = () => {
             <div className="left-col">
               <div className="section-box">
                 <span className="label">PROJECT NAME: {game.title}</span>
-                <div className="project-img">PROJECT IMG</div>
+                {/* <div className="project-img">PROJECT IMG</div> */}
+                <img
+                  src="https://picsum.photos/seed/alpha/600/400"
+                  alt={game.title}
+                  className="project-img"
+                />
               </div>
             </div>
 

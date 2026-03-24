@@ -25,9 +25,15 @@ const PlayerPlaytest = () => {
           {myPlaytests.map((game) => (
             <div key={game.id} className="libraryCard">
 
-              <div className="thumbBox">
+              {/* <div className="thumbBox">
                 <span className="thumbText">Thumb</span>
-              </div>
+              </div> */}
+
+              <img
+                src="https://picsum.photos/seed/alpha/300/200"
+                alt={game.title}
+                className="thumbBox"
+              />
 
               <div className="libraryBody">
 
