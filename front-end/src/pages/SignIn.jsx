@@ -2,14 +2,21 @@ import Outline from "../components/Outline/Outline";
 import styles from "./loginPages.module.css";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn() {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/explore");
+  };
+
   return (
     <div className={styles.body}>
       <section className="sign-in">
         <Outline variant="sign">
-          <form action="/login" method="POST">
+          <form onSubmit={handleSubmit}>
             <p className={styles.signHead}>Sign in</p>
             <Link to="/register" className={styles.switchPage}>
               or Register?

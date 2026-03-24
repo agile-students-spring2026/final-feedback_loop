@@ -4,26 +4,29 @@ import styles from "./loginPages.module.css";
 import styles2 from "./register.module.css";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const checkPasses = (e) => {
+    e.preventDefault();
     const password = e.target.password.value;
     const confirm = e.target.confirm.value;
 
     if (password !== confirm) {
-      e.preventDefault();
       setError("Passwords do not match!");
+      return;
     }
+    navigate("/explore");
   };
 
   return (
     <div className={styles.body}>
       <section className="registerPage">
         <Outline variant="register">
-          <form action="/login" method="POST" onSubmit={checkPasses}>
+          <form onSubmit={checkPasses}>
             <p className={styles.signHead}>Register</p>
             <Link to="/signin" className={styles.switchPage}>
               or Sign in?

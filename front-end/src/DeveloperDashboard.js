@@ -1,15 +1,9 @@
-import { useState } from "react";
 import "./DeveloperDashboard.css";
-import "./Sidebar.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import AppLayout from "./AppLayout";
 
 function DeveloperDashboard() {
-  const [selectedView, setSelectedView] = useState("developer");
-  const [activeTab, setActiveTab] = useState("Create Form");
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [myPlaytests] = useState([]);
   const navigate = useNavigate();
 
   const projects = [
@@ -19,61 +13,40 @@ function DeveloperDashboard() {
   ];
 
   return (
-    <div className="container">
+    <AppLayout>
+      <div className="dashboard">
+        <header className="header">
+          <h1 className="h1">Explore Projects</h1>
+        </header>
+        {projects.map((project) => (
+          <div key={project.id} className="projectContainer">
+            <div className="entry">
+              <img
+                src={projectImg}
+                alt="Project Icon"
+                className="mainIcon"
+              />
 
-
-      <nav className="nav">
-        <div className="logo">[ LOGO ]</div>
-      </nav>
-
-      <div className="layout">
-        <Sidebar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          setSelectedGame={setSelectedGame}
-          myPlaytests={myPlaytests}
-        />
-
-        <main className="main">
-          <div className="dashboard">
-             <header className="header">
-              <h1 className="h1">Explore Projects</h1>
-            </header>
-            {projects.map((project) => (
-              <div key={project.id} className="projectContainer">
-                <div className="entry">
-                  <img
-                    src={projectImg}
-                    alt="Project Icon"
-                    className="mainIcon"
-                  />
-
-                  <div className="details">
-                    <button
-                      className="name"
-                      onClick={() => navigate("/project")}
-                    >
-                      {project.name}
-                    </button>
-                    <span className="status">{project.status}</span>
-                  </div>
-                </div>
-
-                <div className="actions">
-                  <button>Edit</button>
-                  <button>Feedback</button>
-                  <button onClick={() => navigate("/devlog")}>DevLog</button>
-                </div>
+              <div className="details">
+                <button
+                  className="name"
+                  onClick={() => navigate("/project")}
+                >
+                  {project.name}
+                </button>
+                <span className="status">{project.status}</span>
               </div>
-            ))}
-          </div>
-        </main>
-      </div>
+            </div>
 
-      <footer className="footer">
-        <span className="footer-text">Footer</span>
-      </footer>
-    </div>
+            <div className="actions">
+              <button onClick={() => navigate("/editProjectInfo")}>Edit</button>
+              <button onClick={() => navigate("/game-feedback")}>Feedback</button>
+              <button onClick={() => navigate("/devlog")}>DevLog</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </AppLayout>
   );
 }
 

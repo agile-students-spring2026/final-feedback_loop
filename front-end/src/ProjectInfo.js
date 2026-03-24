@@ -45,7 +45,7 @@ function ProjectInfo() {
                 <strong>Status:</strong> PUBLISHED
               </p>
 
-              <button className="plainButton">Edit project info</button>
+              <button className="plainButton" onClick={() => navigate("/editProjectInfo")}>Edit project info</button>
               <button className="plainButton">Delete Project</button>
             </section>
 
@@ -89,15 +89,12 @@ function ProjectInfo() {
                 </div>
               </div>
 
-              <button className="plainButton">Create New Form</button>
+              <button className="plainButton" onClick={() => navigate("/createNewFeedback")}>Create New Form</button>
             </section>
           </div>
         </main>
       </div>
 
-      <footer className="footer">
-        <span className="footer-text">Footer</span>
-      </footer>
     </div>
   );
 }
