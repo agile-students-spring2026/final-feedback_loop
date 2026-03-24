@@ -7,6 +7,7 @@ import FollowingPage from "./FollowingPage";
 import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
 import FeedbackForm from "./FeedbackForm";
+import PlayerExplore from "./PlayerExplore";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/notifications" element={<NotificationCenter />} />
         <Route path="/game-feedback" element={<GameFeedback />} />
         <Route path="/feedback-form" element={<FeedbackForm />} />
+        <Route path="/playerExplore" element={<PlayerExplore />} />
 
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>

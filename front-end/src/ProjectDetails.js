@@ -8,10 +8,7 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
     <div className="project-wrapper">
       {/* Header */}
       <div className="launcher-header">
-        <button
-          className="back-btn"
-          onClick={() => setActiveTab("Explore")}
-        >
+        <button className="back-btn" onClick={() => setActiveTab("Explore")}>
           Back
         </button>
 
@@ -22,16 +19,11 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
 
       <div className="content-area">
         <div className="top-grid">
-
           <div className="left-col">
             <div className="section-box">
-              <span className="label">
-                PROJECT NAME: {game.title}
-              </span>
+              <span className="label">PROJECT NAME: {game.title}</span>
 
-              <div className="project-img">
-                PROJECT IMG
-              </div>
+              <div className="project-img">PROJECT IMG</div>
             </div>
           </div>
 
@@ -39,13 +31,9 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
             <div className="config-block">
               <span className="label">Configuration</span>
 
-              <div className="dropdown">
-                VERSION: {game.version}
-              </div>
+              <div className="dropdown">VERSION: {game.version}</div>
 
-              <div className="dropdown">
-                STATUS: ACTIVE
-              </div>
+              <div className="dropdown">STATUS: ACTIVE</div>
             </div>
 
             <div className="action-box">
@@ -58,31 +46,25 @@ const ProjectDetails = ({ game, setActiveTab, handleJoinPlaytest }) => {
                 Playtest Link
               </button>
 
-              <button className="action-btn secondary">
-                Download Client
-              </button>
+              <button className="action-btn secondary">Download Client</button>
             </div>
           </div>
-
         </div>
 
         {/* Patch Notes */}
         <div className="patch-box">
-
           <div className="patch-header">
-            <div className="patch-tag">
-              BUILD {game.version}
-            </div>
+            <div className="patch-tag">BUILD {game.version}</div>
 
             <h3>Patch Notes</h3>
           </div>
 
           <p className="patch-text">
-            {game.description}. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            {game.description}. Lorem ipsum dolor sit amet, consectetur
+            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
           </p>
-
         </div>
-
       </div>
     </div>
   );
