@@ -12,7 +12,7 @@ function SettingsPage() {
     nav("/report");
   };
   const handleLogout = () => {
-    nav("/login");
+    nav("/signin");
   };
 
   const [accButtonText, setAccButtonText] = useState("Account Code");
@@ -32,12 +32,12 @@ function SettingsPage() {
     <div className={styles.body}>
       <Outline variant="pfp">
         <div className="pfpWrapper">
-          <img className={styles.img} src={blankPfp} alt="Profile Picture" />
+          <img className={styles.img} src={blankPfp} alt="Avatar" />
         </div>
         <p className={styles.user}>Username</p>
       </Outline>
       <Outline>
-        <form action="/login" method="POST">
+        <form action="/signin" method="POST">
           <Outline variant="info" legendText="Account Info">
             <div className={styles.info}>
               <p className={styles.p}>Change Username:</p>

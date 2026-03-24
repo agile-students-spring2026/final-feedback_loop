@@ -1,10 +1,11 @@
 .fbPage {
   min-height: 100vh;
+  background: #f3f4f6;
 }
 
 .fbHeaderBar {
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   padding: 24px;
   text-align: center;
   font-size: 24px;
@@ -19,15 +20,30 @@
 }
 
 .fbBackBtn {
+  display: inline-block;
   padding: 10px 14px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 11px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
   margin-bottom: 20px;
+}
+
+.fbBackBtn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.fbBackBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .fbBanner {
@@ -59,11 +75,24 @@
   font-size: 14px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   cursor: pointer;
-  box-shadow: 4px 4px 0px 0px #000;
+  box-shadow: 3px 3px 0px #000;
   margin-bottom: 30px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.fbFormBtn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.fbFormBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .fbComments {
@@ -119,13 +148,27 @@
 
 .fbSmallBtn {
   padding: 6px 12px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 10px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #fff;
-  color: #000;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   cursor: pointer;
+  box-shadow: 2px 2px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.fbSmallBtn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000;
+}
+
+.fbSmallBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0px #000;
 }
 
 .fbSendBtn {
@@ -166,8 +209,20 @@
   font-size: 14px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #fff;
+  background: #fff;
   color: #000;
   cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
   margin-top: 12px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.fbDiscardBtn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.fbDiscardBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
