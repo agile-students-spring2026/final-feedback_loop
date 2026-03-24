@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
+import { useNavigate } from "react-router-dom";
 
 const tagOption = [
   { value: "pixel-art", label: "pixel-art" },
@@ -25,8 +26,7 @@ const genreOption = [
 //hard code data (temp)
 const projectData = {
   title: "Dreamwalker",
-  description:
-    "A narrative puzzle game ...",
+  description: "A narrative puzzle game ...",
   genre: { value: "Adventure", label: "Adventure" },
   tags: [
     { value: "puzzle", label: "puzzle" },
@@ -119,15 +119,14 @@ function UploadSection({
 }
 
 function EditProjectInfo() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState(projectData.title);
   const [description, setDescription] = useState(projectData.description);
   const [genre, setGenre] = useState(projectData.genre);
   const [tags, setTags] = useState(projectData.tags);
 
   const [coverImage, setCoverImage] = useState(projectData.coverImage);
-  const [coverPreview, setCoverPreview] = useState(
-    projectData.coverPreview
-  );
+  const [coverPreview, setCoverPreview] = useState(projectData.coverPreview);
 
   const [uploadType, setUploadType] = useState(projectData.uploadType);
   const [uploadFile, setUploadFile] = useState(projectData.uploadFile);
@@ -160,12 +159,12 @@ function EditProjectInfo() {
     };
     console.log("Updated Project Data:", formData);
     alert("Project info updated. Then navigate to project info page.");
-    //navigate("/project", { state: formData });
+    navigate("/project");
   };
 
   const handleDiscard = () => {
     const confirmReset = window.confirm(
-      "Discard all changes and restore original project info?"
+      "Discard all changes and restore original project info?",
     );
     if (!confirmReset) return;
 
@@ -179,141 +178,154 @@ function EditProjectInfo() {
     setCoverPreview(projectData.coverPreview);
     setUploadFile(projectData.uploadFile);
     setUploadUrl(projectData.uploadUrl);
+    navigate("/project");
   };
 
   return (
-    <div className="create-peoject-container">
+    <div className="container">
+      <nav className="nav">
+        <div className="logo">[ LOGO ]</div>
+      </nav>
+
       <div className="top-nav">
-        <span className="nav-link">Project Name</span>
+        <span
+          className="nav-link"
+          onClick={() => navigate("/project")}
+          style={{ cursor: "pointer" }}
+        >
+          Project_Name
+        </span>
       </div>
       <div className="create-project-header">Edit Project Information</div>
 
-      <form onSubmit={handleSubmit} className="create-peoject-form">
-        <div className="info-container">
-          <label>Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="single-line-input"
-          />
-        </div>
+      <div className="create-peoject-container">
+        <form onSubmit={handleSubmit} className="create-peoject-form">
+          <div className="info-container">
+            <label>Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="single-line-input"
+            />
+          </div>
 
-        <div className="info-container">
-          <label>Short description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
+          <div className="info-container">
+            <label>Short description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
 
-        <div className="info-container">
-          <label> Genre </label>
-          <TagSelector
-            value={genre}
-            onChange={setGenre}
-            options={genreOption}
-            isMulti={false}
-          />
-        </div>
+          <div className="info-container">
+            <label> Genre </label>
+            <TagSelector
+              value={genre}
+              onChange={setGenre}
+              options={genreOption}
+              isMulti={false}
+            />
+          </div>
 
-        <div className="info-container">
-          <label> Tag </label>
-          <TagSelector
-            value={tags}
-            onChange={setTags}
-            options={tagOption}
-            isMulti={true}
-          />
-        </div>
+          <div className="info-container">
+            <label> Tag </label>
+            <TagSelector
+              value={tags}
+              onChange={setTags}
+              options={tagOption}
+              isMulti={true}
+            />
+          </div>
 
-        <div className="info-container">
-          <label>Cover Image</label>
+          <div className="info-container">
+            <label>Cover Image</label>
 
-          <input
-            id="cover-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleCoverUpload}
-            style={{ display: "none" }}
-          />
+            <input
+              id="cover-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleCoverUpload}
+              style={{ display: "none" }}
+            />
 
-          <label htmlFor="cover-upload" className="cover-upload-area">
-            {coverPreview ? (
-              <img
-                src={coverPreview}
-                alt="Cover Preview"
-                className="cover-preview-image"
+            <label htmlFor="cover-upload" className="cover-upload-area">
+              {coverPreview ? (
+                <img
+                  src={coverPreview}
+                  alt="Cover Preview"
+                  className="cover-preview-image"
+                />
+              ) : (
+                <div className="cover-upload-placeholder">
+                  <span className="upload-main-text">
+                    Click to upload cover image
+                  </span>
+                  <span className="upload-sub-text">PNG, JPG, JPEG</span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <div className="form-section">
+            <h3>Uploads</h3>
+            <UploadSection
+              uploadType={uploadType}
+              setUploadType={setUploadType}
+              uploadFile={uploadFile}
+              setUploadFile={setUploadFile}
+              uploadUrl={uploadUrl}
+              setUploadUrl={setUploadUrl}
+            />
+          </div>
+
+          <div className="form-section">
+            <h3>Visibility & access</h3>
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="visibility"
+                value="draft"
+                checked={visibility === "draft"}
+                onChange={(e) => setVisibility(e.target.value)}
               />
-            ) : (
-              <div className="cover-upload-placeholder">
-                <span className="upload-main-text">
-                  Click to upload cover image
-                </span>
-                <span className="upload-sub-text">PNG, JPG, JPEG</span>
-              </div>
-            )}
-          </label>
-        </div>
+              <span>
+                <strong>Draft</strong> - Only those who can edit the project can
+                view the page
+              </span>
+            </label>
+            <br />
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="visibility"
+                value="public"
+                checked={visibility === "public"}
+                onChange={(e) => setVisibility(e.target.value)}
+              />
+              <span>
+                <strong>Public</strong> - Anyone can view the page
+              </span>
+            </label>
+          </div>
 
-        <div className="form-section">
-          <h3>Uploads</h3>
-          <UploadSection
-            uploadType={uploadType}
-            setUploadType={setUploadType}
-            uploadFile={uploadFile}
-            setUploadFile={setUploadFile}
-            uploadUrl={uploadUrl}
-            setUploadUrl={setUploadUrl}
-          />
-        </div>
+          <div>
+            <button type="submit" className="basic-button">
+              Save and View Pages
+            </button>
+          </div>
 
-        <div className="form-section">
-          <h3>Visibility & access</h3>
-          <label className="radio-label">
-            <input
-              type="radio"
-              name="visibility"
-              value="draft"
-              checked={visibility === "draft"}
-              onChange={(e) => setVisibility(e.target.value)}
-            />
-            <span>
-              <strong>Draft</strong> - Only those who can edit the project can
-              view the page
-            </span>
-          </label>
-          <br/>
-          <label className="radio-label">
-            <input
-              type="radio"
-              name="visibility"
-              value="public"
-              checked={visibility === "public"}
-              onChange={(e) => setVisibility(e.target.value)}
-            />
-            <span>
-              <strong>Public</strong> - Anyone can view the page
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <button type="submit" className="basic-button">
-            Save and View Pages
-          </button>
-        </div>
-
-        <div>
-          <button
-            type="button"
-            className="basic-button"
-            onClick={handleDiscard}
-          >
-            Discard
-          </button>
-        </div>
-      </form>
+          <div>
+            <button
+              type="button"
+              className="basic-button"
+              onClick={handleDiscard}
+            >
+              Discard
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

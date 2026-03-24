@@ -21,17 +21,10 @@ function DeveloperDashboard() {
         {projects.map((project) => (
           <div key={project.id} className="projectContainer">
             <div className="entry">
-              <img
-                src={projectImg}
-                alt="Project Icon"
-                className="mainIcon"
-              />
+              <img src={projectImg} alt="Project Icon" className="mainIcon" />
 
               <div className="details">
-                <button
-                  className="name"
-                  onClick={() => navigate("/project")}
-                >
+                <button className="name" onClick={() => navigate("/project")}>
                   {project.name}
                 </button>
                 <span className="status">{project.status}</span>
@@ -40,11 +33,21 @@ function DeveloperDashboard() {
 
             <div className="actions">
               <button onClick={() => navigate("/editProjectInfo")}>Edit</button>
-              <button onClick={() => navigate("/game-feedback")}>Feedback</button>
+              <button onClick={() => navigate("/game-feedback")}>
+                Feedback
+              </button>
               <button onClick={() => navigate("/devlog")}>DevLog</button>
             </div>
           </div>
         ))}
+
+        <button
+          onClick={() => navigate("/createProjectForm")}
+          className="basic-button"
+          type="button"
+        >
+          Create New Project
+        </button>
       </div>
     </AppLayout>
   );
