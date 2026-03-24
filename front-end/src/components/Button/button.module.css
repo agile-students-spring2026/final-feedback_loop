@@ -18,16 +18,11 @@
   margin-top: 30px;
   align-self: center;
   width: 50%;
-  border-radius: 15px;
-  border-color: var(--pale-lavender);
-  border-style: solid;
+  border-style: 2px black solid;
   font-size: 0.95rem;
   color: whitesmoke;
   background-color: transparent;
-}
-
-.delete {
-  background-color: hsl(350, 70%, 30%);
+  cursor: pointer;
 }
 
 .accCode:hover,
@@ -52,4 +47,39 @@
 
 .submit:focus {
   box-shadow: 0 0 5px var(--pale-lavender);
+}
+
+.settings {
+  display: inline-block;
+  margin: 15px 0 20px 0;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 2px solid var(--black2);
+  border-radius: 0;
+  width: 160px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.settings:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.settings:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.settings:focus {
+  outline: none;
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
 }

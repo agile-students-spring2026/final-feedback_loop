@@ -15,7 +15,7 @@ function SignIn() {
   return (
     <div className={styles.body}>
       <section className="sign-in">
-        <Outline variant="sign">
+        <Outline variant="test">
           <form onSubmit={handleSubmit}>
             <p className={styles.signHead}>Sign in</p>
             <Link to="/register" className={styles.switchPage}>
@@ -23,7 +23,7 @@ function SignIn() {
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
-                variant="username"
+                variant="test"
                 placeholderText="Email/Username"
                 required
               />
@@ -31,14 +31,16 @@ function SignIn() {
             <div className={styles.passwordDiv}>
               <InfoInput
                 type="password"
-                variant="password"
+                variant="test"
                 placeholderText="Password"
                 required
               />
             </div>
-            <Button type="submit" variant="submit">
-              <p>Jump in!</p>
-            </Button>
+            <div className={styles.buttonWrapper}>
+              <Button type="submit" variant="settings">
+                Jump in!
+              </Button>
+            </div>
           </form>
         </Outline>
       </section>

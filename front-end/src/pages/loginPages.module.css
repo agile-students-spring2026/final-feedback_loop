@@ -1,6 +1,5 @@
 .body {
   font-family: "Saira", monospace;
-  background-color: var(--bcgColor);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,33 +7,41 @@
   padding: 0;
   margin: 0;
   background-image: linear-gradient(
-      rgba(28, 9, 46, 0.459),
-      rgba(30, 15, 48, 0.678)
+      hsla(293, 27%, 37%, 0.493),
+      hsla(305, 22%, 10%, 0.863)
     ),
     url("../assets/bg.jpg");
+
   background-size: cover;
 }
 
 .usernameDiv {
-  margin-top: 10px;
+  margin-top: 20px;
   align-self: center;
 }
 
 .passwordDiv {
   margin-top: 30px;
   align-self: center;
+  margin-bottom: 14px;
 }
 
 .signHead {
   align-self: center;
   margin-top: 1rem;
   font-size: 2.5rem;
+  color: var(--dark-eggplant);
 }
 
 .switchPage {
   align-self: center;
   margin-top: -45px;
   text-decoration: underline;
+  color: var(--dark-eggplant);
+}
+
+.switchPage:visited {
+  color: var(--dark-eggplant);
 }
 
 form {
@@ -50,4 +57,8 @@ a:visited {
 a:focus {
   outline: none;
   box-shadow: 0 0 5px var(--pale-lavender);
+}
+
+.buttonWrapper button {
+  height: 70%;
 }
