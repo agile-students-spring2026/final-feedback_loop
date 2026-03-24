@@ -3,12 +3,12 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import "./Navbar.css";
 
-const AppLayout = ({ children, myPlaytests }) => {
+const AppLayout = ({ children, myPlaytests, hideNav }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="container">
-      <Navbar onBurgerClick={() => setSidebarOpen(!sidebarOpen)} />
+      {!hideNav && <Navbar onBurgerClick={() => setSidebarOpen(!sidebarOpen)} />}
 
       <div className="layout">
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function ReportForm() {
   const nav = useNavigate();
   const handleClick = () => {
-    nav("/login");
+    nav("/signin");
   };
   return (
     <div className={styles.body}>

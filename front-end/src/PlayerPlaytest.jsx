@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./PlayerPlaytest.css";
 import AppLayout from "./AppLayout";
 
 const PlayerPlaytest = () => {
+  const navigate = useNavigate();
   const myPlaytests = [
     { id: 101, title: "Neon Drift Test Build", description: "Early racing prototype", version: "v0.1" },
     { id: 102, title: "Puzzle Alpha", description: "Logic puzzle system test", version: "v0.2" },
@@ -53,8 +55,8 @@ const PlayerPlaytest = () => {
                     Launch
                   </button>
 
-                  <button className="btn">
-                    Feedback
+                  <button className="btn" onClick={() => navigate("/feedback-form")}>
+                    Leave Feedback
                   </button>
                 </div>
 

@@ -2,14 +2,11 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
-
 const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const isActive = (path) => location.pathname === path;
-
 
   const handleNav = (path) => {
     navigate(path);
@@ -25,10 +22,11 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
           <span className="sidebar-label">Developer</span>
 
           <button
-            className={`nav-btn ${isActive("/create") ? "active" : ""}`}
-            onClick={() => handleNav("/createProjectForm")}>
-            Create Form
+            className={`nav-btn ${isActive("/devdash") ? "active" : ""}`}
+            onClick={() => handleNav("/devdash")}>
+            Dashboard
           </button>
+
         </div>
 
         <div className="sidebar-section">
@@ -47,11 +45,26 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
           </button>
 
           <button
-            className={`nav-btn ${isActive("/follow") ? "active" : ""}`}
+            className={`nav-btn ${isActive("/following") ? "active" : ""}`}
             onClick={() => handleNav("/following")}>
             Follow
           </button>
 
+          <button
+            className={`nav-btn ${isActive("/notifications") ? "active" : ""}`}
+            onClick={() => handleNav("/notifications")}>
+            Notifications
+          </button>
+        </div>
+
+        <div className="sidebar-section">
+          <span className="sidebar-label">Account</span>
+
+          <button
+            className={`nav-btn ${isActive("/settings") ? "active" : ""}`}
+            onClick={() => handleNav("/settings")}>
+            Settings
+          </button>
         </div>
       </aside>
     </>

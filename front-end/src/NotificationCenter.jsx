@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NotificationCenter.css";
+import AppLayout from "./AppLayout";
 
 const NotificationCenter = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const NotificationCenter = () => {
   };
 
   return (
+    <AppLayout>
     <div className="notifPage">
       <div className="notifHeaderBar">Notification Center</div>
 
@@ -75,7 +77,7 @@ const NotificationCenter = () => {
 
         <div className="notifSectionHeader">
           <h2 className="notifSectionTitle">Followed Project Updates</h2>
-          <button className="notifBtn notifBtnPrimary">SEE ALL</button>
+          <button className="notifBtn notifBtnPrimary" onClick={() => navigate("/following")}>SEE ALL</button>
         </div>
 
         {projectUpdates.map((project) => (
@@ -100,6 +102,7 @@ const NotificationCenter = () => {
         ))}
       </div>
     </div>
+    </AppLayout>
   );
 };
 
