@@ -24,9 +24,9 @@
 
 .card {
   border: 2px solid #000;
-  background-color: #fff;
+  background: #fff;
+  box-shadow: 4px 4px 0px #000;
   cursor: pointer;
-  box-shadow: 4px 4px 0px 0px #000;
   transition: transform 0.1s ease;
 }
 
@@ -87,10 +87,10 @@
   border-radius: 0;
   cursor: pointer;
   font-weight: 700;
+  text-transform: uppercase;
   box-shadow: 3px 3px 0px #000;
   transition: transform 0.1s ease, box-shadow 0.1s ease,
-  background-color 0.2s ease;
-  text-transform: uppercase;
+    background-color 0.2s ease;
   flex: 1;
 }
 
@@ -120,8 +120,8 @@
 .libraryCard {
   display: flex;
   border: 2px solid #000;
-  background-color: #fff;
-  box-shadow: 4px 4px 0px 0px #000;
+  background: #fff;
+  box-shadow: 4px 4px 0px #000;
 }
 
 .thumbBox {

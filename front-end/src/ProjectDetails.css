@@ -15,12 +15,29 @@
 }
 
 .back-btn {
+  display: inline-block;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   border: 2px solid #000;
   padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
-  font-size: 12px;
-  background-color: #000;
-  color:white;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.back-btn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.back-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .launcher-title {
@@ -137,17 +154,25 @@
 .action-btn {
   padding: 14px;
   border: 2px solid #000;
-  background: #000;
-  color: #fff;
-
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   font-weight: 800;
   text-transform: uppercase;
   cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
 }
 
-.action-btn.secondary {
-  background: #fff;
-  color: #000;
+.action-btn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.action-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .patch-box {

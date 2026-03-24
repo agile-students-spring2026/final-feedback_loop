@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GameFeedback.css";
+import AppLayout from "./AppLayout";
 
 const GameFeedback = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const GameFeedback = () => {
   };
 
   return (
+    <AppLayout>
     <div className="fbPage">
       <div className="fbHeaderBar">FEEDBACK</div>
 
@@ -131,6 +133,7 @@ const GameFeedback = () => {
         <button className="fbDiscardBtn">Discard</button>
       </div>
     </div>
+    </AppLayout>
   );
 };
 
