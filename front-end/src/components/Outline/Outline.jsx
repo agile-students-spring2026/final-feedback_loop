@@ -20,6 +20,8 @@ function Outline({ children, variant = "main", legendText }) {
     className = styles.regisOutline;
   } else if (variant === "report") {
     className = styles.reportOutline;
+  } else if (variant === "test") {
+    className = styles.test;
   }
 
   if (Element === "fieldset" && legendText) {

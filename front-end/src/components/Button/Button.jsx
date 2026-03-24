@@ -11,6 +11,8 @@ function Button({ variant = "accCode", children, type = "button", onClick }) {
     className = styles.delete;
   } else if (variant === "submit") {
     className = styles.submit;
+  } else if (variant === "test") {
+    className = styles.test;
   }
 
   return (

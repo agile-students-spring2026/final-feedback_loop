@@ -74,3 +74,18 @@
   min-width: 0;
   gap: 1rem;
 }
+
+.test {
+  color: var(--dark-eggplant);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 25rem;
+  min-width: 100%;
+  flex-direction: column;
+  text-align: left;
+  background: var(--pale-lavender);
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px var(--black1);
+  padding: 24px 100px;
+}
