@@ -12,6 +12,8 @@ function InfoInput({
     className = styles.username;
   } else if (variant === "password") {
     className = styles.password;
+  } else if (variant === "single") {
+    className = styles.single;
   }
 
   return (

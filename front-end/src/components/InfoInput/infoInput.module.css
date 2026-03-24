@@ -40,3 +40,21 @@
   outline: none;
   box-shadow: 0 0 5px var(--pale-lavender);
 }
+
+.single {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #000;
+  font-size: 14px;
+  background: #fff;
+  color: var(--black1);
+  box-shadow: 2px 2px 0px #000;
+  box-sizing: border-box;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.single:focus {
+  outline: none;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000;
+}

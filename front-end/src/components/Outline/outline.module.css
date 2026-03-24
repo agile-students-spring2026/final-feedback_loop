@@ -20,22 +20,32 @@
   background-image: var(--twilightGradient);
 }
 
+.settings {
+  color: var(--dark-eggplant);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 25rem;
+  min-width: 50%;
+  flex-direction: column;
+  text-align: left;
+  background: transparent;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px var(--black1);
+  padding: 24px 100px;
+}
+
 .infoOutline,
 .accOutline,
 .signOutline,
-.regisOutline,
-.reportOutline {
+.regisOutline {
   color: var(--pale-lavender);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-image: linear-gradient(
-    rgba(33, 22, 43, 0.459),
-    rgba(46, 32, 61, 0.678)
-  );
-  border: 1px #e4dfee50 solid;
+  background-color: transparent;
+  border: 2px #00000050 solid;
   min-height: 20rem;
-  border-radius: 15px;
   min-width: 100%;
   flex-direction: column;
 }
@@ -63,14 +73,36 @@
 }
 
 .legend {
-  font-size: medium;
+  color: var(--black2);
+  font-size: 17px;
+  font-weight: 600;
 }
 
-.reportOutline {
+/* .reportOutline {
+  color: var(--black2);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: hsl(260, 57%, 37%);
+  border: 2px #00000050 solid;
+  flex-direction: column;
   padding-top: 20px;
   padding-bottom: 10px;
-  width: 30rem;
-  height: 32rem;
-  min-width: 0;
   gap: 1rem;
+} */
+
+.reportOutline {
+  color: var(--dark-eggplant);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: auto;
+  width: auto;
+  gap: 1rem;
+  flex-direction: column;
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px var(--black1);
+  padding: 24px 100px 10px 100px;
+  margin-top: 50px;
 }

@@ -1,19 +1,14 @@
 .body {
   font-family: "Saira", monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  width: 100%;
+}
+
+.body {
+  flex: 1;
   padding: 0;
   margin: 0;
-  background-image: linear-gradient(
-      rgba(28, 9, 46, 0.459),
-      rgba(30, 15, 48, 0.678)
-    ),
-    url("../assets/bg.jpg");
-  background-size: cover;
+  background: #f3f4f6;
+  /* min-height: 0; */
+  overflow-x: none;
 }
 
 .img {
@@ -21,10 +16,9 @@
   align-self: flex-start;
   max-width: 100%;
   border-radius: 50%;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border: 2px solid var(--black2);
-  box-shadow: 0 0 8px var(--pale-lavender);
 }
 
 .info {
@@ -32,24 +26,51 @@
 }
 
 .p {
+  color: var(--black1);
+  font-size: 15px;
+  font-weight: 600;
   margin-top: -4px;
   margin-bottom: 4px;
 }
 
 .user {
-  color: var(--pale-lavender);
+  color: var(--black2);
   font-size: large;
   margin-top: -3px;
   margin-bottom: 4px;
 }
 
 .buttonWrapper button {
-  margin-top: 0;
+  margin-top: 15px;
   padding: 10px 40px;
   width: 100%;
-  border-color: var(--even-paler-lavender);
 }
-/* 
-.accCodeWrapper button {
-  height: 100%;
-} */
+
+.followHeader {
+  border-bottom: 2px solid #000;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+
+.followH1 {
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.settingsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteWrapper button {
+  background-color: hsl(350, 73%, 38%);
+}
+
+.deleteWrapper button:hover {
+  background-color: hsl(350, 84%, 44%);
+}

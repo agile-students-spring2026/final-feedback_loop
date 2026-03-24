@@ -1,6 +1,12 @@
 import styles from "./button.module.css";
 
-function Button({ variant = "accCode", children, type = "button", onClick }) {
+function Button({
+  variant = "accCode",
+  children,
+  type = "button",
+  onClick,
+  ...props
+}) {
   let className = styles.accCode;
 
   if (variant === "report") {
@@ -11,10 +17,12 @@ function Button({ variant = "accCode", children, type = "button", onClick }) {
     className = styles.delete;
   } else if (variant === "submit") {
     className = styles.submit;
+  } else if (variant === "settings") {
+    className = styles.settings;
   }
 
   return (
-    <button type={type} className={className} onClick={onClick}>
+    <button type={type} className={className} onClick={onClick} {...props}>
       {children}
     </button>
   );
