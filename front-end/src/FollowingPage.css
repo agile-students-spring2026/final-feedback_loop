@@ -136,14 +136,6 @@
   box-shadow: 2px 2px 0px #000;
 }
 
-.followBtnPrimary,
-.followBtnActive {
-  background: #000;
-  color: #fff;
-  box-shadow: 3px 3px 0px #000;
-  transform: translate(-1px, -1px);
-}
-
 @media (max-width: 768px) {
   .main {
     padding: 16px;

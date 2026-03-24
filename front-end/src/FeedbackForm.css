@@ -1,11 +1,11 @@
 .formPage {
   min-height: 100vh;
-  background: #fff;
+  background: #f3f4f6;
 }
 
 .formHeaderBar {
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   padding: 24px;
   text-align: center;
   font-size: 24px;
@@ -58,19 +58,19 @@
 }
 
 .formChoiceSelected {
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
 }
 
 .formChoiceSelected:hover {
-  background-color: #000;
+  background: var(--dark-eggplant);
 }
 
 .formSlider {
   -webkit-appearance: none;
   width: 100%;
   height: 8px;
-  background: #000;
+  background: var(--dark-eggplant);
   border-radius: 0;
   outline: none;
 }
@@ -79,11 +79,11 @@
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  background: #000;
+  background: var(--eggplant);
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #000;
+  border: 2px solid var(--pale-lavender);
+  box-shadow: 0 0 0 2px var(--dark-eggplant);
 }
 
 .formSliderLabels {
@@ -115,10 +115,24 @@
   font-size: 14px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   cursor: pointer;
   margin-top: 16px;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.formSubmitBtn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.formSubmitBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .formDiscardBtn {
@@ -128,8 +142,20 @@
   font-size: 14px;
   text-transform: uppercase;
   border: 2px solid #000;
-  background-color: #fff;
+  background: #fff;
   color: #000;
   cursor: pointer;
   margin-top: 12px;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.formDiscardBtn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.formDiscardBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }

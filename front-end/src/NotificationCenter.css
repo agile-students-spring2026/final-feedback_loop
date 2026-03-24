@@ -1,10 +1,11 @@
 .notifPage {
   min-height: 100vh;
+  background: #f3f4f6;
 }
 
 .notifHeaderBar {
-  background-color: #000;
-  color: #fff;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
   padding: 24px;
   text-align: center;
   font-size: 24px;
@@ -42,18 +43,27 @@
 
 .notifBtn {
   padding: 8px 14px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 11px;
   text-transform: uppercase;
   border: 2px solid #000;
   cursor: pointer;
-  background-color: #fff;
-  color: #000;
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
 }
 
-.notifBtnPrimary {
-  background-color: #000;
-  color: #fff;
+.notifBtn:hover {
+  background: var(--eggplant);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.notifBtn:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #000;
 }
 
 .notifSectionHeader {
