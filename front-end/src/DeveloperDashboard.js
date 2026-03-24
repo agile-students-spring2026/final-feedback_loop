@@ -70,9 +70,6 @@ function DeveloperDashboard() {
         </main>
       </div>
 
-      <footer className="footer">
-        <span className="footer-text">Footer</span>
-      </footer>
     </div>
   );
 }

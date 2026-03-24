@@ -75,22 +75,6 @@ body {
   align-items: flex-start;
 }
 
-.footer {
-  background-color: #000;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-}
-
-.footer-text {
-  color: #fff;
-  font-weight: 800;
-  font-size: 9px;
-  text-transform: uppercase;
-  opacity: 0.6;
-}
-
 .devlog {
   width: 100%;
   max-width: 950px;
