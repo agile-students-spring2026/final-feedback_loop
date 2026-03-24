@@ -28,8 +28,15 @@ body {
   color: var(--pale-lavender);
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: white;
+}
+
 .create-peoject-container {
-  max-width: 60%;
+  width: 60%;
   margin: 40px auto;
   background: #f3f4f6;
   color: var(--dark-eggplant);
@@ -227,13 +234,13 @@ textarea {
   box-shadow: 2px 2px 0px #000;
 }
 
-.basic-button.cancel {
+.basic-button.button {
   background: #fff;
   color: var(--dark-eggplant);
   border: 2px solid var(--dark-eggplant);
 }
 
-.basic-button.cancel:hover {
+.basic-button.button:hover {
   background: var(--pale-lavender);
 }
 
@@ -262,7 +269,7 @@ textarea {
 
 @media (max-width: 768px) {
   .create-peoject-container {
-    max-width: 100%;
+    width: 100%;
     margin: 0;
     border-radius: 0;
   }
