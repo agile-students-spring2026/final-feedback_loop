@@ -25,7 +25,7 @@ const PlayerExplore = () => {
   };
 
   return (
-    <AppLayout myPlaytests={myPlaytests}>
+    <AppLayout>
       <header className="header">
         <h1 className="h1">Explore Projects</h1>
       </header>

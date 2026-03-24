@@ -16,7 +16,6 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
     close?.();
   };
 
-
   return (
     <>
       {isOpen && <div className="sidebar-overlay" onClick={close} />}
@@ -44,7 +43,7 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
           <button
             className={`nav-btn ${isActive("/my-playtests") ? "active" : ""}`}
             onClick={() => handleNav("/my-playtests")}>
-            My Playtests ({myPlaytests.length})
+            My Playtests
           </button>
 
           <button

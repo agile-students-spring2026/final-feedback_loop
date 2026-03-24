@@ -10,7 +10,7 @@ const PlayerPlaytest = () => {
   ];
 
   return (
-    <AppLayout myPlaytests={myPlaytests}>
+    <AppLayout>
 
       <header className="header">
         <h1 className="h1">My Playtests</h1>

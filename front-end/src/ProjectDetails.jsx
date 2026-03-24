@@ -6,7 +6,6 @@ import "./ProjectDetails.css";
 const ProjectDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const games = [
     { id: 1, title: "Pixel Quest", description: "Retro puzzle adventure", version: "v0.1" },
     { id: 2, title: "Rogue Galaxy", description: "Roguelike RPG", version: "v0.2" },
