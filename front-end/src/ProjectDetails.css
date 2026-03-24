@@ -15,11 +15,12 @@
 }
 
 .back-btn {
-  border: 1px solid #000;
-  background: transparent;
+  border: 2px solid #000;
   padding: 6px 12px;
   cursor: pointer;
   font-size: 12px;
+  background-color: #000;
+  color:white;
 }
 
 .launcher-title {
@@ -43,6 +44,7 @@
 .top-grid {
   display: flex;
   gap: 40px;
+  align-items: stretch;
 }
 
 .left-col {
@@ -54,6 +56,18 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.left-col,
+.right-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.left-col .section-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-box,
@@ -73,8 +87,8 @@
 }
 
 .project-img {
+  flex: 1;
   background: #e5e7eb;
-  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,4 +172,112 @@
   font-size: 14px;
   line-height: 1.6;
   color: #1f2937;
+}
+
+@media (max-width: 1024px) {
+
+  .content-area {
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .launcher-header {
+    padding: 16px 24px;
+  }
+
+  .top-grid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .launcher-header {
+    padding: 12px 16px;
+    flex-direction: row;
+  }
+
+  .launcher-title {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .back-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .content-area {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .top-grid {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .left-col,
+  .right-col {
+    flex: 1 1 100%;
+  }
+
+  .section-box,
+  .config-block,
+  .action-box {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .project-img {
+    min-height: 180px;
+  }
+
+  .dropdown {
+    font-size: 11px;
+    padding: 10px 12px;
+  }
+
+  .action-btn {
+    padding: 12px;
+    font-size: 11px;
+  }
+
+  .patch-box {
+    padding: 18px;
+  }
+
+  .patch-header h3 {
+    font-size: 16px;
+  }
+
+  .patch-text {
+    font-size: 13px;
+  }
+}
+
+
+@media (max-width: 420px) {
+
+  .launcher-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .launcher-title {
+    font-size: 13px;
+  }
+
+  .project-img {
+    min-height: 140px;
+  }
+
+  .patch-text {
+    font-size: 12px;
+  }
+
+  .action-btn {
+    font-size: 10px;
+  }
 }
