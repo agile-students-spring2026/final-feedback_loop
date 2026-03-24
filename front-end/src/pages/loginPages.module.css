@@ -1,6 +1,5 @@
 .body {
   font-family: "Saira", monospace;
-  background-color: var(--bcgColor);
   display: flex;
   align-items: center;
   justify-content: center;
