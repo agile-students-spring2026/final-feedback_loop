@@ -1,8 +1,15 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import "./App.css";
-import SettingsPage from "./pages/Settings";
+
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
+import SettingsPage from "./pages/Settings";
 import ReportForm from "./pages/reportForm";
+import CreateProjectForm from "./pages/CreateProjectForm";
+import EditProjectInfo from "./pages/EditProjectInfoForm";
+import CreateNewFeedback from "./pages/CreateNewFeedback";
+
 import DeveloperDashboard from "./DeveloperDashboard";
 import ProjectInfo from "./ProjectInfo";
 import DevLog from "./DevLog";
@@ -13,11 +20,6 @@ import FollowingPage from "./FollowingPage";
 import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
 import FeedbackForm from "./FeedbackForm";
-import CreateProjectForm from "./pages/CreateProjectForm";
-import EditProjectInfo from "./pages/EditProjectInfoForm";
-import CreateNewFeedback from "./pages/CreateNewFeedback";
-
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   return (
