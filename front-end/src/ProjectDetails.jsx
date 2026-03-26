@@ -2,17 +2,11 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import "./ProjectDetails.css";
+import { games } from "./mockData";
 
 const ProjectDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const games = [
-    { id: 1, title: "Pixel Quest", description: "Retro puzzle adventure", version: "v0.1" },
-    { id: 2, title: "Rogue Galaxy", description: "Roguelike RPG", version: "v0.2" },
-    { id: 3, title: "Puzzle Mania", description: "Brain teasers", version: "v0.3" },
-    { id: 4, title: "Cyber Drift", description: "Neon racing", version: "v0.4" },
-    { id: 5, title: "Mystic Isle", description: "Survival mystery", version: "v0.5" },
-  ];
 
   const game = games.find((g) => String(g.id) === String(id));
 
