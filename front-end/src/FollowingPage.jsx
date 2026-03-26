@@ -2,52 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FollowingPage.css";
 import AppLayout from "./AppLayout";
+import { followedGames } from "./mockData";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
-
-  const [games, setGames] = useState([
-    {
-      id: 1,
-      title: "Project Alpha",
-      developer: "Studio 1",
-      image: "https://picsum.photos/seed/alpha/300/200",
-      isNew: true,
-      description: "Puzzle game. New level added.",
-      time: "2 hours ago",
-      following: true,
-    },
-    {
-      id: 2,
-      title: "Project Beta",
-      developer: "Studio 2",
-      image: "https://picsum.photos/seed/beta/300/200",
-      isNew: true,
-      description: "Dungeon crawler. Kill stuff and get loot.",
-      time: "5 hours ago",
-      following: true,
-    },
-    {
-      id: 3,
-      title: "Project Gamma",
-      developer: "Studio 3",
-      image: "https://picsum.photos/seed/gamma/300/200",
-      isNew: false,
-      description: "Platformer. Still in early alpha.",
-      time: "1 day ago",
-      following: true,
-    },
-    {
-      id: 4,
-      title: "Project Delta",
-      developer: "Studio 4",
-      image: "https://picsum.photos/seed/delta/300/200",
-      isNew: false,
-      description: "PvP action game.",
-      time: "3 days ago",
-      following: true,
-    },
-  ]);
+  const [games, setGames] = useState(followedGames);
 
   const handleFollow = (id) => {
     setGames(
