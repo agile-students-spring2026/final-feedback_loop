@@ -2,14 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./PlayerPlaytest.css";
 import AppLayout from "./AppLayout";
+import { myPlaytests } from "./mockData";
 
 const PlayerPlaytest = () => {
   const navigate = useNavigate();
-  const myPlaytests = [
-    { id: 101, title: "Neon Drift Test Build", description: "Early racing prototype", version: "v0.1" },
-    { id: 102, title: "Puzzle Alpha", description: "Logic puzzle system test", version: "v0.2" },
-    { id: 103, title: "Survival Island Build", description: "Core survival mechanics", version: "v0.3" }
-  ];
 
   return (
     <AppLayout>

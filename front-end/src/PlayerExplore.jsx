@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import "./PlayerExplore.css";
+import { games as gamesList } from "./mockData";
 
 const PlayerExplore = () => {
   const navigate = useNavigate();
 
   const [myPlaytests, setMyPlaytests] = useState([]);
 
-  const [games] = useState([
-    { id: 1, title: "Pixel Quest", description: "Retro puzzle adventure", genre: "Adventure" },
-    { id: 2, title: "Rogue Galaxy", description: "Roguelike RPG", genre: "RPG" },
-    { id: 3, title: "Puzzle Mania", description: "Brain teasers", genre: "Puzzle" },
-    { id: 4, title: "Cyber Drift", description: "Neon racing", genre: "Racing" },
-    { id: 5, title: "Mystic Isle", description: "Survival mystery", genre: "Survival" },
-  ]);
+  const [games] = useState(gamesList);
 
   const handleJoinPlaytest = (game) => {
     if (!myPlaytests.find((p) => p.id === game.id)) {

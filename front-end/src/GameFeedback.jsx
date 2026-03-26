@@ -2,45 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GameFeedback.css";
 import AppLayout from "./AppLayout";
+import { feedbackComments } from "./mockData";
 
 const GameFeedback = () => {
   const navigate = useNavigate();
   const [replyText, setReplyText] = useState("");
-
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      player: "Player #1",
-      time: "2 hours ago",
-      text: "I loved it great game. Level 3 was my favorite",
-      likes: 4,
-      replies: [
-        {
-          id: 101,
-          name: "Studio 1",
-          isDev: true,
-          time: "1 hour ago",
-          text: "Thanks, fixing it next patch.",
-        },
-      ],
-    },
-    {
-      id: 2,
-      player: "Player #2",
-      time: "5 hours ago",
-      text: "Really enjoying the art style",
-      likes: 7,
-      replies: [],
-    },
-    {
-      id: 3,
-      player: "Player #3",
-      time: "1 day ago",
-      text: "Found a physics bug",
-      likes: 2,
-      replies: [],
-    },
-  ]);
+  const [comments, setComments] = useState(feedbackComments);
 
   const handleLike = (commentId) => {
     setComments(
