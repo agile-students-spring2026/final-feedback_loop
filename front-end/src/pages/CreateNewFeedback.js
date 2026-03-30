@@ -89,108 +89,111 @@ function CreateNewFeedback() {
   }
 
   return (
-    <div className="container">
+    <div className="page-container">
       <nav className="nav">
         <div className="logo">[ LOGO ]</div>
       </nav>
 
-      <div className="top-nav">
-        <span
-          className="nav-link"
-          onClick={() => navigate("/project")}
-          style={{ cursor: "pointer" }}
-        >
-          Project_Name
-        </span>
-      </div>
-
-      <div className="create-project-header">Create a New Feedback Form</div>
-      <div className="create-peoject-container">
-        <div className="create-peoject-form">
-          <div className="info-container">
-            <label>Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="single-line-input"
-            />
-          </div>
-
-          <div className="questions">
-            {questions.map((q, index) => {
-              return (
-                <div key={q.id}>
-                  <div className="info-container">
-                    <div className="question-header">
-                      <label>Question {index + 1}</label>
-
-                      <button
-                        onClick={function () {
-                          deleteQuestion(q.id);
-                        }}
-                        className="delete-button"
-                      >
-                        Delete
-                      </button>
-                    </div>
-
-                    {q.type === "multiple_choice" && (
-                      <MultipleChoiceEditor
-                        question={q}
-                        onChange={updateQuestion}
-                      />
-                    )}
-
-                    {q.type === "rating_scale" && (
-                      <RatingScaleEditor
-                        question={q}
-                        onChange={updateQuestion}
-                      />
-                    )}
-
-                    {q.type === "short_answer" && (
-                      <ShortAnswerEditor
-                        question={q}
-                        onChange={updateQuestion}
-                      />
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="all-button">
-            <button
-              onClick={() => setShowSelector(true)}
-              className="basic-button"
-            >
-              Add Question
-            </button>
-
-            <button onClick={handleSaveAndView} className="basic-button">
-              Save & View
-            </button>
-
-            <button
-              onClick={handleDiscard}
-              className="basic-button"
-              type="button"
-            >
-              Discard
-            </button>
-          </div>
+      <div class="dashboard">
+        <div className="top-nav-standalone">
+          <span
+            className="nav-link"
+            onClick={() => navigate("/project")}
+            style={{ cursor: "pointer" }}
+          >
+            Project_Name
+          </span>
         </div>
+        <header class="header">
+          <h1 class="h1">Create a New Feedback Form</h1>
+        </header>
+        <div className="create-peoject-container">
+          <div className="create-peoject-form">
+            <div className="info-container">
+              <label>Title</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="single-line-input"
+              />
+            </div>
 
-        {showSelector && (
-          <QuestionTypeSelector
-            onSelect={addQuestion}
-            onClose={function () {
-              setShowSelector(false);
-            }}
-          />
-        )}
+            <div className="questions">
+              {questions.map((q, index) => {
+                return (
+                  <div key={q.id}>
+                    <div className="info-container">
+                      <div className="question-header">
+                        <label>Question {index + 1}</label>
+
+                        <button
+                          onClick={function () {
+                            deleteQuestion(q.id);
+                          }}
+                          className="delete-button"
+                        >
+                          Delete
+                        </button>
+                      </div>
+
+                      {q.type === "multiple_choice" && (
+                        <MultipleChoiceEditor
+                          question={q}
+                          onChange={updateQuestion}
+                        />
+                      )}
+
+                      {q.type === "rating_scale" && (
+                        <RatingScaleEditor
+                          question={q}
+                          onChange={updateQuestion}
+                        />
+                      )}
+
+                      {q.type === "short_answer" && (
+                        <ShortAnswerEditor
+                          question={q}
+                          onChange={updateQuestion}
+                        />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="all-button">
+              <button
+                onClick={() => setShowSelector(true)}
+                className="basic-button"
+              >
+                Add Question
+              </button>
+
+              <button onClick={handleSaveAndView} className="basic-button">
+                Save & View
+              </button>
+
+              <button
+                onClick={handleDiscard}
+                className="basic-button"
+                type="button"
+              >
+                Discard
+              </button>
+            </div>
+          </div>
+
+          {showSelector && (
+            <QuestionTypeSelector
+              onSelect={addQuestion}
+              onClose={function () {
+                setShowSelector(false);
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
