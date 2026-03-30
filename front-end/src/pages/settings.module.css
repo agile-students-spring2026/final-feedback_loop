@@ -74,3 +74,19 @@
 .deleteWrapper button:hover {
   background-color: hsl(350, 84%, 44%);
 }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: var(--pale-lavender);
+  padding: 15px;
+}
+
+.galleryItem {
+  cursor: pointer;
+}
+
+.galleryItem:hover {
+  opacity: 0.8;
+}

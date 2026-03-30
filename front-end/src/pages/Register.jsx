@@ -19,7 +19,7 @@ function Register() {
       setError("Passwords do not match!");
       return;
     }
-    navigate("/explore");
+    navigate("/signin");
   };
 
   return (
