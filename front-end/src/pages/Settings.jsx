@@ -8,6 +8,15 @@ import AppLayout from "../AppLayout";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+const MOCK_PICSUM = [
+  { id: 1, url: "https://picsum.photos/200" },
+  { id: 2, url: "https://picsum.photos/200" },
+  { id: 3, url: "https://picsum.photos/200" },
+  { id: 4, url: "https://picsum.photos/200" },
+  { id: 5, url: "https://picsum.photos/200" },
+  { id: 6, url: "https://picsum.photos/200" },
+];
+
 function SettingsPage() {
   const nav = useNavigate();
   const handleReport = () => {
@@ -19,6 +28,7 @@ function SettingsPage() {
 
   const [accButtonText, setAccButtonText] = useState("Account Code");
   const [clicked, setClicked] = useState(false);
+
   const handleAccCode = async () => {
     const min = 1000000000;
     const max = 9999999999;
@@ -43,6 +53,17 @@ function SettingsPage() {
     }
   };
 
+  const [isSelect, setIsSelect] = useState(false);
+  const [currPfp, setCurrPfp] = useState(blankPfp);
+  const [tempPfp, setTempPfp] = useState(false);
+
+  const handlePfp = () => {
+    if (tempPfp) {
+      setCurrPfp(tempPfp);
+    }
+    setIsSelect(false);
+  };
+
   return (
     <AppLayout>
       <div className={styles.body}>
@@ -52,55 +73,85 @@ function SettingsPage() {
 
         <div className={styles.settingsWrapper}>
           <Outline variant="pfp">
-            <div className="pfpWrapper">
-              <img className={styles.img} src={blankPfp} alt="Avatar" />
+            <div className="pfpWrapper" onClick={() => setIsSelect(true)}>
+              <img
+                className={styles.img}
+                src={isSelect ? tempPfp || currPfp : currPfp}
+                alt="Avatar"
+              />
             </div>
-            <p className={styles.user}>Username</p>
+            {isSelect ? (
+              <Button variant="settings" onClick={handlePfp}>
+                Confirm
+              </Button>
+            ) : (
+              <p className={styles.user}>Username</p>
+            )}
           </Outline>
           <Outline variant="settings">
-            <form action="/signin" method="POST">
-              <Outline variant="info" legendText="Account Info">
-                <div className={styles.info}>
-                  <p className={styles.p}>Change Username:</p>
-                  <InfoInput
-                    variant="single"
-                    placeholderText="Enter new username"
-                  />
-                </div>
-                <div className={styles.info}>
-                  <p className={styles.p}>Change Password:</p>
-                  <InfoInput
-                    variant="single"
-                    placeholderText="Enter new password"
-                  />
-                </div>
-                <div className={styles.buttonWrapper}>
-                  <Button type="submit" variant="settings">
-                    Submit
+            {!isSelect ? (
+              <form action="/signin" method="POST">
+                <Outline variant="info" legendText="Account Info">
+                  <div className={styles.info}>
+                    <p className={styles.p}>Change Username:</p>
+                    <InfoInput
+                      variant="single"
+                      placeholderText="Enter new username"
+                    />
+                  </div>
+                  <div className={styles.info}>
+                    <p className={styles.p}>Change Password:</p>
+                    <InfoInput
+                      variant="single"
+                      placeholderText="Enter new password"
+                    />
+                  </div>
+                  <div className={styles.buttonWrapper}>
+                    <Button type="submit" variant="settings">
+                      Submit
+                    </Button>
+                  </div>
+                </Outline>
+                <Outline variant="acc" legendText="Utilities">
+                  <Button
+                    variant="settings"
+                    onClick={handleAccCode}
+                    disabled={clicked}
+                  >
+                    {accButtonText}
                   </Button>
-                </div>
-              </Outline>
-              <Outline variant="acc" legendText="Utilities">
-                <Button
-                  variant="settings"
-                  onClick={handleAccCode}
-                  disabled={clicked}
-                >
-                  {accButtonText}
-                </Button>
-                <Button variant="settings" onClick={handleReport}>
-                  Report
-                </Button>
-                <Button variant="settings" onClick={handleLogout}>
-                  Log Out
-                </Button>
-                <div className={styles.deleteWrapper}>
-                  <Button variant="settings" onClick={handleDelete}>
-                    {confirm ? "Are you sure?" : "Delete Account"}
+                  <Button variant="settings" onClick={handleReport}>
+                    Report
                   </Button>
-                </div>
-              </Outline>
-            </form>
+                  <Button variant="settings" onClick={handleLogout}>
+                    Log Out
+                  </Button>
+                  <div className={styles.deleteWrapper}>
+                    <Button variant="settings" onClick={handleDelete}>
+                      {confirm ? "Are you sure?" : "Delete Account"}
+                    </Button>
+                  </div>
+                </Outline>
+              </form>
+            ) : (
+              <div className={styles.gallery}>
+                {MOCK_PICSUM.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className={`${styles.galleryItem} ${
+                      tempPfp === photo.url ? styles.activePhoto : ""
+                    }`}
+                    onClick={() => setTempPfp(photo.url)}
+                  >
+                    <img
+                      src={photo.url}
+                      alt="Option"
+                      className={styles.galleryImg}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </Outline>
         </div>
       </div>
