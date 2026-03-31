@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./FeedbackForm.css";
 import AppLayout from "./AppLayout";
 
+
 const FeedbackForm = () => {
   const navigate = useNavigate();
 
@@ -28,7 +29,9 @@ const FeedbackForm = () => {
   return (
     <AppLayout>
     <div className="formPage">
-      <div className="formHeaderBar">Feedback Form</div>
+      <header className="header">
+          <h1 className="h1">Feedback Form</h1>
+        </header>
 
       <div className="formBody">
         <div className="formGroup">

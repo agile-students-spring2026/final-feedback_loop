@@ -127,4 +127,33 @@ const myPlaytests = [
   { id: 103, title: "Survival Island Build", description: "Core survival mechanics", version: "v0.3" }
 ]
 
-export { games, followedGames, notifications, projectUpdates, feedbackComments, myPlaytests }
+const projects = [
+    { id: 1, name: "Project #1", status: "PUBLISHED" },
+    { id: 2, name: "Project #2", status: "DRAFT" },
+    { id: 3, name: "Project #3", status: "PUBLISHED" },
+  ];
+
+const project = {
+  name: "My Project",
+  lastUpdated: "03/30/2026",
+  description: "Sample description",
+  genre: "Action",
+  tags: ["Horror", "2D"],
+  status: "PUBLISHED",
+};
+
+const devLogs = [
+  {
+    id: 23413,
+    author: "@teammember",
+    content: "Sample log content",
+  },
+];
+
+const feedback = {
+  title: "Form Title",
+  status: "Ongoing",
+  responses: 45,
+};
+
+export { games, followedGames, notifications, projectUpdates, feedbackComments, myPlaytests, projects, project, devLogs, feedback };

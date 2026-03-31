@@ -16,7 +16,9 @@ const NotificationCenter = () => {
   return (
     <AppLayout>
     <div className="notifPage">
-      <div className="notifHeaderBar">Notification Center</div>
+      <header className="header">
+          <h1 className="h1">Notification Center</h1>
+        </header>
 
       <div className="notifBody">
         {notifications.map((notification) => (
@@ -24,7 +26,7 @@ const NotificationCenter = () => {
             <span className="notifMessage">{notification.message}</span>
             <div className="notifActions">
               {notification.type === "feedback" && (
-                <button
+                <button 
                   className="notifBtn notifBtnPrimary"
                   onClick={() => navigate("/game-feedback")}
                 >
