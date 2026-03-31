@@ -22,7 +22,7 @@ function ProjectInfo() {
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
-                <h1>{project.name}</h1>
+                <h1>{project.title}</h1>
                 <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
               </div>
 
@@ -36,11 +36,11 @@ function ProjectInfo() {
               </p>
 
               <p>
-                <strong>Genre:</strong> {project.genre}
+                <strong>Genre:</strong> {project.genre.value}
               </p>
 
               <p>
-                <strong>Tag:</strong> {project.tags.join(", ")}
+                <strong>Tag:</strong> {project.tags.map(tag => tag.label).join(", ")}
               </p>
 
               <p>
@@ -76,7 +76,6 @@ function ProjectInfo() {
             <section className="projectSection">
               <h2>Feedback</h2>
               <div className="feedbackSection">
-                <div className="formTitle">Form Title</div>
 
                 <div className="formTitle">{feedback.title}</div>
 
