@@ -2,15 +2,10 @@ import "./DeveloperDashboard.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
+import { projects } from "./mockData";
 
 function DeveloperDashboard() {
   const navigate = useNavigate();
-
-  const projects = [
-    { id: 1, name: "Project #1", status: "PUBLISHED" },
-    { id: 2, name: "Project #2", status: "DRAFT" },
-    { id: 3, name: "Project #3", status: "PUBLISHED" },
-  ];
 
   return (
     <AppLayout>

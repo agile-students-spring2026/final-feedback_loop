@@ -21,9 +21,10 @@ function ReportForm() {
     <>
       <AppLayout>
         <div className={styles.body}>
-          <header className={styles.followHeader}>
-            <h1 className={styles.followH1}>Report</h1>
+          <header className="header">
+            <h1 className="h1">Report</h1>
           </header>
+          
           <div className={styles.reportWrapper}>
             <Outline variant="report">
               <InfoInput

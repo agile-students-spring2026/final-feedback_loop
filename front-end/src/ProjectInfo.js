@@ -1,6 +1,7 @@
 import "./ProjectInfo.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
+import { project, devLogs, feedback } from "./mockData";
 
 function ProjectInfo() {
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ function ProjectInfo() {
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
-                <h1>My Project</h1>
-                <p className="lastUpdated">Last updated: mm/dd/yyyy</p>
+                <h1>{project.name}</h1>
+                <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
               </div>
 
               <img src={projectImg} alt="Project Icon" className="projIcon" />
@@ -31,18 +32,19 @@ function ProjectInfo() {
             <section className="projectSection">
               <h2>Project Info</h2>
               <p>
-                <strong>Description:</strong> Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Vestibulum euismod non lacus vel
-                congue. Lorem ipsum dolor sit amet, consectetur.
+                <strong>Description:</strong> {project.description}
               </p>
+
               <p>
-                <strong>Genre:</strong> Action
+                <strong>Genre:</strong> {project.genre}
               </p>
+
               <p>
-                <strong>Tag:</strong> Horror, 2D
+                <strong>Tag:</strong> {project.tags.join(", ")}
               </p>
+
               <p>
-                <strong>Status:</strong> PUBLISHED
+                <strong>Status:</strong> {project.status}
               </p>
 
               <button className="plainButton" onClick={() => navigate("/editProjectInfo")}>Edit project info</button>
@@ -51,19 +53,17 @@ function ProjectInfo() {
 
             <section className="projectSection">
               <h2>Developer Logs</h2>
-              <div className="logSection">
-                <p className="logNum">
-                  <strong>Dev Log</strong> #23413
-                </p>
-                <p className="logAuthor">
-                  <strong>Submitted by:</strong> @teammember
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vestibulum euismod non lacus vel congue. Lorem ipsum dolor sit
-                  amet, consectetur.
-                </p>
-              </div>
+              {devLogs.map((log) => (
+                <div key={log.id} className="logSection">
+                  <p className="logNum">
+                    <strong>Dev Log</strong> #{log.id}
+                  </p>
+                  <p className="logAuthor">
+                    <strong>Submitted by:</strong> {log.author}
+                  </p>
+                  <p>{log.content}</p>
+                </div>
+              ))}
 
               <button
                 className="plainButton"
@@ -78,9 +78,11 @@ function ProjectInfo() {
               <div className="feedbackSection">
                 <div className="formTitle">Form Title</div>
 
+                <div className="formTitle">{feedback.title}</div>
+
                 <div className="formStats">
-                  <span>Status: Ongoing</span>
-                  <span>Responses: 45</span>
+                  <span>Status: {feedback.status}</span>
+                  <span>Responses: {feedback.responses}</span>
                 </div>
 
                 <div className="feedbackActions">
