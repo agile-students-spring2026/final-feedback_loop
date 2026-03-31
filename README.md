@@ -50,7 +50,9 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Building and Testing
 
-*TBD*
+1. Clone the repo with git clone
+2. cd into the front-end folder then run npm install
+3. from the front-end folder run npm start
 
 ---
 
