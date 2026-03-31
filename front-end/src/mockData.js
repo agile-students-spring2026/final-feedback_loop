@@ -134,12 +134,22 @@ const projects = [
   ];
 
 const project = {
-  name: "My Project",
+  title: "Dreamwalker",
   lastUpdated: "03/30/2026",
-  description: "Sample description",
-  genre: "Action",
-  tags: ["Horror", "2D"],
-  status: "PUBLISHED",
+  description: "Sample description...",
+  genre: { value: "Adventure", label: "Adventure" },
+  tags: [
+    { value: "puzzle", label: "puzzle" },
+    { value: "2D", label: "2D" },
+    { value: "visual-novel", label: "visual-novel" },
+  ],
+  coverImage: null,
+  coverPreview:
+    "https://sm.pcmag.com/pcmag_me/review/g/google-pla/google-play-games_w6hm.jpg",
+  uploadType: "url",
+  uploadFile: null,
+  uploadUrl: "https://example.com/my-project-build",
+  status: "draft",
 };
 
 const devLogs = [
@@ -156,4 +166,25 @@ const feedback = {
   responses: 45,
 };
 
-export { games, followedGames, notifications, projectUpdates, feedbackComments, myPlaytests, projects, project, devLogs, feedback };
+const tagOption = [
+  { value: "pixel-art", label: "pixel-art" },
+  { value: "adventure", label: "adventure" },
+  { value: "2D", label: "2D" },
+  { value: "RPG", label: "RPG" },
+  { value: "visual-novel", label: "visual-novel" },
+  { value: "puzzle", label: "puzzle" },
+  { value: "rouguelike", label: "rouguelike" },
+  { value: "Horror", label: "Horror" },
+];
+
+const genreOption = [
+  { value: "Action", label: "Action" },
+  { value: "Adventure", label: "Adventure" },
+  { value: "Card Game", label: "Card Game" },
+  { value: "Educational", label: "Educational" },
+  { value: "Platformer", label: "Platformer" },
+  { value: "Sport", label: "Sport" },
+  { value: "Strategy", label: "Strategy" },
+];
+
+export { games, followedGames, notifications, projectUpdates, feedbackComments, myPlaytests, projects, project, devLogs, feedback, tagOption, genreOption };
