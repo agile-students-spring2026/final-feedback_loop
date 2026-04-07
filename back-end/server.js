@@ -1,5 +1,10 @@
 import app from "./app.js";
 import dotenv from "dotenv";
+import devlogRoutes from "./devlogs.js";
+import feedbackRoutes from "./feedback.js";
+
+app.use("/feedback", feedbackRoutes);
+app.use("/devlogs", devlogRoutes);
 
 dotenv.config({ silent: true });
 
