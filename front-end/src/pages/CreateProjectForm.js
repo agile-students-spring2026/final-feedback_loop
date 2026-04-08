@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate } from "react-router-dom";
-import { tagOption, genreOption } from "../mockData";
 
 function UploadSection({
   uploadType,
@@ -97,6 +96,23 @@ function CreateProjectForm() {
 
   const [visibility, setVisibility] = useState("");
 
+  const [tagOption, setTagOption] = useState([]);
+  const [genreOption, setGenreOption] = useState([]);
+
+  useEffect(() => {
+    async function fetchOptions() {
+      try {
+        const response = await fetch("http://localhost:7002/options");
+        const data = await response.json();
+        setTagOption(data.tagOption);
+        setGenreOption(data.genreOption);
+      } catch (error) {
+        console.error("Error fetching options:", error);
+      }
+    }
+    fetchOptions();
+  }, []);
+
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -107,22 +123,30 @@ function CreateProjectForm() {
     setCoverPreview(imageUrl);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      title,
-      description,
-      genre,
-      tags,
-      visibility,
-      uploadType,
-      coverImage,
-      uploadFile,
-      uploadUrl,
-    };
-    console.log("Submitted Data:", formData);
-    alert("Form submitted then nacigate to project info page");
-    navigate("/project");
+ 
+    try {
+      const response = await fetch("http://localhost:7002/createprojects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: "user_001",   // temp (redo after connect to login system)
+          title,
+          description,
+          genre,
+          tags,
+          visibility,
+          uploadType,
+          uploadUrl,
+          // coverImage and uploadFile are file, use FormData handle it later
+        }),
+      });
+ 
+      navigate("/project");
+    } catch (error) {
+      console.error("Error creating project:", error);
+    }
   };
 
   const handleDiscard = () => {
@@ -172,6 +196,7 @@ function CreateProjectForm() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="single-line-input"
+                  required
                 />
               </div>
 
