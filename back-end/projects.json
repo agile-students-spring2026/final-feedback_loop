@@ -1,0 +1,80 @@
+[
+  {
+    "id": 3,
+    "name": "Puzzle Quest",
+    "description": "Solve intricate puzzles to unlock new worlds.",
+    "genre": "Puzzle",
+    "tags": [
+      "logic",
+      "singleplayer",
+      "brain"
+    ],
+    "status": "Draft",
+    "lastUpdated": "2026-04-05"
+  },
+  {
+    "id": 4,
+    "name": "Battle Arena",
+    "description": "Compete against players in real-time battles.",
+    "genre": "Action",
+    "tags": [
+      "pvp",
+      "multiplayer",
+      "ranked"
+    ],
+    "status": "In Progress",
+    "lastUpdated": "2026-04-03"
+  },
+  {
+    "id": 5,
+    "name": "Mystery Manor",
+    "description": "Explore a haunted mansion and uncover secrets.",
+    "genre": "Adventure",
+    "tags": [
+      "story",
+      "exploration",
+      "mystery"
+    ],
+    "status": "Draft",
+    "lastUpdated": "2026-04-02"
+  },
+  {
+    "id": 6,
+    "name": "Sky Kingdom",
+    "description": "Build and manage a floating kingdom in the sky.",
+    "genre": "Simulation",
+    "tags": [
+      "building",
+      "management",
+      "creative"
+    ],
+    "status": "In Progress",
+    "lastUpdated": "2026-03-30"
+  },
+  {
+    "id": 7,
+    "name": "Racing Rivals",
+    "description": "High-speed racing with customizable cars.",
+    "genre": "Racing",
+    "tags": [
+      "cars",
+      "multiplayer",
+      "competition"
+    ],
+    "status": "Completed",
+    "lastUpdated": "2026-03-20"
+  },
+  {
+    "id": 8,
+    "name": "Fantasy Legends",
+    "description": "Embark on an epic RPG journey in a magical world.",
+    "genre": "RPG",
+    "tags": [
+      "fantasy",
+      "quests",
+      "open-world"
+    ],
+    "status": "In Progress",
+    "lastUpdated": "2026-04-04"
+  }
+]

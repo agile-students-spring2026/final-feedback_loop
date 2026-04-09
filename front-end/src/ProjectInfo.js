@@ -1,10 +1,36 @@
 import "./ProjectInfo.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
-import { project, devLogs, feedback } from "./mockData";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function ProjectInfo() {
   const navigate = useNavigate();
+
+  const { id } = useParams();
+
+  const [project, setProject] = useState({});
+  const [devLogs, setDevLogs] = useState([]);
+  const [feedback, setFeedback] = useState({});
+  
+
+
+  useEffect(() => {
+  // project
+  fetch(`http://localhost:7002/projects/${id}`)
+    .then(res => res.json())
+    .then(setProject);
+
+  // dev logs
+  fetch(`http://localhost:7002/devlogs/${id}`)
+    .then(res => res.json())
+    .then(setDevLogs);
+
+  // feedback
+  fetch(`http://localhost:7002/feedback/${id}`)
+    .then(res => res.json())
+    .then(setFeedback);
+}, [id]);
 
   return (
     <div className="container">
@@ -15,7 +41,7 @@ function ProjectInfo() {
       <div className="layout">
         <main className="projMain">
           <div className="projectPage">
-            <button className="backButton" onClick={() => navigate("/devdash")}>
+            <button className="backButton" onClick={() => navigate(`/devdash`)}>
               Back
             </button>
 
@@ -36,11 +62,11 @@ function ProjectInfo() {
               </p>
 
               <p>
-                <strong>Genre:</strong> {project.genre.value}
+                <strong>Genre:</strong> {project.genre}
               </p>
 
               <p>
-                <strong>Tag:</strong> {project.tags.map(tag => tag.label).join(", ")}
+                <strong>Tag:</strong> {project.tags?.join(", ")}
               </p>
 
               <p>
@@ -48,7 +74,17 @@ function ProjectInfo() {
               </p>
 
               <button className="plainButton" onClick={() => navigate("/editProjectInfo")}>Edit project info</button>
-              <button className="plainButton">Delete Project</button>
+              <button
+                className="plainButton"
+                onClick={() => {
+                  fetch(`http://localhost:7002/projects/${id}`, {
+                    method: "DELETE"
+                  })
+                    .then(() => navigate(`/devdash`));
+                }}
+              >
+                Delete Project
+              </button>
             </section>
 
             <section className="projectSection">
@@ -59,15 +95,15 @@ function ProjectInfo() {
                     <strong>Dev Log</strong> #{log.id}
                   </p>
                   <p className="logAuthor">
-                    <strong>Submitted by:</strong> {log.author}
+                    <strong>Submitted by:</strong> {log.teamMember}
                   </p>
-                  <p>{log.content}</p>
+                  <p>{log.notes}</p>
                 </div>
               ))}
 
               <button
                 className="plainButton"
-                onClick={() => navigate("/devlog")}
+                onClick={() => navigate(`/devlog/${id}`)}
               >
                 Create New Developer Log
               </button>
