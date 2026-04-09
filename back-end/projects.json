@@ -1,18 +1,5 @@
 [
   {
-    "id": 2,
-    "name": "Zombie Escape",
-    "description": "Survive waves of zombies and escape the city.",
-    "genre": "Survival",
-    "tags": [
-      "horror",
-      "co-op",
-      "strategy"
-    ],
-    "status": "Completed",
-    "lastUpdated": "2026-03-25"
-  },
-  {
     "id": 3,
     "name": "Puzzle Quest",
     "description": "Solve intricate puzzles to unlock new worlds.",
