@@ -15,17 +15,17 @@ function ProjectInfo() {
 
   useEffect(() => {
   // project
-  fetch(`http://localhost:3001/projects/${id}`)
+  fetch(`http://localhost:7002/projects/${id}`)
     .then(res => res.json())
     .then(setProject);
 
   // dev logs
-  fetch(`http://localhost:3001/devlogs/${id}`)
+  fetch(`http://localhost:7002/devlogs/${id}`)
     .then(res => res.json())
     .then(setDevLogs);
 
   // feedback
-  fetch(`http://localhost:3001/feedback/${id}`)
+  fetch(`http://localhost:7002/feedback/${id}`)
     .then(res => res.json())
     .then(setFeedback);
 }, [id]);

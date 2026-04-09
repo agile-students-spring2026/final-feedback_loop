@@ -14,7 +14,7 @@ function DevLog() {
   const { id } = useParams();
 
   const handleSubmit = () => {
-  fetch("http://localhost:3001/devlogs", {
+  fetch("http://localhost:7002/devlogs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
