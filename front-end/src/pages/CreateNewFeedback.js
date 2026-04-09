@@ -4,10 +4,12 @@ import MultipleChoiceEditor from "../components/MultipleChoiceEditor";
 import RatingScaleEditor from "../components/RatingScaleEditor";
 import ShortAnswerEditor from "../components/ShortAnswerEditor";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CreateNewFeedback() {
   const navigate = useNavigate();
+  const { projectId } = useParams();
+
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showSelector, setShowSelector] = useState(false);
@@ -64,17 +66,27 @@ function CreateNewFeedback() {
     setQuestions((prev) => prev.filter((q) => q.id !== id));
   }
 
-  function handleSaveAndView() {
-    const data = {
-      title: title,
-      questions: questions,
-    };
-
-    console.log("Submit data:", data);
-    alert("Saved!)");
-    navigate("/feedback-form");
+  async function handleSaveAndView() {
+    try {
+      const response = await fetch("http://localhost:7002/createfeedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectId: parseInt(projectId),  // 关联到哪个项目
+          title: title,
+          questions: questions,
+        }),
+      });
+ 
+      const newFeedback = await response.json();
+      console.log("Created feedback form:", newFeedback);
+      navigate("/feedback-form");
+    } catch (error) {
+      console.error("Error creating feedback:", error);
+      alert("Failed to save feedback form. Is the backend running?");
+    }
   }
-
+  
   function handleDiscard() {
     const confirmDiscard = window.confirm(
       "Are you sure you want to discard all changes?",
