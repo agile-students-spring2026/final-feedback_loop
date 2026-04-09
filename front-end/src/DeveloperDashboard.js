@@ -22,7 +22,8 @@ function DeveloperDashboard() {
 
   return (
     <AppLayout>
-      <div className="dashboard">
+      {/* <div className="dashboard"> */}
+      <div>
         <header className="header">
           <h1 className="h1">Explore Projects</h1>
         </header>

@@ -12,6 +12,8 @@ function ProjectInfo() {
   const [project, setProject] = useState({});
   const [devLogs, setDevLogs] = useState([]);
   const [feedback, setFeedback] = useState({});
+  
+
 
   useEffect(() => {
   // project
@@ -46,7 +48,7 @@ function ProjectInfo() {
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
-                <h1>{project.name}</h1>
+                <h1>{project.title}</h1>
                 <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
               </div>
 
@@ -75,7 +77,7 @@ function ProjectInfo() {
               <button
                 className="plainButton"
                 onClick={() => {
-                  fetch(`http://localhost:3001/projects/${id}`, {
+                  fetch(`http://localhost:7002/projects/${id}`, {
                     method: "DELETE"
                   })
                     .then(() => navigate(`/devdash`));
@@ -110,7 +112,6 @@ function ProjectInfo() {
             <section className="projectSection">
               <h2>Feedback</h2>
               <div className="feedbackSection">
-                <div className="formTitle">Form Title</div>
 
                 <div className="formTitle">{feedback.title}</div>
 

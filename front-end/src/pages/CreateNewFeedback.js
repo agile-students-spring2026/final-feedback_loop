@@ -4,10 +4,12 @@ import MultipleChoiceEditor from "../components/MultipleChoiceEditor";
 import RatingScaleEditor from "../components/RatingScaleEditor";
 import ShortAnswerEditor from "../components/ShortAnswerEditor";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CreateNewFeedback() {
   const navigate = useNavigate();
+  const { projectId } = useParams();
+
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showSelector, setShowSelector] = useState(false);
@@ -64,17 +66,27 @@ function CreateNewFeedback() {
     setQuestions((prev) => prev.filter((q) => q.id !== id));
   }
 
-  function handleSaveAndView() {
-    const data = {
-      title: title,
-      questions: questions,
-    };
-
-    console.log("Submit data:", data);
-    alert("Saved!)");
-    navigate("/feedback-form");
+  async function handleSaveAndView() {
+    try {
+      const response = await fetch("http://localhost:7002/createfeedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectId: parseInt(projectId),  // 关联到哪个项目
+          title: title,
+          questions: questions,
+        }),
+      });
+ 
+      const newFeedback = await response.json();
+      console.log("Created feedback form:", newFeedback);
+      navigate("/feedback-form");
+    } catch (error) {
+      console.error("Error creating feedback:", error);
+      alert("Failed to save feedback form. Is the backend running?");
+    }
   }
-
+  
   function handleDiscard() {
     const confirmDiscard = window.confirm(
       "Are you sure you want to discard all changes?",
@@ -94,8 +106,9 @@ function CreateNewFeedback() {
         <div className="logo">[ LOGO ]</div>
       </nav>
 
-      <div class="dashboard">
-        <div className="top-nav-standalone">
+      <main class="main">
+        <div class="dashboard">
+          {/* <div className="top-nav-standalone">
           <span
             className="nav-link"
             onClick={() => navigate("/project")}
@@ -103,98 +116,99 @@ function CreateNewFeedback() {
           >
             Project_Name
           </span>
-        </div>
-        <header class="header">
-          <h1 class="h1">Create a New Feedback Form</h1>
-        </header>
-        <div className="create-peoject-container">
-          <div className="create-peoject-form">
-            <div className="info-container">
-              <label>Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="single-line-input"
-              />
-            </div>
+        </div> */}
+          <header class="header">
+            <h1 class="h1">Create a New Feedback Form</h1>
+          </header>
+          <div className="create-peoject-container">
+            <div className="create-peoject-form">
+              <div className="info-container">
+                <label>Title</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="single-line-input"
+                />
+              </div>
 
-            <div className="questions">
-              {questions.map((q, index) => {
-                return (
-                  <div key={q.id}>
-                    <div className="info-container">
-                      <div className="question-header">
-                        <label>Question {index + 1}</label>
+              <div className="questions">
+                {questions.map((q, index) => {
+                  return (
+                    <div key={q.id}>
+                      <div className="info-container">
+                        <div className="question-header">
+                          <label>Question {index + 1}</label>
 
-                        <button
-                          onClick={function () {
-                            deleteQuestion(q.id);
-                          }}
-                          className="delete-button"
-                        >
-                          Delete
-                        </button>
+                          <button
+                            onClick={function () {
+                              deleteQuestion(q.id);
+                            }}
+                            className="delete-button"
+                          >
+                            Delete
+                          </button>
+                        </div>
+
+                        {q.type === "multiple_choice" && (
+                          <MultipleChoiceEditor
+                            question={q}
+                            onChange={updateQuestion}
+                          />
+                        )}
+
+                        {q.type === "rating_scale" && (
+                          <RatingScaleEditor
+                            question={q}
+                            onChange={updateQuestion}
+                          />
+                        )}
+
+                        {q.type === "short_answer" && (
+                          <ShortAnswerEditor
+                            question={q}
+                            onChange={updateQuestion}
+                          />
+                        )}
                       </div>
-
-                      {q.type === "multiple_choice" && (
-                        <MultipleChoiceEditor
-                          question={q}
-                          onChange={updateQuestion}
-                        />
-                      )}
-
-                      {q.type === "rating_scale" && (
-                        <RatingScaleEditor
-                          question={q}
-                          onChange={updateQuestion}
-                        />
-                      )}
-
-                      {q.type === "short_answer" && (
-                        <ShortAnswerEditor
-                          question={q}
-                          onChange={updateQuestion}
-                        />
-                      )}
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+
+              <div className="all-button">
+                <button
+                  onClick={() => setShowSelector(true)}
+                  className="basic-button"
+                >
+                  Add Question
+                </button>
+
+                <button onClick={handleSaveAndView} className="basic-button">
+                  Save & View
+                </button>
+
+                <button
+                  onClick={handleDiscard}
+                  className="basic-button"
+                  type="button"
+                >
+                  Discard
+                </button>
+              </div>
             </div>
 
-            <div className="all-button">
-              <button
-                onClick={() => setShowSelector(true)}
-                className="basic-button"
-              >
-                Add Question
-              </button>
-
-              <button onClick={handleSaveAndView} className="basic-button">
-                Save & View
-              </button>
-
-              <button
-                onClick={handleDiscard}
-                className="basic-button"
-                type="button"
-              >
-                Discard
-              </button>
-            </div>
+            {showSelector && (
+              <QuestionTypeSelector
+                onSelect={addQuestion}
+                onClose={function () {
+                  setShowSelector(false);
+                }}
+              />
+            )}
           </div>
-
-          {showSelector && (
-            <QuestionTypeSelector
-              onSelect={addQuestion}
-              onClose={function () {
-                setShowSelector(false);
-              }}
-            />
-          )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
