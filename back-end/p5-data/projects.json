@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "title": "asd",
+    "description": "",
+    "genre": "",
+    "tags": [],
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "",
+    "lastUpdated": "04/08/2026",
+    "createdAt": "2026-04-08T21:38:21.574Z"
+  },
+  {
+    "id": 2,
+    "title": "sdf",
+    "description": "asdvc",
+    "genre": {
+      "value": "Educational",
+      "label": "Educational"
+    },
+    "tags": [
+      {
+        "value": "adventure",
+        "label": "adventure"
+      }
+    ],
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "url",
+    "uploadFile": null,
+    "uploadUrl": "adsf",
+    "visibility": "draft",
+    "lastUpdated": "04/08/2026",
+    "createdAt": "2026-04-08T21:39:23.439Z"
+  }
+]
