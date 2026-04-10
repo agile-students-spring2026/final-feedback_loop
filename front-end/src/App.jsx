@@ -32,8 +32,8 @@ function App() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/report" element={<ReportForm />} />
         <Route path="/devdash" element={<DeveloperDashboard />} />
-        <Route path="/project" element={<ProjectInfo />} /> 
-        <Route path="/devlog" element={<DevLog />} /> 
+        <Route path="/devproject/:id" element={<ProjectInfo />} />
+        <Route path="/devlog/:id" element={<DevLog />} />
         <Route path="/explore" element={<PlayerExplore />} />
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/following" element={<FollowingPage />} />

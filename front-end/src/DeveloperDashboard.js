@@ -1,11 +1,24 @@
+import { useEffect, useState } from "react";
 import "./DeveloperDashboard.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
-import { projects } from "./mockData";
+
 
 function DeveloperDashboard() {
   const navigate = useNavigate();
+
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+  fetch("http://localhost:7002/projects")
+    .then(res => res.json())
+    .then(data => {
+      console.log("PROJECTS:", data); // debug
+      setProjects(data);
+    })
+    .catch(err => console.error("FETCH ERROR:", err));
+}, []);
 
   return (
     <AppLayout>
@@ -20,7 +33,7 @@ function DeveloperDashboard() {
               <img src={projectImg} alt="Project Icon" className="mainIcon" />
 
               <div className="details">
-                <button className="name" onClick={() => navigate("/project")}>
+                <button className="name" onClick={() => navigate(`/devproject/${project.id}`)}>
                   {project.name}
                 </button>
                 <span className="status">{project.status}</span>
@@ -32,7 +45,7 @@ function DeveloperDashboard() {
               <button onClick={() => navigate("/game-feedback")}>
                 Feedback
               </button>
-              <button onClick={() => navigate("/devlog")}>DevLog</button>
+              <button onClick={() => navigate(`/devlog/${project.id}`)}>DevLog</button>
             </div>
           </div>
         ))}

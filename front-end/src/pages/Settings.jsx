@@ -1,12 +1,11 @@
 import Outline from "../components/Outline/Outline";
 import styles from "./settings.module.css";
-import blankPfp from "../assets/blank-pfp.png";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import AppLayout from "../AppLayout";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const MOCK_PICSUM = [
   { id: 1, url: "https://picsum.photos/200" },
@@ -18,6 +17,15 @@ const MOCK_PICSUM = [
 ];
 
 function SettingsPage() {
+  fetch("/data/settings");
+  const [username, setUsername] = useState("Username");
+  const [accButtonText, setAccButtonText] = useState("Account Code");
+  const [clicked, setClicked] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [isSelect, setIsSelect] = useState(false);
+  const [currPfp, setCurrPfp] = useState("/blank-pfp.png");
+  const [tempPfp, setTempPfp] = useState(false);
+
   const nav = useNavigate();
   const handleReport = () => {
     nav("/report");
@@ -25,9 +33,6 @@ function SettingsPage() {
   const handleLogout = () => {
     nav("/signin");
   };
-
-  const [accButtonText, setAccButtonText] = useState("Account Code");
-  const [clicked, setClicked] = useState(false);
 
   const handleAccCode = async () => {
     const min = 1000000000;
@@ -42,7 +47,6 @@ function SettingsPage() {
     }
   };
 
-  const [confirm, setConfirm] = useState(false);
   const handleDelete = () => {
     if (!confirm) {
       setConfirm(true);
@@ -53,16 +57,52 @@ function SettingsPage() {
     }
   };
 
-  const [isSelect, setIsSelect] = useState(false);
-  const [currPfp, setCurrPfp] = useState(blankPfp);
-  const [tempPfp, setTempPfp] = useState(false);
-
-  const handlePfp = () => {
+  const handlePfp = async () => {
     if (tempPfp) {
       setCurrPfp(tempPfp);
+      await fetch("/data/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ profilePic: tempPfp }),
+      });
     }
     setIsSelect(false);
   };
+
+  const handleInfoSubmit = async (e) => {
+    e.preventDefault();
+    const newUsername = e.target.elements.usernameField.value;
+    const newPassword = e.target.elements.passwordField.value;
+
+    try {
+      const response = await fetch("/data/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: newUsername, password: newPassword }),
+      });
+
+      if (response.ok) {
+        setUsername(newUsername);
+        alert("Settings saved!");
+      }
+    } catch (err) {
+      console.error("Failed to save settings");
+    }
+  };
+
+  useEffect(() => {
+    fetch("/data/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+        if (data.profilePic) {
+          setCurrPfp(data.profilePic);
+        } else {
+          setCurrPfp("/blank-pfp.png");
+        }
+      })
+      .catch((err) => console.error("Error fetching settings:", err));
+  }, []);
 
   return (
     <AppLayout>
@@ -85,16 +125,17 @@ function SettingsPage() {
                 Confirm
               </Button>
             ) : (
-              <p className={styles.user}>Username</p>
+              <p className={styles.user}>{username}</p>
             )}
           </Outline>
           <Outline variant="settings">
             {!isSelect ? (
-              <form action="/signin" method="POST">
+              <form action="/signin" method="POST" onSubmit={handleInfoSubmit}>
                 <Outline variant="info" legendText="Account Info">
                   <div className={styles.info}>
                     <p className={styles.p}>Change Username:</p>
                     <InfoInput
+                      name="usernameField"
                       variant="single"
                       placeholderText="Enter new username"
                     />
@@ -102,6 +143,7 @@ function SettingsPage() {
                   <div className={styles.info}>
                     <p className={styles.p}>Change Password:</p>
                     <InfoInput
+                      name="passwordField"
                       variant="single"
                       placeholderText="Enter new password"
                     />
