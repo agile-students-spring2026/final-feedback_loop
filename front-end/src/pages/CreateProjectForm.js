@@ -143,7 +143,8 @@ function CreateProjectForm() {
         }),
       });
  
-      navigate("/project");
+      const newProject = await response.json();
+      navigate(`/devproject/${newProject.id}`);
     } catch (error) {
       console.error("Error creating project:", error);
     }
