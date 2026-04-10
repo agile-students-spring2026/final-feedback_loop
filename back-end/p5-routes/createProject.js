@@ -7,7 +7,7 @@ const router = express.Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const filePath = path.join(__dirname, "../p5-data/projects.json");
+const filePath = path.join(__dirname, "../projects.json");
 
 router.post("/", (req, res) => {
   const { title, description, genre, tags, visibility, uploadType, uploadUrl } =
@@ -15,9 +15,10 @@ router.post("/", (req, res) => {
 
   fs.readFile(filePath, "utf-8", (err, data) => {
     const projects = data ? JSON.parse(data) : [];
+    const newId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
 
     const newProject = {
-      id: projects.length > 0 ? projects[projects.length - 1].id + 1 : 1,
+      id: newId,
       title,
       description,
       genre,

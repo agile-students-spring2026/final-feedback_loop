@@ -18,9 +18,17 @@ const projectsPath = path.join(__dirname, "projects.json");
 const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
 
+// mongoose
+//   .connect(process.env.DB_CONNECTION_STRING)
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`));
+
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use("/createprojects", createProjectRoutes);
+app.use("/createfeedback", createFeedbackFormRoutes);
+app.use("/options", optionsRoutes); 
 
 /* ---------------- HELPER FUNCTIONS ---------------- */
 
@@ -33,15 +41,6 @@ const writeJSON = (filePath, data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 };
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/createprojects", createProjectRoutes);
-app.use("/createfeedback", createFeedbackFormRoutes);
-app.use("/options", optionsRoutes); 
-
-// mongoose
-//   .connect(process.env.DB_CONNECTION_STRING)
-//   .then(() => console.log("Connected to MongoDB"))
-//   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`));
 
 app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });

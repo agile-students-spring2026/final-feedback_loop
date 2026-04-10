@@ -8,7 +8,13 @@
         "id": 1713000001,
         "type": "multiple_choice",
         "title": "What was your favorite aspect of the game?",
-        "options": ["Puzzle design", "Visual style", "Story", "Music", "Controls"]
+        "options": [
+          "Puzzle design",
+          "Visual style",
+          "Story",
+          "Music",
+          "Controls"
+        ]
       },
       {
         "id": 1713000002,
@@ -25,5 +31,11 @@
         "placeholder": ""
       }
     ]
+  },
+  {
+    "id": 2,
+    "projectId": "1",
+    "title": "test",
+    "questions": []
   }
 ]
