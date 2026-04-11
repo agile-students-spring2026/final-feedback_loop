@@ -119,6 +119,52 @@ app.get("/explore/projects/:id", (req, res) => {
   res.json(project);
 });
 
+// playtest 
+app.get("/playtests", (req, res) => {
+  const playtests = readJSON(playtestsPath);
+  res.json(playtests);
+});
+
+app.post("/playtests", (req, res) => {
+  const playtests = readJSON(playtestsPath);
+  const { projectId } = req.body;
+
+  if (!projectId) return res.status(400).json({ error: "projectId is required" });
+
+  const already = playtests.find((p) => p.projectId == projectId);
+  if (already) return res.status(409).json({ error: "Already joined this playtest" });
+
+  const projects = readJSON(projectsPath);
+  const project = projects.find((p) => p.id == projectId);
+  if (!project) return res.status(404).json({ error: "Project not found" });
+
+  const entry = {
+    id: Date.now(),
+    projectId: project.id,
+    title: project.name,
+    version: "v0.1",
+    joined: true,
+  };
+
+  playtests.push(entry);
+  writeJSON(playtestsPath, playtests);
+  res.status(201).json(entry);
+});
+
+// delete a playtest
+app.delete("/playtests/:projectId", (req, res) => {
+  let playtests = readJSON(playtestsPath);
+  const before = playtests.length;
+  playtests = playtests.filter((p) => p.projectId != req.params.projectId);
+
+  if (playtests.length === before) {
+    return res.status(404).json({ error: "Playtest not found" });
+  }
+
+  writeJSON(playtestsPath, playtests);
+  res.json({ message: "Left playtest successfully" });
+});
+
 
 export default app;
 
