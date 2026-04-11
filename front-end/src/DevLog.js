@@ -1,63 +1,40 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import projectImg from "./assets/projectIcon.png";
 import "./DevLog.css";
 import AppLayout from "./AppLayout";
-import { useParams } from "react-router-dom";
 
 function DevLog() {
   const navigate = useNavigate();
-
-  const [teamMember, setTeamMember] = useState("");
-
-  const [date, setDate] = useState("");
-  const [notes, setNotes] = useState("");
   const { id } = useParams();
 
+  const [author, setAuthor] = useState("");
+  const [date, setDate] = useState("");
+  const [content, setContent] = useState("");
+
   const handleSubmit = () => {
- 
-  if (!teamMember.startsWith("@")) {
-    alert("Username must start with '@'");
-    return;
-  }
-
-
-  const parsedDate = new Date(date);
-  if (isNaN(parsedDate.getTime())) {
-    alert("Please enter a valid date (mm/dd/yyyy)");
-    return;
-  }
-
-  if (!notes.trim()) {
-    alert("Developer notes cannot be empty");
-    return;
-  }
-
-  fetch("http://localhost:7002/devlogs", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      projectId: id,
-      teamMember,
-      date,
-      notes
+    fetch("/devlogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        projectId: id,
+        author,
+        date,
+        content,
+      }),
     })
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Saved:", data);
-      alert("Dev log saved successfully!");
-      navigate(`/devproject/${id}`);
-    })
-    .catch(err => console.error(err));
-};
+      .then((res) => res.json())
+      .then(() => navigate(`/devproject/${id}`))
+      .catch((err) => console.error(err));
+  };
 
   return (
     <AppLayout>
       <div className="devlog">
-        <button className="backButton" onClick={() => navigate(`/devproject/${id}`)}>
+        <button
+          className="backButton"
+          onClick={() => navigate(`/devproject/${id}`)}
+        >
           Back
         </button>
 
@@ -78,8 +55,8 @@ function DevLog() {
           <input
             type="text"
             placeholder="@Margot"
-            value={teamMember}
-            onChange={(e) => setTeamMember(e.target.value)}
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
           />
 
           <label>Submission Date</label>
@@ -93,12 +70,12 @@ function DevLog() {
           <label>Developer Notes</label>
           <textarea
             placeholder="Enter notes here..."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
 
           <button className="plainButton" onClick={handleSubmit}>
-            Submit Dev Log
+            Save Changes
           </button>
         </div>
       </div>
