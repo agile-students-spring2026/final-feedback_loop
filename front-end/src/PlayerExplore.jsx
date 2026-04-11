@@ -1,56 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import "./PlayerExplore.css";
 
-const API = "http://localhost:7002";
-
 const PlayerExplore = () => {
   const navigate = useNavigate();
+
   const [games, setGames] = useState([]);
-  const [joinedIds, setJoinedIds] = useState(new Set());
-  const [loading, setLoading] = useState(true);
+  const [myPlaytests, setMyPlaytests] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [gamesRes, playtestsRes] = await Promise.all([
-          fetch(`${API}/explore/projects`),
-          fetch(`${API}/playtests`),
-        ]);
-        const gamesData = await gamesRes.json();
-        const playtestsData = await playtestsRes.json();
-
-        setGames(gamesData);
-        setJoinedIds(new Set(playtestsData.map((p) => String(p.projectId))));
-      } catch (err) {
-        console.error("Failed to load explore data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetch("/games")
+      .then((res) => res.json())
+      .then(setGames)
+      .catch((err) => console.error(err));
   }, []);
 
-  const handleJoinPlaytest = async (game) => {
-    try {
-      const res = await fetch(`${API}/playtests`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectId: game.id }),
-      });
-
-      if (res.ok || res.status === 409) {
-        setJoinedIds((prev) => new Set([...prev, String(game.id)]));
-        navigate("/my-playtests");
-      }
-    } catch (err) {
-      console.error("Failed to join playtest:", err);
+  const handleJoinPlaytest = (game) => {
+    if (myPlaytests.find((p) => p.id === game.id)) {
+      navigate("/my-playtests");
+      return;
     }
-  };
 
-  if (loading) return <AppLayout><p style={{ padding: 40 }}>Loading...</p></AppLayout>;
+    fetch("/playtests", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(game),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setMyPlaytests([...myPlaytests, { ...game, ...data }]);
+        navigate("/my-playtests");
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <AppLayout>
@@ -60,7 +43,7 @@ const PlayerExplore = () => {
 
       <div className="grid">
         {games.map((game) => {
-          const isJoined = joinedIds.has(String(game.id));
+          const isJoined = myPlaytests.some((p) => p.id === game.id);
 
           return (
             <div
@@ -69,16 +52,19 @@ const PlayerExplore = () => {
               onClick={() => navigate(`/playtest/${game.id}`)}
             >
               <img
-                src={game.coverPreview || "https://picsum.photos/seed/alpha/300/200"}
+                src={game.image}
                 alt="preview"
                 className="cardThumb"
               />
+
               <div className="cardBody">
                 <div className="cardTitleRow">
                   <h3 className="cardTitle">{game.title}</h3>
                   {isJoined && <span className="versionBox">ACTIVE</span>}
                 </div>
+
                 <p className="cardDesc">{game.description}</p>
+
                 <div className="btnGroup">
                   <button
                     className={`btn ${isJoined ? "btnPrimary" : ""}`}
@@ -90,6 +76,7 @@ const PlayerExplore = () => {
                   >
                     {isJoined ? "Joined" : "Join Test"}
                   </button>
+
                   <button
                     className="btn"
                     onClick={(e) => {
@@ -105,6 +92,7 @@ const PlayerExplore = () => {
           );
         })}
       </div>
+
     </AppLayout>
   );
 };
