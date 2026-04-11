@@ -13,6 +13,7 @@ const settingsPath = path.join(__dirname, "settingsData.json");
 const projectsPath = path.join(__dirname, "projects.json");
 const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
+const playtestsPath = path.join(__dirname, "playtests.json");
 
 // middleware
 app.use(cors());
@@ -102,6 +103,22 @@ app.get("/feedback/:projectId", (req, res) => {
 
   res.json(result || {});
 });
+
+// explore
+
+app.get("/explore/projects", (req, res) => {
+  const projects = readJSON(projectsPath);
+  res.json(projects);
+});
+
+// get project for projectdetails
+app.get("/explore/projects/:id", (req, res) => {
+  const projects = readJSON(projectsPath);
+  const project = projects.find((p) => p.id == req.params.id);
+  if (!project) return res.status(404).json({ error: "Project not found" });
+  res.json(project);
+});
+
 
 export default app;
 
