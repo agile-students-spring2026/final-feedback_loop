@@ -10,8 +10,10 @@ function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const checkPasses = (e) => {
+  const checkInfo = async (e) => {
     e.preventDefault();
+    setError("");
+    const email = e.target.email.value;
     const password = e.target.password.value;
     const confirm = e.target.confirm.value;
 
@@ -19,20 +21,39 @@ function Register() {
       setError("Passwords do not match!");
       return;
     }
-    navigate("/signin");
+    try {
+      const response = await fetch("http://localhost:7002/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        navigate("/signin");
+      } else {
+        setError("Username taken");
+      }
+    } catch (err) {
+      setError("Try again");
+    }
   };
 
   return (
     <div className={styles.body}>
       <section className="registerPage">
         <Outline variant="test">
-          <form onSubmit={checkPasses}>
+          <form onSubmit={checkInfo}>
             <p className={styles.signHead}>Register</p>
             <Link to="/signin" className={styles.switchPage}>
               or Sign in?
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
+                name="email"
                 type="email"
                 variant="test"
                 placeholderText="Email Address"

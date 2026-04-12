@@ -18,6 +18,7 @@ const projectsPath = path.join(__dirname, "projects.json");
 const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
 const playtestsPath = path.join(__dirname, "playtests.json");
+const usersPath = path.join(__dirname, "users.json");
 
 // mongoose
 //   .connect(process.env.DB_CONNECTION_STRING)
@@ -29,8 +30,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/createprojects", createProjectRoutes);
 app.use("/createfeedback", createFeedbackFormRoutes);
-app.use("/options", optionsRoutes); 
-
+app.use("/options", optionsRoutes);
 
 const readJSON = (filePath) => {
   if (!fs.existsSync(filePath)) return [];
@@ -46,7 +46,6 @@ app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });
 });
 
-
 app.get("/data/settings", (req, res) => {
   const data = readJSON(settingsPath);
   res.json(data.settings || {});
@@ -59,6 +58,41 @@ app.post("/data/settings", (req, res) => {
   res.json({ success: true });
 });
 
+app.post("/auth/register", (req, res) => {
+  const { username, password } = req.body;
+  const users = readJSON(usersPath);
+  const user = users.find((person) => person.username === username);
+
+  if (user) {
+    return res.status(409).json({
+      success: false,
+      message: "Username is taken",
+    });
+  }
+
+  const newUser = { id: Date.now(), username, password };
+  users.push(newUser);
+  writeJSON(usersPath, users);
+  res.status(201).json({
+    success: true,
+    message: "Registration successful!",
+  });
+});
+
+app.post("/auth/login", (req, res) => {
+  const { username, password } = req.body;
+  const users = readJSON(usersPath);
+  const user = users.find(
+    (person) => person.username === username && person.password === password,
+  );
+
+  if (user) {
+    const { password, ...otherInfo } = user;
+    res.json({ success: true, user: otherInfo });
+  } else {
+    res.status(401).json({ success: false });
+  }
+});
 
 // GET all projects
 app.get("/projects", (req, res) => {
@@ -69,25 +103,22 @@ app.get("/projects", (req, res) => {
 // GET one project
 app.get("/projects/:id", (req, res) => {
   const projects = readJSON(projectsPath);
-  const project = projects.find(p => p.id == req.params.id);
+  const project = projects.find((p) => p.id == req.params.id);
   res.json(project || {});
 });
 
 // DELETE project
 app.delete("/projects/:id", (req, res) => {
   let projects = readJSON(projectsPath);
-  projects = projects.filter(p => p.id != req.params.id);
+  projects = projects.filter((p) => p.id != req.params.id);
   writeJSON(projectsPath, projects);
   res.json({ message: "Deleted successfully" });
 });
 
-
 // GET logs for a project
 app.get("/devlogs/:projectId", (req, res) => {
   const logs = readJSON(devlogsPath);
-  const filtered = logs.filter(
-    log => log.projectId == req.params.projectId
-  );
+  const filtered = logs.filter((log) => log.projectId == req.params.projectId);
   res.json(filtered);
 });
 
@@ -97,7 +128,7 @@ app.post("/devlogs", (req, res) => {
 
   const newLog = {
     id: logs.length + 1,
-    ...req.body
+    ...req.body,
   };
 
   logs.push(newLog);
@@ -109,9 +140,7 @@ app.post("/devlogs", (req, res) => {
 app.get("/feedback/:projectId", (req, res) => {
   const feedback = readJSON(feedbackPath);
 
-  const result = feedback.find(
-    f => f.projectId == req.params.projectId
-  );
+  const result = feedback.find((f) => f.projectId == req.params.projectId);
 
   res.json(result || {});
 });
@@ -120,7 +149,9 @@ app.get("/feedback/:projectId", (req, res) => {
 
 app.get("/explore/projects", (req, res) => {
   const projects = readJSON(projectsPath);
-  const published = projects.filter(p => p.visibility === "published" || p.visibility === "public");
+  const published = projects.filter(
+    (p) => p.visibility === "published" || p.visibility === "public",
+  );
   res.json(published);
 });
 
@@ -132,7 +163,7 @@ app.get("/explore/projects/:id", (req, res) => {
   res.json(project);
 });
 
-// playtest 
+// playtest
 app.get("/playtests", (req, res) => {
   const playtests = readJSON(playtestsPath);
   res.json(playtests);
@@ -142,10 +173,12 @@ app.post("/playtests", (req, res) => {
   const playtests = readJSON(playtestsPath);
   const { projectId } = req.body;
 
-  if (!projectId) return res.status(400).json({ error: "projectId is required" });
+  if (!projectId)
+    return res.status(400).json({ error: "projectId is required" });
 
   const already = playtests.find((p) => p.projectId == projectId);
-  if (already) return res.status(409).json({ error: "Already joined this playtest" });
+  if (already)
+    return res.status(409).json({ error: "Already joined this playtest" });
 
   const projects = readJSON(projectsPath);
   const project = projects.find((p) => p.id == projectId);
@@ -179,6 +212,4 @@ app.delete("/playtests/:projectId", (req, res) => {
   res.json({ message: "Left playtest successfully" });
 });
 
-
 export default app;
-
