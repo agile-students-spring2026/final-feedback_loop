@@ -9,21 +9,31 @@ const PlayerPlaytest = () => {
   const navigate = useNavigate();
   const [playtests, setPlaytests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeForms, setActiveForms] = useState([]);
 
   useEffect(() => {
-    const fetchPlaytests = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch(`${API}/playtests`);
-        const data = await res.json();
-        setPlaytests(data);
+        const playtestRes = await fetch(`${API}/playtests`);
+        const playtestData = await playtestRes.json();
+        setPlaytests(playtestData);
+
+        const feedbackResults = await Promise.all(
+          playtestData.map((p) =>
+            fetch(`${API}/feedback/${p.projectId}`).then((r) => r.json()),
+          ),
+        );
+
+        const allFeedbacks = feedbackResults.flat();
+        setActiveForms(allFeedbacks.filter((f) => f.status === "Active"));
       } catch (err) {
-        console.error("Failed to load playtests:", err);
+        console.error("Failed to load data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPlaytests();
+    fetchData();
   }, []);
 
   const handleLeave = async (projectId) => {
@@ -35,7 +45,12 @@ const PlayerPlaytest = () => {
     }
   };
 
-  if (loading) return <AppLayout><p style={{ padding: 40 }}>Loading...</p></AppLayout>;
+  if (loading)
+    return (
+      <AppLayout>
+        <p style={{ padding: 40 }}>Loading...</p>
+      </AppLayout>
+    );
 
   return (
     <AppLayout>
@@ -49,35 +64,49 @@ const PlayerPlaytest = () => {
         </div>
       ) : (
         <div className="libraryGrid">
-          {playtests.map((game) => (
-            <div key={game.id} className="libraryCard">
-              <img
-                src={game.coverPreview || "https://picsum.photos/seed/alpha/300/200"}
-                alt={game.title}
-                className="thumbBox"
-              />
-              <div className="libraryBody">
-                <div>
-                  <div className="libraryTop">
-                    <span>{game.title}</span>
-                    <span className="versionBox">{game.version}</span>
+          {playtests.map((game) => {
+            const activeForm = activeForms.find(f => f.projectId == game.projectId);
+            return (
+              <div key={game.id} className="libraryCard">
+                <img
+                  src={
+                    game.coverPreview ||
+                    "https://picsum.photos/seed/alpha/300/200"
+                  }
+                  alt={game.title}
+                  className="thumbBox"
+                />
+                <div className="libraryBody">
+                  <div>
+                    <div className="libraryTop">
+                      <span>{game.title}</span>
+                      <span className="versionBox">{game.version}</span>
+                    </div>
+                    <div className="statusBox">
+                      <span className="statusText">Registered</span>
+                    </div>
                   </div>
-                  <div className="statusBox">
-                    <span className="statusText">Registered</span>
+                  <div className="btnGroup">
+                    <button className="btn btnPrimary">Launch</button>
+                    {activeForm  && (
+                      <button
+                        className="btn"
+                        onClick={() => navigate(`/feedback-form/${activeForm.formId}`)}
+                      >
+                        Leave Feedback
+                      </button>
+                    )}
+                    <button
+                      className="btn"
+                      onClick={() => handleLeave(game.projectId)}
+                    >
+                      Leave
+                    </button>
                   </div>
-                </div>
-                <div className="btnGroup">
-                  <button className="btn btnPrimary">Launch</button>
-                  <button className="btn" onClick={() => navigate("/feedback-form")}>
-                    Leave Feedback
-                  </button>
-                  <button className="btn" onClick={() => handleLeave(game.projectId)}>
-                    Leave
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </AppLayout>

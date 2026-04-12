@@ -1,52 +1,50 @@
 {
-  "title": "Pixel Blaster",
-  "questions": [
-    {
-      "id": 1,
-      "type": "mcq",
-      "question": "How do you like the game?",
-      "options": ["Love it", "It's okay", "Hate it"]
-    },
-    {
-      "id": 2,
-      "type": "rating",
-      "question": "Rate this game (1-5)",
-      "min": 1,
-      "max": 5
-    },
-    {
-      "id": 3,
-      "type": "text",
-      "question": "What would you improve?"
-    }
-  ],
+  "id": 2,
   "submissions": [
-    {
-      "username": "jania",
-      "date": "2026-04-10",
-      "answers": {
-        "1": "Love it",
-        "2": 5,
-        "3": "Add multiplayer"
-      }
-    },
-    {
-      "username": "alex",
-      "date": "2026-04-10",
-      "answers": {
-        "1": "It's okay",
-        "2": 3,
-        "3": "Better graphics"
-      }
-    },
-    {
-      "username": "sam",
-      "date": "2026-04-11",
-      "answers": {
-        "1": "Love it",
-        "2": 4,
-        "3": "More levels"
-      }
+  {
+    "username": "morgan",
+    "date": "2026-04-12",
+    "answers": {
+      "1": "Gameplay Mechanics",
+      "2": 4,
+      "3": "The controls feel a bit stiff, would love smoother movement"
     }
-  ]
+  },
+  {
+    "username": "riley",
+    "date": "2026-04-12",
+    "answers": {
+      "1": "Visual Design",
+      "2": 5,
+      "3": "Maybe add a colorblind mode"
+    }
+  },
+  {
+    "username": "jordan",
+    "date": "2026-04-12",
+    "answers": {
+      "1": "Gameplay Mechanics",
+      "2": 3,
+      "3": "The difficulty spikes too fast in later levels"
+    }
+  },
+  {
+    "username": "casey",
+    "date": "2026-04-12",
+    "answers": {
+      "1": "Visual Design",
+      "2": 5,
+      "3": "Would love more customization options for the character"
+    }
+  },
+  {
+    "username": "drew",
+    "date": "2026-04-12",
+    "answers": {
+      "1": "Gameplay Mechanics",
+      "2": 4,
+      "3": "Add a tutorial for new players"
+    }
+  }
+]
 }
