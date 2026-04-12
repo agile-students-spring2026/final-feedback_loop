@@ -31,7 +31,6 @@ app.use("/createprojects", createProjectRoutes);
 app.use("/createfeedback", createFeedbackFormRoutes);
 app.use("/options", optionsRoutes); 
 
-/* ---------------- HELPER FUNCTIONS ---------------- */
 
 const readJSON = (filePath) => {
   if (!fs.existsSync(filePath)) return [];
