@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
+
+import createProjectRoutes from "./p5-routes/createProject.js";
+import createFeedbackFormRoutes from "./p5-routes/createFeedback.js";
+import optionsRoutes from "./p5-routes/options.js";
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -15,9 +19,17 @@ const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
 const playtestsPath = path.join(__dirname, "playtests.json");
 
+// mongoose
+//   .connect(process.env.DB_CONNECTION_STRING)
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`));
+
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use("/createprojects", createProjectRoutes);
+app.use("/createfeedback", createFeedbackFormRoutes);
+app.use("/options", optionsRoutes); 
 
 /* ---------------- HELPER FUNCTIONS ---------------- */
 
@@ -29,6 +41,7 @@ const readJSON = (filePath) => {
 const writeJSON = (filePath, data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 };
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });

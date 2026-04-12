@@ -1,80 +1,252 @@
 [
   {
-    "id": 3,
-    "name": "Puzzle Quest",
-    "description": "Solve intricate puzzles to unlock new worlds.",
-    "genre": "Puzzle",
+    "id": 1,
+    "userId": "user_001",
+    "title": "Dreamwalker",
+    "lastUpdated": "04/10/2026",
+    "description": "Sample description...",
+    "genre": {
+      "value": "Adventure",
+      "label": "Adventure"
+    },
     "tags": [
-      "logic",
-      "singleplayer",
-      "brain"
+      {
+        "value": "puzzle",
+        "label": "puzzle"
+      },
+      {
+        "value": "2D",
+        "label": "2D"
+      },
+      {
+        "value": "visual-novel",
+        "label": "visual-novel"
+      }
     ],
-    "status": "Draft",
-    "lastUpdated": "2026-04-05"
+    "coverImage": null,
+    "coverPreview": "https://sm.pcmag.com/pcmag_me/review/g/google-pla/google-play-games_w6hm.jpg",
+    "uploadType": "url",
+    "uploadFile": null,
+    "uploadUrl": "https://example.com/my-project-build",
+    "visibility": "draft",
+    "createdAt": "2026-03-30T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "userId": "user_002",
+    "title": "Shadow Circuit",
+    "lastUpdated": "04/02/2026",
+    "description": "A cyberpunk stealth puzzle game where you hack your way through neon-lit corridors.",
+    "genre": {
+      "value": "Strategy",
+      "label": "Strategy"
+    },
+    "tags": [
+      {
+        "value": "pixel-art",
+        "label": "pixel-art"
+      },
+      {
+        "value": "puzzle",
+        "label": "puzzle"
+      },
+      {
+        "value": "Horror",
+        "label": "Horror"
+      }
+    ],
+    "coverImage": null,
+    "coverPreview": "https://sm.pcmag.com/pcmag_me/review/g/google-pla/google-play-games_w6hm.jpg",
+    "uploadType": "download",
+    "uploadFile": "shadow-circuit-v0.1.zip",
+    "uploadUrl": "",
+    "visibility": "public",
+    "createdAt": "2026-04-02T00:00:00Z"
   },
   {
     "id": 4,
-    "name": "Battle Arena",
-    "description": "Compete against players in real-time battles.",
-    "genre": "Action",
+    "title": "Puzzle Quest",
+    "description": "Solve intricate puzzles to unlock new worlds.",
+    "genre": {
+      "value": "Puzzle",
+      "label": "Puzzle"
+    },
     "tags": [
-      "pvp",
-      "multiplayer",
-      "ranked"
+      {
+        "value": "logic",
+        "label": "logic"
+      },
+      {
+        "value": "singleplayer",
+        "label": "singleplayer"
+      },
+      {
+        "value": "brain",
+        "label": "brain"
+      }
     ],
-    "status": "In Progress",
-    "lastUpdated": "2026-04-03"
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "draft",
+    "lastUpdated": "04/05/2026",
+    "createdAt": "2026-04-05T00:00:00.000Z"
   },
   {
     "id": 5,
-    "name": "Mystery Manor",
-    "description": "Explore a haunted mansion and uncover secrets.",
-    "genre": "Adventure",
+    "title": "Battle Arena",
+    "description": "Compete against players in real-time battles.",
+    "genre": {
+      "value": "Action",
+      "label": "Action"
+    },
     "tags": [
-      "story",
-      "exploration",
-      "mystery"
+      {
+        "value": "pvp",
+        "label": "pvp"
+      },
+      {
+        "value": "multiplayer",
+        "label": "multiplayer"
+      },
+      {
+        "value": "ranked",
+        "label": "ranked"
+      }
     ],
-    "status": "Draft",
-    "lastUpdated": "2026-04-02"
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "published",
+    "lastUpdated": "04/03/2026",
+    "createdAt": "2026-04-03T00:00:00.000Z"
   },
   {
     "id": 6,
-    "name": "Sky Kingdom",
-    "description": "Build and manage a floating kingdom in the sky.",
-    "genre": "Simulation",
+    "title": "Mystery Manor",
+    "description": "Explore a haunted mansion and uncover secrets.",
+    "genre": {
+      "value": "Adventure",
+      "label": "Adventure"
+    },
     "tags": [
-      "building",
-      "management",
-      "creative"
+      {
+        "value": "story",
+        "label": "story"
+      },
+      {
+        "value": "exploration",
+        "label": "exploration"
+      },
+      {
+        "value": "mystery",
+        "label": "mystery"
+      }
     ],
-    "status": "In Progress",
-    "lastUpdated": "2026-03-30"
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "draft",
+    "lastUpdated": "04/02/2026",
+    "createdAt": "2026-04-02T00:00:00.000Z"
   },
   {
     "id": 7,
-    "name": "Racing Rivals",
-    "description": "High-speed racing with customizable cars.",
-    "genre": "Racing",
+    "title": "Sky Kingdom",
+    "description": "Build and manage a floating kingdom in the sky.",
+    "genre": {
+      "value": "Simulation",
+      "label": "Simulation"
+    },
     "tags": [
-      "cars",
-      "multiplayer",
-      "competition"
+      {
+        "value": "building",
+        "label": "building"
+      },
+      {
+        "value": "management",
+        "label": "management"
+      },
+      {
+        "value": "creative",
+        "label": "creative"
+      }
     ],
-    "status": "Completed",
-    "lastUpdated": "2026-03-20"
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "published",
+    "lastUpdated": "03/30/2026",
+    "createdAt": "2026-03-30T00:00:00.000Z"
   },
   {
     "id": 8,
-    "name": "Fantasy Legends",
-    "description": "Embark on an epic RPG journey in a magical world.",
-    "genre": "RPG",
+    "title": "Racing Rivals",
+    "description": "High-speed racing with customizable cars.",
+    "genre": {
+      "value": "Racing",
+      "label": "Racing"
+    },
     "tags": [
-      "fantasy",
-      "quests",
-      "open-world"
+      {
+        "value": "cars",
+        "label": "cars"
+      },
+      {
+        "value": "multiplayer",
+        "label": "multiplayer"
+      },
+      {
+        "value": "competition",
+        "label": "competition"
+      }
     ],
-    "status": "In Progress",
-    "lastUpdated": "2026-04-04"
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "published",
+    "lastUpdated": "03/20/2026",
+    "createdAt": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": 9,
+    "title": "Fantasy Legends",
+    "description": "Embark on an epic RPG journey in a magical world.",
+    "genre": {
+      "value": "RPG",
+      "label": "RPG"
+    },
+    "tags": [
+      {
+        "value": "fantasy",
+        "label": "fantasy"
+      },
+      {
+        "value": "quests",
+        "label": "quests"
+      },
+      {
+        "value": "open-world",
+        "label": "open-world"
+      }
+    ],
+    "coverImage": null,
+    "coverPreview": "",
+    "uploadType": "download",
+    "uploadFile": null,
+    "uploadUrl": "",
+    "visibility": "published",
+    "lastUpdated": "04/04/2026",
+    "createdAt": "2026-04-04T00:00:00.000Z"
   }
 ]
