@@ -69,13 +69,13 @@ const PlayerExplore = () => {
               onClick={() => navigate(`/playtest/${game.id}`)}
             >
               <img
-                src="https://picsum.photos/seed/alpha/300/200"
+                src={game.coverPreview || "https://picsum.photos/seed/alpha/300/200"}
                 alt="preview"
                 className="cardThumb"
               />
               <div className="cardBody">
                 <div className="cardTitleRow">
-                  <h3 className="cardTitle">{game.name}</h3>
+                  <h3 className="cardTitle">{game.title}</h3>
                   {isJoined && <span className="versionBox">ACTIVE</span>}
                 </div>
                 <p className="cardDesc">{game.description}</p>

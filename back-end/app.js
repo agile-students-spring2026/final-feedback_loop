@@ -121,7 +121,8 @@ app.get("/feedback/:projectId", (req, res) => {
 
 app.get("/explore/projects", (req, res) => {
   const projects = readJSON(projectsPath);
-  res.json(projects);
+  const published = projects.filter(p => p.visibility === "published" || p.visibility === "public");
+  res.json(published);
 });
 
 // get project for projectdetails
@@ -154,7 +155,7 @@ app.post("/playtests", (req, res) => {
   const entry = {
     id: Date.now(),
     projectId: project.id,
-    title: project.name,
+    title: project.title,  
     version: "v0.1",
     joined: true,
   };

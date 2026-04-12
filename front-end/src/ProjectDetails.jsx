@@ -48,10 +48,10 @@ const ProjectDetails = () => {
           <div className="top-grid">
             <div className="left-col">
               <div className="section-box">
-                <span className="label">PROJECT NAME: {game.name}</span>
+                <span className="label">PROJECT NAME: {game.title}</span>
                 <img
-                  src="https://picsum.photos/seed/alpha/600/400"
-                  alt={game.name}
+                  src={game.coverPreview || "https://picsum.photos/seed/alpha/600/400"}
+                  alt={game.title}
                   className="project-img"
                 />
               </div>
@@ -60,7 +60,7 @@ const ProjectDetails = () => {
               <div className="config-block">
                 <span className="label">Configuration</span>
                 <div className="dropdown">VERSION: v0.1</div>
-                <div className="dropdown">STATUS: {game.status}</div>
+                <div className="dropdown">STATUS: {game.visibility}</div>
               </div>
               <div className="action-box">
                 <span className="label">Launch Options</span>
