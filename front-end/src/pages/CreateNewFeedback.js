@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function CreateNewFeedback() {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { id } = useParams();
 
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
@@ -68,11 +68,12 @@ function CreateNewFeedback() {
 
   async function handleSaveAndView() {
     try {
+      console.log(id)
       const response = await fetch("http://localhost:7002/createfeedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          projectId: parseInt(projectId),  // 关联到哪个项目
+          projectId: id,  // 关联到哪个项目
           title: title,
           questions: questions,
         }),
