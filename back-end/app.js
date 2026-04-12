@@ -18,6 +18,7 @@ const projectsPath = path.join(__dirname, "projects.json");
 const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
 const playtestsPath = path.join(__dirname, "playtests.json");
+const feedbackResultPath = path.join(__dirname, "feedbackResult.json");
 
 // mongoose
 //   .connect(process.env.DB_CONNECTION_STRING)
@@ -89,6 +90,21 @@ app.get("/devlogs/:projectId", (req, res) => {
     log => log.projectId == req.params.projectId
   );
   res.json(filtered);
+});
+
+// GET feedback results
+app.get("/feedback-result/:id", (req, res) => {
+  const formId = parseInt(req.params.id);
+
+  fs.readFile(feedbackResultPath, "utf-8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read results" });
+
+    const results = data ? JSON.parse(data) : [];
+    const result = results.find(r => r.id === formId);
+
+    if (!result) return res.status(404).json({ error: "Results not found" });
+    res.json(result);
+  });
 });
 
 // POST new dev log

@@ -1,14 +1,33 @@
 import "./ProjectInfo.css";
-import { useNavigate } from "react-router-dom";
-import feedback from "./FeedbackResults.json";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function FeedbackResults() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const total = feedback.submissions.length;
+  const [form, setForm] = useState(null);       // questions
+  const [results, setResults] = useState(null); // submissions
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      fetch(`http://localhost:7002/createfeedback/${id}`).then(r => r.json()),
+      fetch(`http://localhost:7002/feedback-result/${id}`).then(r => r.json()),
+    ]).then(([formData, resultsData]) => {
+      setForm(formData);
+      setResults(resultsData);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+
+  const submissions = results.submissions;
+  const total = submissions.length;
 
   const getAnswers = (id) =>
-    feedback.submissions.map((s) => s.answers[id]);
+    submissions.map((s) => s.answers[id]);
 
   return (
     <div className="container">
@@ -21,28 +40,28 @@ function FeedbackResults() {
         <main className="projMain">
           <div className="projectPage">
 
-            <button className="backButton" onClick={() => navigate(`/devproject/1`)}>
+            <button className="backButton" onClick={() => navigate(`/devproject/${form.projectId}`)}>
               Back
             </button>
 
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Feedback Results for</p>
-                <h1>{feedback.title}</h1>
+                <h1>{form.title}</h1>
                 <p className="lastUpdated">
                   {total} responses collected
                 </p>
               </div>
             </div>
 
-            {feedback.questions.map((q) => {
-              const answers = getAnswers(q.id);
+            {form.questions.map((q, index) => {
+              const answers = getAnswers(index + 1);
 
               return (
                 <section key={q.id} className="projectSection">
-                  <h2>{q.question}</h2>
+                  <h2>{q.title}</h2>
 
-                  {q.type === "mcq" &&
+                  {q.type === "multiple_choice" &&
                     q.options.map((opt) => {
                       const count = answers.filter((a) => a === opt).length;
                       const percent = ((count / total) * 100).toFixed(1);
@@ -54,7 +73,7 @@ function FeedbackResults() {
                       );
                     })}
 
-                  {q.type === "rating" &&
+                  {q.type === "rating_scale" &&
                     [...Array(q.max - q.min + 1)].map((_, i) => {
                       const val = q.min + i;
                       const count = answers.filter((a) => a === val).length;
@@ -67,10 +86,10 @@ function FeedbackResults() {
                       );
                     })}
 
-                  {q.type === "text" &&
-                    feedback.submissions.map((s, i) => (
+                  {q.type === "short_answer" &&
+                    submissions.map((s, i) => (
                       <div key={i} className="logSection">
-                        <p>"{s.answers[q.id]}"</p>
+                        <p>"{answers}"</p>
                         <p className="logAuthor">
                           — {s.username}, {s.date}
                         </p>

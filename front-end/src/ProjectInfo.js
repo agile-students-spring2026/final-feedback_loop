@@ -179,7 +179,7 @@ const handleClose = (formId) => {
                         Reactivate
                       </button>
                     )}
-                    <button onClick={() => navigate("/feedback-results")}>View Responses</button>
+                    <button onClick={() => navigate(`/feedback-results/${f.id}`)}>View Responses</button>
                   </div>
                 </div>
               ))}

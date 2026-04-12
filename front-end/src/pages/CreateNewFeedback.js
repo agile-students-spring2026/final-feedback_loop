@@ -81,7 +81,7 @@ function CreateNewFeedback() {
  
       const newFeedback = await response.json();
       console.log("Created feedback form:", newFeedback);
-      navigate("/feedback-form");
+      navigate(`/feedback-form/${response.id}`);
     } catch (error) {
       console.error("Error creating feedback:", error);
       alert("Failed to save feedback form. Is the backend running?");
