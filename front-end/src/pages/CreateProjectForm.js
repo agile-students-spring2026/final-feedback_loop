@@ -1,7 +1,8 @@
-import { useState, useEffect  } from "react";
+import { useState } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate } from "react-router-dom";
+import { tagOption, genreOption } from "../mockData";
 
 function UploadSection({
   uploadType,
@@ -87,7 +88,6 @@ function CreateProjectForm() {
   const [genre, setGenre] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [coverImage, setCoverImage] = useState(null);
   const [coverPreview, setCoverPreview] = useState("");
 
   const [uploadType, setUploadType] = useState("download");
@@ -96,58 +96,32 @@ function CreateProjectForm() {
 
   const [visibility, setVisibility] = useState("");
 
-  const [tagOption, setTagOption] = useState([]);
-  const [genreOption, setGenreOption] = useState([]);
-
-  useEffect(() => {
-    async function fetchOptions() {
-      try {
-        const response = await fetch("http://localhost:7002/options");
-        const data = await response.json();
-        setTagOption(data.tagOption);
-        setGenreOption(data.genreOption);
-      } catch (error) {
-        console.error("Error fetching options:", error);
-      }
-    }
-    fetchOptions();
-  }, []);
-
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    setCoverImage(file);
 
     const imageUrl = URL.createObjectURL(file);
     setCoverPreview(imageUrl);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
- 
-    try {
-      const response = await fetch("http://localhost:7002/createprojects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: "user_001",   // temp (redo after connect to login system)
-          title,
-          description,
-          genre,
-          tags,
-          visibility,
-          uploadType,
-          uploadUrl,
-          // coverImage and uploadFile are file, use FormData handle it later
-        }),
-      });
- 
-      const newProject = await response.json();
-      navigate(`/devproject/${newProject.id}`);
-    } catch (error) {
-      console.error("Error creating project:", error);
-    }
+    const formData = {
+      name: title,
+      description,
+      genre: typeof genre === "object" ? genre.value : genre,
+      tags: tags.map((t) => (typeof t === "object" ? t.value : t)),
+      status: visibility === "public" ? "PUBLISHED" : "DRAFT",
+    };
+
+    fetch("/projects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => navigate(`/devproject/${data.id}`))
+      .catch((err) => console.error(err));
   };
 
   const handleDiscard = () => {
@@ -160,7 +134,6 @@ function CreateProjectForm() {
     setTags("");
     setVisibility("");
     setUploadType("download");
-    setCoverImage(null);
     setCoverPreview("");
     setUploadFile(null);
     setUploadUrl("");
@@ -175,15 +148,6 @@ function CreateProjectForm() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/devdash")}
-            style={{ cursor: "pointer" }}
-          >
-            Dashboard
-          </span>
-        </div> */}
           <header class="header">
             <h1 class="h1">CREATE A NEW PROJECT!</h1>
           </header>

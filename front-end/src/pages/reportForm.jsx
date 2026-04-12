@@ -8,10 +8,21 @@ import { useNavigate } from "react-router-dom";
 
 function ReportForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [offender, setOffender] = useState("");
+  const [reporter, setReporter] = useState("");
+  const [reason, setReason] = useState("");
   const nav = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+
+    fetch("/reports", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ offender, reporter, reason }),
+    })
+      .then((res) => res.json())
+      .then(() => setIsSubmitted(true))
+      .catch((err) => console.error(err));
   };
   const handleClose = () => {
     setIsSubmitted(false);
@@ -30,12 +41,21 @@ function ReportForm() {
               <InfoInput
                 variant="single"
                 placeholderText="Offender's account code"
+                value={offender}
+                onChange={(e) => setOffender(e.target.value)}
               />
-              <InfoInput variant="single" placeholderText="Your account code" />
+              <InfoInput
+                variant="single"
+                placeholderText="Your account code"
+                value={reporter}
+                onChange={(e) => setReporter(e.target.value)}
+              />
               <div className={styles.inputWrapper}>
                 <textarea
                   className={styles.textarea}
                   placeholder="State your reasoning"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
                 />
               </div>
               <div className={styles.buttonWrapper}>

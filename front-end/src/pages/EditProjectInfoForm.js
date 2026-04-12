@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { tagOption, genreOption } from "../mockData";
 
 function UploadSection({
   uploadType,
@@ -88,7 +89,6 @@ function EditProjectInfo() {
   const [genre, setGenre] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [coverImage, setCoverImage] = useState(null);
   const [coverPreview, setCoverPreview] = useState("");
 
   const [uploadType, setUploadType] = useState("download");
@@ -97,108 +97,58 @@ function EditProjectInfo() {
 
   const [visibility, setVisibility] = useState("");
 
-  const [originalProject, setOriginalProject] = useState(null);
-
-  const [tagOption, setTagOption] = useState([]);
-  const [genreOption, setGenreOption] = useState([]);
-
   useEffect(() => {
-    async function fetchOptions() {
-      try {
-        const response = await fetch("http://localhost:7002/options");
-        const data = await response.json();
-        setTagOption(data.tagOption);
-        setGenreOption(data.genreOption);
-      } catch (error) {
-        console.error("Error fetching options:", error);
-      }
-    }
-    fetchOptions();
-  }, []);
-
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const response = await fetch(`http://localhost:7002/projects/${id}`);
-        const project = await response.json();
-
-        setTitle(project.title);
-        setDescription(project.description);
-        setGenre(project.genre);
-        setTags(project.tags);
-        setCoverImage(project.coverImage);
-        setCoverPreview(project.coverPreview);
-        setUploadType(project.uploadType);
-        setUploadFile(project.uploadFile);
-        setUploadUrl(project.uploadUrl);
-        setVisibility(project.visibility);
-
-        setOriginalProject(project);
-      } catch (error) {
-        console.error("Error fetching project:", error);
-      }
-    }
-
-    fetchProject();
+    fetch(`/projects/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTitle(data.name || "");
+        setDescription(data.description || "");
+        setGenre(
+          data.genre ? { value: data.genre, label: data.genre } : ""
+        );
+        setTags(
+          (data.tags || []).map((t) => ({ value: t, label: t }))
+        );
+        setCoverPreview(data.coverPreview || "");
+        setVisibility(data.status === "PUBLISHED" ? "public" : "draft");
+      })
+      .catch((err) => console.error(err));
   }, [id]);
 
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setCoverImage(file);
-
     const imageUrl = URL.createObjectURL(file);
     setCoverPreview(imageUrl);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = {
+      name: title,
+      description,
+      genre: typeof genre === "object" ? genre.value : genre,
+      tags: tags.map((t) => (typeof t === "object" ? t.value : t)),
+      status: visibility === "public" ? "PUBLISHED" : "DRAFT",
+    };
 
-    try {
-      const response = await fetch(
-        `http://localhost:7002/createprojects/${id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            description,
-            genre,
-            tags,
-            visibility,
-            uploadType,
-            uploadUrl,
-          }),
-        },
-      );
-
-      navigate(`/devproject/${originalProject.id}`);
-    } catch (error) {
-      console.error("Error updating project:", error);
-      alert("Failed to update project. Is the backend running?");
-    }
+    fetch(`/projects/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then(() => navigate(`/devproject/${id}`))
+      .catch((err) => console.error(err));
   };
 
   const handleDiscard = () => {
     const confirmReset = window.confirm(
-      "Discard all changes and restore original project info?",
+      "Discard all changes and restore original project info?"
     );
     if (!confirmReset) return;
-
-    if (originalProject) {
-      setTitle(originalProject.title);
-      setDescription(originalProject.description);
-      setGenre(originalProject.genre);
-      setTags(originalProject.tags);
-      setVisibility(originalProject.visibility);
-      setUploadType(originalProject.uploadType);
-      setCoverImage(originalProject.coverImage);
-      setCoverPreview(originalProject.coverPreview);
-      setUploadFile(originalProject.uploadFile);
-      setUploadUrl(originalProject.uploadUrl);
-    }
-    navigate(`/devproject/${originalProject.id}`);
+    navigate(`/devproject/${id}`);
   };
 
   return (
@@ -209,15 +159,6 @@ function EditProjectInfo() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
           <header class="header">
             <h1 class="h1">EDIT PROJECT INFORMATION</h1>
           </header>

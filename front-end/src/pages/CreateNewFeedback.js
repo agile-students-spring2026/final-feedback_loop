@@ -9,13 +9,12 @@ import { useNavigate, useParams } from "react-router-dom";
 function CreateNewFeedback() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showSelector, setShowSelector] = useState(false);
 
   function generateId() {
-    return Date.now(); //might need to change
+    return Date.now();
   }
 
   function createQuestion(type) {
@@ -66,28 +65,21 @@ function CreateNewFeedback() {
     setQuestions((prev) => prev.filter((q) => q.id !== id));
   }
 
-  async function handleSaveAndView() {
-    try {
-      console.log(id)
-      const response = await fetch("http://localhost:7002/createfeedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          projectId: id,  // 关联到哪个项目
-          title: title,
-          questions: questions,
-        }),
-      });
- 
-      const newFeedback = await response.json();
-      console.log("Created feedback form:", newFeedback);
-      navigate(`/feedback-form/${response.id}`);
-    } catch (error) {
-      console.error("Error creating feedback:", error);
-      alert("Failed to save feedback form. Is the backend running?");
-    }
+  function handleSaveAndView() {
+    fetch("/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        projectId: id,
+        title: title,
+        questions: questions,
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => navigate("/feedback-form"))
+      .catch((err) => console.error(err));
   }
-  
+
   function handleDiscard() {
     const confirmDiscard = window.confirm(
       "Are you sure you want to discard all changes?",
@@ -98,7 +90,7 @@ function CreateNewFeedback() {
     setTitle("");
     setQuestions([]);
     setShowSelector(false);
-    navigate("/project");
+    navigate(`/devproject/${id}`);
   }
 
   return (
@@ -109,15 +101,6 @@ function CreateNewFeedback() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
           <header class="header">
             <h1 class="h1">Create a New Feedback Form</h1>
           </header>
