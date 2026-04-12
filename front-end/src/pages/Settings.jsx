@@ -17,13 +17,15 @@ const MOCK_PICSUM = [
 ];
 
 function SettingsPage() {
-  fetch("/data/settings");
-  const [username, setUsername] = useState("Username");
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    profilePic: "/blank-pfp.png",
+  });
   const [accButtonText, setAccButtonText] = useState("Account Code");
   const [clicked, setClicked] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
-  const [currPfp, setCurrPfp] = useState("/blank-pfp.png");
   const [tempPfp, setTempPfp] = useState(false);
 
   const nav = useNavigate();
@@ -59,49 +61,60 @@ function SettingsPage() {
 
   const handlePfp = async () => {
     if (tempPfp) {
-      setCurrPfp(tempPfp);
       await fetch("/data/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ profilePic: tempPfp }),
       });
+      setUser((prev) => ({ ...prev, profilePic: tempPfp }));
     }
     setIsSelect(false);
   };
 
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+
   const handleInfoSubmit = async (e) => {
     e.preventDefault();
-    const newUsername = e.target.elements.usernameField.value;
-    const newPassword = e.target.elements.passwordField.value;
+    const formData = new FormData(e.currentTarget);
+    const newUsername = formData.get("usernameField");
+    const newPassword = formData.get("passwordField");
 
-    try {
-      const response = await fetch("/data/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: newUsername, password: newPassword }),
-      });
-
-      if (response.ok) {
-        setUsername(newUsername);
-        alert("Settings saved!");
+    const response = await fetch("/data/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: currentUser.id,
+        username: newUsername,
+        password: newPassword,
+      }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert(data.message);
+      if (newUsername) {
+        const updated = { ...currentUser, username: newUsername };
+        localStorage.setItem("currentUser", JSON.stringify(updated));
+        setUser((prev) => ({ ...prev, username: newUsername }));
       }
-    } catch (err) {
-      console.error("Failed to save settings");
     }
   };
 
   useEffect(() => {
-    fetch("/data/settings")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsername(data.username);
-        if (data.profilePic) {
-          setCurrPfp(data.profilePic);
-        } else {
-          setCurrPfp("/blank-pfp.png");
-        }
-      })
-      .catch((err) => console.error("Error fetching settings:", err));
+    const loadData = async () => {
+      const userRes = await fetch(`/data/settings?userId=${currentUser.id}`);
+      const userData = await userRes.json();
+
+      const settingsRes = await fetch("/data/settingsdata");
+      const settingsData = await settingsRes.json();
+
+      setUser({
+        username: userData.username || "",
+        password: "",
+        profilePic: settingsData.profilePic || "/blank-pfp.png",
+      });
+    };
+
+    loadData();
   }, []);
 
   return (
@@ -116,7 +129,7 @@ function SettingsPage() {
             <div className="pfpWrapper" onClick={() => setIsSelect(true)}>
               <img
                 className={styles.img}
-                src={isSelect ? tempPfp || currPfp : currPfp}
+                src={isSelect ? tempPfp || user.profilePic : user.profilePic}
                 alt="Avatar"
               />
             </div>
@@ -125,12 +138,12 @@ function SettingsPage() {
                 Confirm
               </Button>
             ) : (
-              <p className={styles.user}>{username}</p>
+              <p className={styles.user}>{user.username}</p>
             )}
           </Outline>
           <Outline variant="settings">
             {!isSelect ? (
-              <form action="/signin" method="POST" onSubmit={handleInfoSubmit}>
+              <form onSubmit={handleInfoSubmit}>
                 <Outline variant="info" legendText="Account Info">
                   <div className={styles.info}>
                     <p className={styles.p}>Change Username:</p>

@@ -22,7 +22,7 @@ function Register() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:7002/auth/register", {
+      const response = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,7 +80,7 @@ function Register() {
                 autoComplete="new-password"
               />
             </div>
-            {error && <p className={styles2.errorMsg}>{error}</p>}
+            {error && <p className={styles.errorMsg}>{error}</p>}
             <div className={styles.buttonWrapper}>
               <Button type="submit" variant="settings">
                 Join Us!

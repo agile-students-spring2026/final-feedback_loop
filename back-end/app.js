@@ -46,16 +46,39 @@ app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });
 });
 
-app.get("/data/settings", (req, res) => {
+app.get("/data/settingsdata", (req, res) => {
   const data = readJSON(settingsPath);
   res.json(data.settings || {});
 });
 
-app.post("/data/settings", (req, res) => {
-  let data = readJSON(settingsPath);
-  data.settings = { ...data.settings, ...req.body };
+app.post("/data/settingsdata", (req, res) => {
+  const { profilePic } = req.body;
+  const data = readJSON(settingsPath);
+  if (profilePic) data.settings.profilePic = profilePic;
   writeJSON(settingsPath, data);
-  res.json({ success: true });
+  res.status(200).json({ message: "Profile pic updated!" });
+});
+
+app.get("/data/settings", (req, res) => {
+  const userId = parseInt(req.query.userId);
+  const users = readJSON(usersPath);
+  const user = users.find((u) => u.id === userId);
+  if (!user) return res.status(404).json({ message: "User not found" });
+  const { password, ...safeUser } = user;
+  res.json(safeUser);
+});
+
+app.post("/data/settings", (req, res) => {
+  const { userId, username, password } = req.body;
+  const users = readJSON(usersPath);
+  const userIndex = users.findIndex((u) => u.id === userId);
+  if (userIndex === -1)
+    return res.status(404).json({ message: "User not found" });
+
+  if (username) users[userIndex].username = username;
+  if (password) users[userIndex].password = password;
+  writeJSON(usersPath, users);
+  res.status(200).json({ message: "Settings updated!" });
 });
 
 app.post("/auth/register", (req, res) => {

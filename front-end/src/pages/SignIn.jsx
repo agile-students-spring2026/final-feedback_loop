@@ -16,7 +16,7 @@ function SignIn() {
     const password = e.target.password.value;
 
     try {
-      const response = await fetch("http://localhost:7002/auth/login", {
+      const response = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -25,10 +25,10 @@ function SignIn() {
       const data = await response.json();
 
       if (data.success) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("currentUser", JSON.stringify(data.user));
         navigate("/explore");
       } else {
-        setError("Unable to sign in");
+        setError("Invalid sign in");
       }
     } catch (err) {
       setError("Try again");
@@ -60,7 +60,8 @@ function SignIn() {
                 placeholderText="Password"
                 required
               />
-            </div>
+            </div>{" "}
+            {error && <p className={styles.errorMsg}>{error}</p>}
             <div className={styles.buttonWrapper}>
               <Button type="submit" variant="settings">
                 Jump in!

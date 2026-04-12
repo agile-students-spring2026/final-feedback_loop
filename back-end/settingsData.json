@@ -1,7 +1,5 @@
 {
   "settings": {
-    "username": "sawd",
-    "profilePic": "/blank-pfp.png",
-    "password": "hello"
+    "profilePic": "https://picsum.photos/200"
   }
 }
