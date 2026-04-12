@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
           formId: newId,
           projectId,
           title,
-          status: "Open",
+          status: "Draft",
           responseCount: 0
         };
 
@@ -52,5 +52,32 @@ router.post("/", (req, res) => {
     });
   });
 });
+
+router.patch("/:id/status", (req, res) => {
+  const { status } = req.body;
+  const formId = parseInt(req.params.id);
+
+  fs.readFile(summaryFilePath, "utf-8", (err, data) => {
+    const feedbacks = data ? JSON.parse(data) : [];
+    const index = feedbacks.findIndex(f => f.id === formId);
+    feedbacks[index].status = status;
+
+    fs.writeFile(summaryFilePath, JSON.stringify(feedbacks, null, 2), () => {
+      res.json(feedbacks[index]);
+    });
+  });
+});
+
+router.get("/:id", (req, res) => {
+  const formId = parseInt(req.params.id);
+  fs.readFile(formFilePath, "utf-8", (err, data) => {
+    const forms = data ? JSON.parse(data) : [];
+    const form = forms.find(f => f.id === formId);
+    if (!form) return res.status(404).json({ error: "Form not found" });
+    res.json(form);
+  });
+});
+
+
 
 export default router;

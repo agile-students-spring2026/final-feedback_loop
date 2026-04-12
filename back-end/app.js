@@ -146,6 +146,21 @@ app.get("/devlogs/:projectId", (req, res) => {
   res.json(filtered);
 });
 
+// GET feedback results
+app.get("/feedback-result/:id", (req, res) => {
+  const formId = parseInt(req.params.id);
+
+  fs.readFile(feedbackResultPath, "utf-8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read results" });
+
+    const results = data ? JSON.parse(data) : [];
+    const result = results.find((r) => r.id === formId);
+
+    if (!result) return res.status(404).json({ error: "Results not found" });
+    res.json(result);
+  });
+});
+
 // POST new dev log
 app.post("/devlogs", (req, res) => {
   const logs = readJSON(devlogsPath);
@@ -165,7 +180,8 @@ app.get("/feedback/:projectId", (req, res) => {
   const feedback = readJSON(feedbackPath);
 
   const result = feedback.filter((f) => f.projectId == req.params.projectId);
-  res.json(result || {});
+
+  res.json(result);
 });
 
 // explore

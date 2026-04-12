@@ -11,26 +11,54 @@ function ProjectInfo() {
 
   const [project, setProject] = useState({});
   const [devLogs, setDevLogs] = useState([]);
-  const [feedback, setFeedback] = useState({});
-  
+  const [feedback, setFeedback] = useState([]);
 
+  const handleActivate = (formId) => {
+  const hasActive = feedback.some(f => f.status === "Active");
+  if (hasActive) {
+    alert("There is already an active feedback form for this project. Please close it first.");
+    return;
+  }
+
+  fetch(`http://localhost:7002/createfeedback/${formId}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: "Active" })
+  })
+    .then(res => res.json())
+    .then(updated => {
+      setFeedback(prev => prev.map(f => f.id === formId ? updated : f));
+    });
+};
+
+const handleClose = (formId) => {
+  fetch(`http://localhost:7002/createfeedback/${formId}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: "Closed" })
+  })
+    .then(res => res.json())
+    .then(updated => {
+      setFeedback(prev => prev.map(f => f.id === formId ? updated : f));
+    });
+};
 
   useEffect(() => {
-  // project
-  fetch(`http://localhost:7002/projects/${id}`)
-    .then(res => res.json())
-    .then(setProject);
+    // project
+    fetch(`http://localhost:7002/projects/${id}`)
+      .then((res) => res.json())
+      .then(setProject);
 
-  // dev logs
-  fetch(`http://localhost:7002/devlogs/${id}`)
-    .then(res => res.json())
-    .then(setDevLogs);
+    // dev logs
+    fetch(`http://localhost:7002/devlogs/${id}`)
+      .then((res) => res.json())
+      .then(setDevLogs);
 
-  // feedback
-  fetch(`http://localhost:7002/feedback/${id}`)
-    .then(res => res.json())
-    .then(setFeedback);
-}, [id]);
+    // feedback
+    fetch(`http://localhost:7002/feedback/${id}`)
+      .then((res) => res.json())
+      .then(setFeedback);
+  }, [id]);
 
   return (
     <div className="container">
@@ -49,7 +77,9 @@ function ProjectInfo() {
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
                 <h1>{project.title}</h1>
-                <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
+                <p className="lastUpdated">
+                  Last updated: {project.lastUpdated}
+                </p>
               </div>
 
               <img src={projectImg} alt="Project Icon" className="projIcon" />
@@ -66,31 +96,36 @@ function ProjectInfo() {
               </p>
 
               <p>
-                <strong>Tag:</strong> {project.tags?.map(t => t.label).join(", ")}
+                <strong>Tag:</strong>{" "}
+                {project.tags?.map((t) => t.label).join(", ")}
               </p>
 
               <p>
                 <strong>Status:</strong> {project.status}
               </p>
 
-              <button className="plainButton" onClick={() => navigate(`/editProjectInfo/${id}`)}>Edit project info</button>
+              <button
+                className="plainButton"
+                onClick={() => navigate(`/editProjectInfo/${id}`)}
+              >
+                Edit project info
+              </button>
               <button
                 className="plainButton"
                 onClick={() => {
-                const confirmDelete = window.confirm(
-                  "Are you sure you want to delete this project?"
-                );
+                  const confirmDelete = window.confirm(
+                    "Are you sure you want to delete this project?",
+                  );
 
-                if (!confirmDelete) return;
+                  if (!confirmDelete) return;
 
-                fetch(`http://localhost:7002/projects/${id}`, {
-                  method: "DELETE"
-                })
-                  .then(() => {
+                  fetch(`http://localhost:7002/projects/${id}`, {
+                    method: "DELETE",
+                  }).then(() => {
                     alert("Your project has been deleted!");
                     navigate(`/devdash`);
                   });
-              }}
+                }}
               >
                 Delete Project
               </button>
@@ -120,27 +155,45 @@ function ProjectInfo() {
 
             <section className="projectSection">
               <h2>Feedback</h2>
-              <div className="feedbackSection">
 
-                <div className="formTitle">{feedback.title}</div>
+              {feedback.map((f) => (
+                <div className="feedbackSection" key={f.id}>
+                  <div className="formTitle">{f.title}</div>
 
-                <div className="formStats">
-                  <span>Status: {feedback.status}</span>
-                  <span>Responses: {feedback.responses}</span>
+                  <div className="formStats">
+                    <span>Status: {f.status}</span>
+                    <span>Responses: {f.responseCount}</span>
+                  </div>
+
+                  <div className="feedbackActions">
+                    {f.status === "Draft" && (
+                      <button onClick={() => handleActivate(f.id)}>
+                        Activate
+                      </button>
+                    )}
+                    {f.status === "Active" && (
+                      <button onClick={() => handleClose(f.id)}>Close</button>
+                    )}
+                    {f.status === "Closed" && (
+                      <button onClick={() => handleActivate(f.id)}>
+                        Reactivate
+                      </button>
+                    )}
+                    <button onClick={() => navigate(`/feedback-results/${f.id}`)}>View Responses</button>
+                  </div>
                 </div>
+              ))}
 
-                <div className="feedbackActions">
-                  <button>Close</button>
-                  <button>View Responses</button>
-                </div>
-              </div>
-
-              <button className="plainButton" onClick={() => navigate(`/createNewFeedback/${id}`)}>Create New Form</button>
+              <button
+                className="plainButton"
+                onClick={() => navigate(`/createNewFeedback/${id}`)}
+              >
+                Create New Form
+              </button>
             </section>
           </div>
         </main>
       </div>
-
     </div>
   );
 }
