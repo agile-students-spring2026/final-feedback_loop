@@ -1,22 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FollowingPage.css";
 import AppLayout from "./AppLayout";
-import { followedGames } from "./mockData";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
-  const [games, setGames] = useState(followedGames);
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    fetch("/following")
+      .then((res) => res.json())
+      .then(setGames)
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleFollow = (id) => {
-    setGames(
-      games.map((game) => {
-        if (game.id === id) {
-          return { ...game, following: !game.following };
-        }
-        return game;
-      })
-    );
+    const game = games.find((g) => g.id === id);
+    if (!game) return;
+
+    const updated = { ...game, following: !game.following };
+
+    fetch(`/following/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    }).catch((err) => console.error(err));
+
+    setGames(games.map((g) => (g.id === id ? updated : g)));
   };
 
   return (
@@ -30,7 +40,11 @@ const FollowingPage = () => {
           {games.map((game) => (
             <div key={game.id} className="followCard">
               <div className="followCardTop">
-                <img src={game.image} alt={game.title} className="followCardImg" />
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  className="followCardImg"
+                />
                 <div className="followCardInfo">
                   <div className="followCardTitleRow">
                     <span

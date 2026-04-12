@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NotificationCenter.css";
 import AppLayout from "./AppLayout";
-import { notifications as notifData, projectUpdates as updateData } from "./mockData";
 
 const NotificationCenter = () => {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState(notifData);
-  const [projectUpdates] = useState(updateData);
+  const [notifications, setNotifications] = useState([]);
+  const [projectUpdates, setProjectUpdates] = useState([]);
+
+  useEffect(() => {
+    fetch("/notifications")
+      .then((res) => res.json())
+      .then(setNotifications)
+      .catch((err) => console.error(err));
+
+    fetch("/updates")
+      .then((res) => res.json())
+      .then(setProjectUpdates)
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleDismiss = (id) => {
+    fetch(`/notifications/${id}`, { method: "DELETE" })
+      .catch((err) => console.error(err));
     setNotifications(notifications.filter((n) => n.id !== id));
   };
 
@@ -26,7 +39,7 @@ const NotificationCenter = () => {
             <span className="notifMessage">{notification.message}</span>
             <div className="notifActions">
               {notification.type === "feedback" && (
-                <button 
+                <button
                   className="notifBtn notifBtnPrimary"
                   onClick={() => navigate("/game-feedback")}
                 >
@@ -45,13 +58,22 @@ const NotificationCenter = () => {
 
         <div className="notifSectionHeader">
           <h2 className="notifSectionTitle">Followed Project Updates</h2>
-          <button className="notifBtn notifBtnPrimary" onClick={() => navigate("/following")}>SEE ALL</button>
+          <button
+            className="notifBtn notifBtnPrimary"
+            onClick={() => navigate("/following")}
+          >
+            SEE ALL
+          </button>
         </div>
 
         {projectUpdates.map((project) => (
           <div key={project.id} className="notifCard">
             <div className="notifCardTop">
-              <img src={project.image} alt={project.title} className="notifCardImg" />
+              <img
+                src={project.image}
+                alt={project.title}
+                className="notifCardImg"
+              />
               <div className="notifCardInfo">
                 <div className="notifCardTitleRow">
                   <span

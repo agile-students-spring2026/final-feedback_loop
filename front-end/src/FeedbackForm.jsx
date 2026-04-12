@@ -29,7 +29,17 @@ const FeedbackForm = () => {
   };
 
   const handleSubmit = () => {
-    navigate("/game-feedback");
+    fetch("/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        player: "You",
+        text: `Q1: ${answers.q1}, Q2: ${answers.q2}, Q3: ${answers.q3}`,
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => navigate("/game-feedback"))
+      .catch((err) => console.error(err));
   };
 
   const handleDiscard = () => {

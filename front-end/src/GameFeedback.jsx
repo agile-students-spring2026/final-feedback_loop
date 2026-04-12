@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GameFeedback.css";
 import AppLayout from "./AppLayout";
-import { feedbackComments } from "./mockData";
 
 const GameFeedback = () => {
   const navigate = useNavigate();
   const [replyText, setReplyText] = useState("");
-  const [comments, setComments] = useState(feedbackComments);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch("/comments")
+      .then((res) => res.json())
+      .then(setComments)
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleLike = (commentId) => {
+    fetch(`/comments/${commentId}/like`, {
+      method: "POST",
+    }).catch((err) => console.error(err));
+
     setComments(
       comments.map((c) => {
         if (c.id === commentId) {
@@ -22,6 +32,16 @@ const GameFeedback = () => {
 
   const handleSendReply = () => {
     if (replyText.trim() === "") return;
+
+    fetch("/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ player: "You", text: replyText }),
+    })
+      .then((res) => res.json())
+      .then((data) => setComments([...comments, data]))
+      .catch((err) => console.error(err));
+
     setReplyText("");
   };
 
@@ -70,7 +90,7 @@ const GameFeedback = () => {
                 <button className="fbSmallBtn">REPLY</button>
               </div>
 
-              {comment.replies.map((reply) => (
+              {comment.replies && comment.replies.map((reply) => (
                 <div key={reply.id} className="fbReply">
                   <div className="fbCommentHeader">
                     <div className="fbAvatar fbAvatarDev"></div>
