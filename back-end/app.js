@@ -19,6 +19,7 @@ const devlogsPath = path.join(__dirname, "devlogs.json");
 const feedbackPath = path.join(__dirname, "feedback.json");
 const playtestsPath = path.join(__dirname, "playtests.json");
 const usersPath = path.join(__dirname, "users.json");
+const feedbackResultPath = path.join(__dirname, "feedbackResult.json");
 
 // mongoose
 //   .connect(process.env.DB_CONNECTION_STRING)
@@ -163,8 +164,7 @@ app.post("/devlogs", (req, res) => {
 app.get("/feedback/:projectId", (req, res) => {
   const feedback = readJSON(feedbackPath);
 
-  const result = feedback.find((f) => f.projectId == req.params.projectId);
-
+  const result = feedback.filter((f) => f.projectId == req.params.projectId);
   res.json(result || {});
 });
 
