@@ -18,7 +18,6 @@ const feedbackPath = path.join(__dirname, "feedback.json");
 app.use(cors());
 app.use(express.json());
 
-/* ---------------- HELPER FUNCTIONS ---------------- */
 
 const readJSON = (filePath) => {
   if (!fs.existsSync(filePath)) return [];

@@ -9,18 +9,39 @@ function DevLog() {
   const navigate = useNavigate();
 
   const [teamMember, setTeamMember] = useState("");
+
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
   const { id } = useParams();
 
   const handleSubmit = () => {
+  // 🔹 1. Username must start with @
+  if (!teamMember.startsWith("@")) {
+    alert("Username must start with '@'");
+    return;
+  }
+
+  // 🔹 2. Date must be valid
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate.getTime())) {
+    alert("Please enter a valid date (mm/dd/yyyy)");
+    return;
+  }
+
+  // 🔹 3. Notes cannot be empty
+  if (!notes.trim()) {
+    alert("Developer notes cannot be empty");
+    return;
+  }
+
+  // ✅ If all checks pass → submit
   fetch("http://localhost:7002/devlogs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      projectId: id, // TEMP (we’ll fix this next)
+      projectId: id,
       teamMember,
       date,
       notes
@@ -29,6 +50,7 @@ function DevLog() {
     .then(res => res.json())
     .then(data => {
       console.log("Saved:", data);
+      alert("Dev log saved successfully!");
       navigate(`/devproject/${id}`);
     })
     .catch(err => console.error(err));
@@ -78,7 +100,7 @@ function DevLog() {
           />
 
           <button className="plainButton" onClick={handleSubmit}>
-            Save Changes
+            Submit Dev Log
           </button>
         </div>
       </div>

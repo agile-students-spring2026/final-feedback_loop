@@ -48,7 +48,7 @@ function ProjectInfo() {
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
-                <h1>{project.title}</h1>
+                <h1>{project.name}</h1>
                 <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
               </div>
 
@@ -77,11 +77,20 @@ function ProjectInfo() {
               <button
                 className="plainButton"
                 onClick={() => {
-                  fetch(`http://localhost:7002/projects/${id}`, {
-                    method: "DELETE"
-                  })
-                    .then(() => navigate(`/devdash`));
-                }}
+                const confirmDelete = window.confirm(
+                  "Are you sure you want to delete this project?"
+                );
+
+                if (!confirmDelete) return;
+
+                fetch(`http://localhost:7002/projects/${id}`, {
+                  method: "DELETE"
+                })
+                  .then(() => {
+                    alert("Your project has been deleted!");
+                    navigate(`/devdash`);
+                  });
+              }}
               >
                 Delete Project
               </button>
