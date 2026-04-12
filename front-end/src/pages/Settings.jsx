@@ -115,7 +115,7 @@ function SettingsPage() {
     };
 
     loadData();
-  }, []);
+  }, [currentUser.id]);
 
   return (
     <AppLayout>

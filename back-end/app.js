@@ -2,17 +2,23 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+import gamesRoutes from "./routes/games.js";
+import followingRoutes from "./routes/following.js";
+import notificationsRoutes from "./routes/notifications.js";
+import updatesRoutes from "./routes/updates.js";
+import commentsRoutes from "./routes/comments.js";
+import reportsRoutes from "./routes/reports.js";
 
 import createProjectRoutes from "./p5-routes/createProject.js";
 import createFeedbackFormRoutes from "./p5-routes/createFeedback.js";
 import optionsRoutes from "./p5-routes/options.js";
-import { fileURLToPath } from "url";
 
 const app = express();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// file paths
 const settingsPath = path.join(__dirname, "settingsData.json");
 const projectsPath = path.join(__dirname, "projects.json");
 const devlogsPath = path.join(__dirname, "devlogs.json");
@@ -21,14 +27,18 @@ const playtestsPath = path.join(__dirname, "playtests.json");
 const usersPath = path.join(__dirname, "users.json");
 const feedbackResultPath = path.join(__dirname, "feedbackResult.json");
 
-// mongoose
-//   .connect(process.env.DB_CONNECTION_STRING)
-//   .then(() => console.log("Connected to MongoDB"))
-//   .catch(err => console.error(`Failed to connect to MongoDB: ${err}`));
-
-// middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/games", gamesRoutes);
+app.use("/following", followingRoutes);
+app.use("/notifications", notificationsRoutes);
+app.use("/updates", updatesRoutes);
+app.use("/comments", commentsRoutes);
+app.use("/reports", reportsRoutes);
+
 app.use("/createprojects", createProjectRoutes);
 app.use("/createfeedback", createFeedbackFormRoutes);
 app.use("/options", optionsRoutes);
@@ -41,7 +51,6 @@ const readJSON = (filePath) => {
 const writeJSON = (filePath, data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 };
-app.use(express.urlencoded({ extended: true }));
 
 app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });
@@ -111,27 +120,24 @@ app.post("/auth/login", (req, res) => {
   );
 
   if (user) {
-    const { password, ...otherInfo } = user;
+    const { password: pw, ...otherInfo } = user;
     res.json({ success: true, user: otherInfo });
   } else {
     res.status(401).json({ success: false });
   }
 });
 
-// GET all projects
 app.get("/projects", (req, res) => {
   const projects = readJSON(projectsPath);
   res.json(projects);
 });
 
-// GET one project
 app.get("/projects/:id", (req, res) => {
   const projects = readJSON(projectsPath);
   const project = projects.find((p) => p.id == req.params.id);
   res.json(project || {});
 });
 
-// DELETE project
 app.delete("/projects/:id", (req, res) => {
   let projects = readJSON(projectsPath);
   projects = projects.filter((p) => p.id != req.params.id);
@@ -139,29 +145,12 @@ app.delete("/projects/:id", (req, res) => {
   res.json({ message: "Deleted successfully" });
 });
 
-// GET logs for a project
 app.get("/devlogs/:projectId", (req, res) => {
   const logs = readJSON(devlogsPath);
   const filtered = logs.filter((log) => log.projectId == req.params.projectId);
   res.json(filtered);
 });
 
-// GET feedback results
-app.get("/feedback-result/:id", (req, res) => {
-  const formId = parseInt(req.params.id);
-
-  fs.readFile(feedbackResultPath, "utf-8", (err, data) => {
-    if (err) return res.status(500).json({ error: "Failed to read results" });
-
-    const results = data ? JSON.parse(data) : [];
-    const result = results.find((r) => r.id === formId);
-
-    if (!result) return res.status(404).json({ error: "Results not found" });
-    res.json(result);
-  });
-});
-
-// POST new dev log
 app.post("/devlogs", (req, res) => {
   const logs = readJSON(devlogsPath);
 
@@ -178,13 +167,23 @@ app.post("/devlogs", (req, res) => {
 
 app.get("/feedback/:projectId", (req, res) => {
   const feedback = readJSON(feedbackPath);
-
   const result = feedback.filter((f) => f.projectId == req.params.projectId);
-
   res.json(result);
 });
 
-// explore
+app.get("/feedback-result/:id", (req, res) => {
+  const formId = parseInt(req.params.id);
+
+  fs.readFile(feedbackResultPath, "utf-8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to read results" });
+
+    const results = data ? JSON.parse(data) : [];
+    const result = results.find((r) => r.id === formId);
+
+    if (!result) return res.status(404).json({ error: "Results not found" });
+    res.json(result);
+  });
+});
 
 app.get("/explore/projects", (req, res) => {
   const projects = readJSON(projectsPath);
@@ -194,7 +193,6 @@ app.get("/explore/projects", (req, res) => {
   res.json(published);
 });
 
-// get project for projectdetails
 app.get("/explore/projects/:id", (req, res) => {
   const projects = readJSON(projectsPath);
   const project = projects.find((p) => p.id == req.params.id);
@@ -202,7 +200,6 @@ app.get("/explore/projects/:id", (req, res) => {
   res.json(project);
 });
 
-// playtest
 app.get("/playtests", (req, res) => {
   const playtests = readJSON(playtestsPath);
   res.json(playtests);
@@ -237,7 +234,6 @@ app.post("/playtests", (req, res) => {
   res.status(201).json(entry);
 });
 
-// delete a playtest
 app.delete("/playtests/:projectId", (req, res) => {
   let playtests = readJSON(playtestsPath);
   const before = playtests.length;
@@ -253,4 +249,3 @@ app.delete("/playtests/:projectId", (req, res) => {
 
 export default app;
 export { readJSON, writeJSON };
-
