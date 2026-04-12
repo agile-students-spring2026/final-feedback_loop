@@ -30,7 +30,11 @@ function DeveloperDashboard() {
         {projects.map((project) => (
           <div key={project.id} className="projectContainer">
             <div className="entry">
-              <img src={projectImg} alt="Project Icon" className="mainIcon" />
+              <img 
+                src={project.coverPreview || projectImg} 
+                alt="Project Icon" 
+                className="mainIcon" 
+              />
 
               <div className="details">
                 <button className="name" onClick={() => navigate(`/devproject/${project.id}`)}>
