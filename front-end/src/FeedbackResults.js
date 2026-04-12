@@ -21,7 +21,7 @@ function FeedbackResults() {
         <main className="projMain">
           <div className="projectPage">
 
-            <button className="backButton" onClick={() => navigate(`/devdash`)}>
+            <button className="backButton" onClick={() => navigate(`/devproject/1`)}>
               Back
             </button>
 

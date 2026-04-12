@@ -40,7 +40,7 @@ function App() {
         <Route path="/following" element={<FollowingPage />} />
         <Route path="/notifications" element={<NotificationCenter />} />
         <Route path="/game-feedback" element={<GameFeedback />} />
-        <Route path="/feedback-form" element={<FeedbackForm />} />
+        <Route path="/feedback-form/:id" element={<FeedbackForm />} />
         <Route path="/feedback-results" element={<FeedbackResults />} />
         <Route path="/createProjectForm" element={<CreateProjectForm />} />
         <Route path="/editProjectInfo/:id" element={<EditProjectInfo />} />

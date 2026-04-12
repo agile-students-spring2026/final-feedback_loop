@@ -1,17 +1,18 @@
 [
   {
     "id": 1,
-    "projectId": 1,
+    "formId": 1,
+    "projectId": "1",
     "title": "Playtest Round 1",
-    "status": "Open",
-    "responseCount": 12
+    "status": "Active",
+    "responseCount": 0
   },
   {
     "id": 2,
     "formId": 2,
     "projectId": "1",
-    "title": "test",
-    "status": "Open",
-    "responseCount": 0
+    "title": "V3 Playtest",
+    "status": "Closed",
+    "responseCount": 4
   }
 ]

@@ -3,7 +3,7 @@
     "id": 1,
     "userId": "user_001",
     "title": "Dreamwalker",
-    "lastUpdated": "04/11/2026",
+    "lastUpdated": "04/12/2026",
     "description": "Sample description...",
     "genre": {
       "value": "Adventure",
@@ -28,7 +28,7 @@
     "uploadType": "url",
     "uploadFile": null,
     "uploadUrl": "https://example.com/my-project-build",
-    "visibility": "draft",
+    "visibility": "public",
     "createdAt": "2026-03-30T00:00:00Z"
   },
   {

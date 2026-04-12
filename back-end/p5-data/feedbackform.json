@@ -35,7 +35,34 @@
   {
     "id": 2,
     "projectId": "1",
-    "title": "test",
-    "questions": []
+    "title": "V3 Playtest",
+    "questions": [
+      {
+        "id": 1775978334676,
+        "type": "multiple_choice",
+        "question": "",
+        "options": [
+          "Gameplay Mechanics",
+          "Visual Design"
+        ],
+        "title": "What did you enjoy most about the game?"
+      },
+      {
+        "id": 1775978336569,
+        "type": "rating_scale",
+        "question": "",
+        "min": 1,
+        "max": 10,
+        "value": 3,
+        "title": "How would you rate the overall game experience?"
+      },
+      {
+        "id": 1775978338166,
+        "type": "short_answer",
+        "question": "",
+        "placeholder": "",
+        "title": "What improvements would you suggest to the developer?"
+      }
+    ]
   }
 ]
