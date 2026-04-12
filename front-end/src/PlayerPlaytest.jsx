@@ -52,7 +52,7 @@ const PlayerPlaytest = () => {
           {playtests.map((game) => (
             <div key={game.id} className="libraryCard">
               <img
-                src="https://picsum.photos/seed/alpha/300/200"
+                src={game.coverPreview || "https://picsum.photos/seed/alpha/300/200"}
                 alt={game.title}
                 className="thumbBox"
               />

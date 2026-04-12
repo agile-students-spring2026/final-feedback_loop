@@ -155,7 +155,8 @@ app.post("/playtests", (req, res) => {
   const entry = {
     id: Date.now(),
     projectId: project.id,
-    title: project.title,  
+    title: project.title,
+    coverPreview: project.coverPreview || "",
     version: "v0.1",
     joined: true,
   };
