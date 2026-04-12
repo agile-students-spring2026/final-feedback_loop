@@ -48,11 +48,49 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## Building and Testing
+## Building and Running
 
-1. Clone the repo with git clone
-2. cd into the front-end folder then run npm install
-3. from the front-end folder run npm start
+This project has two parts: a React front-end and an Express back-end. You need to run both at the same time in two separate terminals.
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/agile-students-spring2026/final-feedback_loop.git
+cd final-feedback_loop
+```
+
+### 2. Set up environment variables
+Each side of the project needs an `.env` file. Templates are provided as `example.env`. Copy them into place:
+```bash
+cp back-end/example.env back-end/.env
+cp front-end/example.env front-end/.env
+```
+The default values in the templates will run the project locally as-is.
+
+### 3. Start the back-end (terminal 1)
+```bash
+cd back-end
+npm install
+npm start
+```
+The back-end will run on `http://localhost:7002`.
+
+### 4. Start the front-end (terminal 2)
+```bash
+cd front-end
+npm install
+npm start
+```
+The front-end will run on `http://localhost:3000` and proxies API calls to the back-end automatically.
+
+### Running the tests
+From the `back-end` folder:
+```bash
+npm test
+```
+To see code coverage:
+```bash
+npm run coverage
+```
 
 ---
 
