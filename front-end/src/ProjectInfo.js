@@ -11,26 +11,24 @@ function ProjectInfo() {
 
   const [project, setProject] = useState({});
   const [devLogs, setDevLogs] = useState([]);
-  const [feedback, setFeedback] = useState({});
-  
-
+  const [feedback, setFeedback] = useState([]);
 
   useEffect(() => {
-  // project
-  fetch(`http://localhost:7002/projects/${id}`)
-    .then(res => res.json())
-    .then(setProject);
+    // project
+    fetch(`http://localhost:7002/projects/${id}`)
+      .then((res) => res.json())
+      .then(setProject);
 
-  // dev logs
-  fetch(`http://localhost:7002/devlogs/${id}`)
-    .then(res => res.json())
-    .then(setDevLogs);
+    // dev logs
+    fetch(`http://localhost:7002/devlogs/${id}`)
+      .then((res) => res.json())
+      .then(setDevLogs);
 
-  // feedback
-  fetch(`http://localhost:7002/feedback/${id}`)
-    .then(res => res.json())
-    .then(setFeedback);
-}, [id]);
+    // feedback
+    fetch(`http://localhost:7002/feedback/${id}`)
+      .then((res) => res.json())
+      .then(setFeedback);
+  }, [id]);
 
   return (
     <div className="container">
@@ -49,7 +47,9 @@ function ProjectInfo() {
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
                 <h1>{project.title}</h1>
-                <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
+                <p className="lastUpdated">
+                  Last updated: {project.lastUpdated}
+                </p>
               </div>
 
               <img src={projectImg} alt="Project Icon" className="projIcon" />
@@ -66,21 +66,26 @@ function ProjectInfo() {
               </p>
 
               <p>
-                <strong>Tag:</strong> {project.tags?.map(t => t.label).join(", ")}
+                <strong>Tag:</strong>{" "}
+                {project.tags?.map((t) => t.label).join(", ")}
               </p>
 
               <p>
                 <strong>Status:</strong> {project.status}
               </p>
 
-              <button className="plainButton" onClick={() => navigate(`/editProjectInfo/${id}`)}>Edit project info</button>
+              <button
+                className="plainButton"
+                onClick={() => navigate(`/editProjectInfo/${id}`)}
+              >
+                Edit project info
+              </button>
               <button
                 className="plainButton"
                 onClick={() => {
                   fetch(`http://localhost:7002/projects/${id}`, {
-                    method: "DELETE"
-                  })
-                    .then(() => navigate(`/devdash`));
+                    method: "DELETE",
+                  }).then(() => navigate(`/devdash`));
                 }}
               >
                 Delete Project
@@ -111,27 +116,33 @@ function ProjectInfo() {
 
             <section className="projectSection">
               <h2>Feedback</h2>
-              <div className="feedbackSection">
 
-                <div className="formTitle">{feedback.title}</div>
+              {feedback.map((f) => (
+                <div className="feedbackSection" key={f.id}>
+                  <div className="formTitle">{f.title}</div>
 
-                <div className="formStats">
-                  <span>Status: {feedback.status}</span>
-                  <span>Responses: {feedback.responses}</span>
+                  <div className="formStats">
+                    <span>Status: {f.status}</span>
+                    <span>Responses: {f.responseCount}</span>
+                  </div>
+
+                  <div className="feedbackActions">
+                    <button>Close</button>
+                    <button>View Responses</button>
+                  </div>
                 </div>
+              ))}
 
-                <div className="feedbackActions">
-                  <button>Close</button>
-                  <button>View Responses</button>
-                </div>
-              </div>
-
-              <button className="plainButton" onClick={() => navigate(`/createNewFeedback/${id}`)}>Create New Form</button>
+              <button
+                className="plainButton"
+                onClick={() => navigate(`/createNewFeedback/${id}`)}
+              >
+                Create New Form
+              </button>
             </section>
           </div>
         </main>
       </div>
-
     </div>
   );
 }

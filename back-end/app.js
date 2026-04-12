@@ -110,11 +110,11 @@ app.post("/devlogs", (req, res) => {
 app.get("/feedback/:projectId", (req, res) => {
   const feedback = readJSON(feedbackPath);
 
-  const result = feedback.find(
+  const result = feedback.filter(
     f => f.projectId == req.params.projectId
   );
 
-  res.json(result || {});
+  res.json(result);
 });
 
 // explore
