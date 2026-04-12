@@ -43,8 +43,8 @@ function App() {
         <Route path="/feedback-form" element={<FeedbackForm />} />
         <Route path="/feedback-results" element={<FeedbackResults />} />
         <Route path="/createProjectForm" element={<CreateProjectForm />} />
-        <Route path="/editProjectInfo" element={<EditProjectInfo />} />
-        <Route path="/createNewFeedback" element={<CreateNewFeedback />} />
+        <Route path="/editProjectInfo/:id" element={<EditProjectInfo />} />
+        <Route path="/createNewFeedback/:id" element={<CreateNewFeedback />} />
         <Route path="/playtest/:id" element={<ProjectDetails />} />
         <Route path="/my-playtests" element={<PlayerPlaytest />} />
 

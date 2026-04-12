@@ -21,12 +21,10 @@ function FeedbackResults() {
         <main className="projMain">
           <div className="projectPage">
 
-            {/* BACK BUTTON */}
-            <button className="backButton" onClick={() => navigate(-1)}>
+            <button className="backButton" onClick={() => navigate(`/devdash`)}>
               Back
             </button>
 
-            {/* HEADER */}
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Feedback Results for</p>
@@ -37,7 +35,6 @@ function FeedbackResults() {
               </div>
             </div>
 
-            {/* QUESTIONS */}
             {feedback.questions.map((q) => {
               const answers = getAnswers(q.id);
 
@@ -45,7 +42,6 @@ function FeedbackResults() {
                 <section key={q.id} className="projectSection">
                   <h2>{q.question}</h2>
 
-                  {/* MCQ */}
                   {q.type === "mcq" &&
                     q.options.map((opt) => {
                       const count = answers.filter((a) => a === opt).length;
@@ -58,7 +54,6 @@ function FeedbackResults() {
                       );
                     })}
 
-                  {/* RATING */}
                   {q.type === "rating" &&
                     [...Array(q.max - q.min + 1)].map((_, i) => {
                       const val = q.min + i;
@@ -72,7 +67,6 @@ function FeedbackResults() {
                       );
                     })}
 
-                  {/* TEXT */}
                   {q.type === "text" &&
                     feedback.submissions.map((s, i) => (
                       <div key={i} className="logSection">

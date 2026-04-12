@@ -48,7 +48,7 @@ function ProjectInfo() {
             <div className="projHeader">
               <div className="headerText">
                 <p className="welcome">Welcome to</p>
-                <h1>{project.name}</h1>
+                <h1>{project.title}</h1>
                 <p className="lastUpdated">Last updated: {project.lastUpdated}</p>
               </div>
 
@@ -62,18 +62,18 @@ function ProjectInfo() {
               </p>
 
               <p>
-                <strong>Genre:</strong> {project.genre}
+                <strong>Genre:</strong> {project.genre?.label}
               </p>
 
               <p>
-                <strong>Tag:</strong> {project.tags?.join(", ")}
+                <strong>Tag:</strong> {project.tags?.map(t => t.label).join(", ")}
               </p>
 
               <p>
                 <strong>Status:</strong> {project.status}
               </p>
 
-              <button className="plainButton" onClick={() => navigate("/editProjectInfo")}>Edit project info</button>
+              <button className="plainButton" onClick={() => navigate(`/editProjectInfo/${id}`)}>Edit project info</button>
               <button
                 className="plainButton"
                 onClick={() => {
@@ -135,7 +135,7 @@ function ProjectInfo() {
                 </div>
               </div>
 
-              <button className="plainButton" onClick={() => navigate("/createNewFeedback")}>Create New Form</button>
+              <button className="plainButton" onClick={() => navigate(`/createNewFeedback/${id}`)}>Create New Form</button>
             </section>
           </div>
         </main>

@@ -15,26 +15,24 @@ function DevLog() {
   const { id } = useParams();
 
   const handleSubmit = () => {
-  // 🔹 1. Username must start with @
+ 
   if (!teamMember.startsWith("@")) {
     alert("Username must start with '@'");
     return;
   }
 
-  // 🔹 2. Date must be valid
+
   const parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
     alert("Please enter a valid date (mm/dd/yyyy)");
     return;
   }
 
-  // 🔹 3. Notes cannot be empty
   if (!notes.trim()) {
     alert("Developer notes cannot be empty");
     return;
   }
 
-  // ✅ If all checks pass → submit
   fetch("http://localhost:7002/devlogs", {
     method: "POST",
     headers: {
