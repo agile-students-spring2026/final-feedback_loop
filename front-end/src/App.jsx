@@ -20,6 +20,7 @@ import FollowingPage from "./FollowingPage";
 import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
 import FeedbackForm from "./FeedbackForm";
+import FeedbackResults from "./FeedbackResults";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/notifications" element={<NotificationCenter />} />
         <Route path="/game-feedback" element={<GameFeedback />} />
         <Route path="/feedback-form" element={<FeedbackForm />} />
+        <Route path="/feedback-results" element={<FeedbackResults />} />
         <Route path="/createProjectForm" element={<CreateProjectForm />} />
         <Route path="/editProjectInfo/:id" element={<EditProjectInfo />} />
         <Route path="/createNewFeedback/:id" element={<CreateNewFeedback />} />

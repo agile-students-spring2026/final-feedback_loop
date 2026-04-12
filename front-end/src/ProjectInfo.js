@@ -77,11 +77,20 @@ function ProjectInfo() {
               <button
                 className="plainButton"
                 onClick={() => {
-                  fetch(`http://localhost:7002/projects/${id}`, {
-                    method: "DELETE"
-                  })
-                    .then(() => navigate(`/devdash`));
-                }}
+                const confirmDelete = window.confirm(
+                  "Are you sure you want to delete this project?"
+                );
+
+                if (!confirmDelete) return;
+
+                fetch(`http://localhost:7002/projects/${id}`, {
+                  method: "DELETE"
+                })
+                  .then(() => {
+                    alert("Your project has been deleted!");
+                    navigate(`/devdash`);
+                  });
+              }}
               >
                 Delete Project
               </button>
