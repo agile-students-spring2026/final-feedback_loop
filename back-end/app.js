@@ -252,3 +252,5 @@ app.delete("/playtests/:projectId", (req, res) => {
 });
 
 export default app;
+export { readJSON, writeJSON };
+
