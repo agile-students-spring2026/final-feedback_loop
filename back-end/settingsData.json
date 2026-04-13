@@ -1,7 +1,5 @@
 {
   "settings": {
-    "username": "Username",
-    "profilePic": "/blank-pfp.png",
-    "password": "aaa"
+    "profilePic": "https://picsum.photos/200"
   }
 }
