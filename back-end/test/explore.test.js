@@ -66,3 +66,26 @@ describe("PlayerPlaytest", () => {
     expect(res.body).to.have.property("error");
   });
 });
+
+// projectdetails
+describe("ProjectDetails", () => {
+  it("GET /explore/projects/:id with unknown id → 404", async () => {
+    const res = await request.execute(app).get("/explore/projects/99999999");
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.property("error");
+  });
+
+  it("GET /explore/projects/:id with valid id → 200 and project object", async () => {
+    const listRes = await request.execute(app).get("/explore/projects");
+    expect(listRes).to.have.status(200);
+
+    if (listRes.body.length === 0) return;
+
+    const firstId = listRes.body[0].id;
+    const res = await request.execute(app).get(`/explore/projects/${firstId}`);
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("object");
+    expect(res.body).to.have.property("id", firstId);
+    expect(res.body).to.have.property("title");
+  });
+});
