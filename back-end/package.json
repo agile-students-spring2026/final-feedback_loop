@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-  "test": "mocha test/explore.test.js --timeout 5000",
-  "coverage": "c8 mocha test/explore.test.js --timeout 5000",
+  "test": "mocha \"test/**/*.test.js\" --timeout 5000",
+  "coverage": "c8 mocha \"test/**/*.test.js\" --timeout 5000",
   "start": "node ./server",
   "dev": "nodemon ./server"
 },
