@@ -39,3 +39,30 @@ describe("PlayerExplore", () => {
     expect(res.body).to.have.property("error");
   });
 });
+
+//playtest
+describe("PlayerPlaytest", () => {
+  it("GET /playtests → 200 and returns an array", async () => {
+    const res = await request.execute(app).get("/playtests");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
+  });
+
+  it("GET /feedback/:projectId → 200 and returns an array", async () => {
+    const res = await request.execute(app).get("/feedback/1");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
+  });
+
+  it("GET /feedback/:projectId with unknown id → 200 and empty array", async () => {
+    const res = await request.execute(app).get("/feedback/99999999");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array").that.is.empty;
+  });
+
+  it("DELETE /playtests/:projectId with unknown id → 404", async () => {
+    const res = await request.execute(app).delete("/playtests/99999999");
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.property("error");
+  });
+});
