@@ -3,13 +3,36 @@ import styles from "./loginPages.module.css";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function SignIn() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/explore");
+    setError("");
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        navigate("/explore");
+      } else {
+        setError("Invalid sign in");
+      }
+    } catch (err) {
+      setError("Try again");
+    }
   };
 
   return (
@@ -23,6 +46,7 @@ function SignIn() {
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
+                name="username"
                 variant="test"
                 placeholderText="Email/Username"
                 required
@@ -30,12 +54,14 @@ function SignIn() {
             </div>
             <div className={styles.passwordDiv}>
               <InfoInput
+                name="password"
                 type="password"
                 variant="test"
                 placeholderText="Password"
                 required
               />
-            </div>
+            </div>{" "}
+            {error && <p className={styles.errorMsg}>{error}</p>}
             <div className={styles.buttonWrapper}>
               <Button type="submit" variant="settings">
                 Jump in!
