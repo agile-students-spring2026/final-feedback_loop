@@ -28,8 +28,6 @@ const fakeSummaries = [
 
 describe("POST /createfeedback", () => {
   beforeEach(() => {
-    // readFile 被调用两次：先读 formFilePath，再读 summaryFilePath
-    // 用 onFirstCall / onSecondCall 分别返回不同的假数据
     sinon
       .stub(fs, "readFile")
       .onFirstCall()
@@ -97,7 +95,7 @@ describe("GET /createfeedback/:id", () => {
   });
 
   it("should return 404 if form does not exist", async () => {
-    const res = await request.execute(app).get("/createfeedback/999");
+    const res = await request.execute(app).get("/createfeedback/1000");
 
     expect(res).to.have.status(404);
     expect(res.body.error).to.equal("Form not found");
