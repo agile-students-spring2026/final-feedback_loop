@@ -1,0 +1,41 @@
+import { expect } from "chai";
+import chaiHttp, { request } from "chai-http";
+import { use } from "chai";
+import app from "../app.js";
+
+use(chaiHttp);
+
+// playerexplore
+describe("PlayerExplore", () => {
+  it("GET /explore/projects → 200 and returns an array", async () => {
+    const res = await request.execute(app).get("/explore/projects");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
+  });
+
+  it("GET /explore/projects → only published or public projects are returned", async () => {
+    const res = await request.execute(app).get("/explore/projects");
+    expect(res).to.have.status(200);
+    res.body.forEach((p) => {
+      expect(["published", "public"]).to.include(p.visibility);
+    });
+  });
+
+  it("GET /playtests → 200 and returns an array", async () => {
+    const res = await request.execute(app).get("/playtests");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
+  });
+
+  it("POST /playtests without projectId → 400 bad request", async () => {
+    const res = await request.execute(app).post("/playtests").send({});
+    expect(res).to.have.status(400);
+    expect(res.body).to.have.property("error");
+  });
+
+  it("POST /playtests with non-existent projectId → 404", async () => {
+    const res = await request.execute(app).post("/playtests").send({ projectId: 99999999 });
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.property("error");
+  });
+});
