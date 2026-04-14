@@ -27,6 +27,7 @@ function SettingsPage() {
   const [confirm, setConfirm] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
   const [tempPfp, setTempPfp] = useState(false);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
   const nav = useNavigate();
   const handleReport = () => {
@@ -49,13 +50,25 @@ function SettingsPage() {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!confirm) {
       setConfirm(true);
       setTimeout(() => setConfirm(false), 3000);
     } else {
-      setConfirm(false);
-      nav("/register");
+      try {
+        const res = await fetch(`/auth/users/${currentUser.id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          setConfirm(false);
+          nav("/register");
+          localStorage.removeItem("currentUser");
+        } else {
+          alert("Cant delete account");
+        }
+      } catch (err) {
+        console.error("Error while deleting", err);
+      }
     }
   };
 
@@ -70,8 +83,6 @@ function SettingsPage() {
     }
     setIsSelect(false);
   };
-
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
   const handleInfoSubmit = async (e) => {
     e.preventDefault();

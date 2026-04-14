@@ -65,7 +65,9 @@ const PlayerPlaytest = () => {
       ) : (
         <div className="libraryGrid">
           {playtests.map((game) => {
-            const activeForm = activeForms.find(f => f.projectId == game.projectId);
+            const activeForm = activeForms.find(
+              (f) => f.projectId == game.projectId,
+            );
             return (
               <div key={game.id} className="libraryCard">
                 <img
@@ -88,10 +90,12 @@ const PlayerPlaytest = () => {
                   </div>
                   <div className="btnGroup">
                     <button className="btn btnPrimary">Launch</button>
-                    {activeForm  && (
+                    {activeForm && (
                       <button
                         className="btn"
-                        onClick={() => navigate(`/feedback-form/${activeForm.formId}`)}
+                        onClick={() =>
+                          navigate(`/feedback-form/${activeForm.formId}`)
+                        }
                       >
                         Leave Feedback
                       </button>

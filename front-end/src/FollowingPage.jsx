@@ -15,7 +15,7 @@ const FollowingPage = () => {
           return { ...game, following: !game.following };
         }
         return game;
-      })
+      }),
     );
   };
 
@@ -30,7 +30,11 @@ const FollowingPage = () => {
           {games.map((game) => (
             <div key={game.id} className="followCard">
               <div className="followCardTop">
-                <img src={game.image} alt={game.title} className="followCardImg" />
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  className="followCardImg"
+                />
                 <div className="followCardInfo">
                   <div className="followCardTitleRow">
                     <span
@@ -57,7 +61,7 @@ const FollowingPage = () => {
                 </button>
                 <button
                   className="followBtn followBtnPrimary"
-                  onClick={() => navigate("/feedback-form")}
+                  onClick={() => navigate(`/feedback-form/${game.id}`)}
                 >
                   Leave Feedback
                 </button>

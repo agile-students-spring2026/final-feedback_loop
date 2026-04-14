@@ -68,7 +68,7 @@ function CreateNewFeedback() {
 
   async function handleSaveAndView() {
     try {
-      console.log(id)
+      console.log(id);
       const response = await fetch("http://localhost:7002/createfeedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,7 +78,7 @@ function CreateNewFeedback() {
           questions: questions,
         }),
       });
- 
+
       const newFeedback = await response.json();
       console.log("Created feedback form:", newFeedback);
       navigate(`/feedback-form/${newFeedback.id}`);
@@ -87,7 +87,7 @@ function CreateNewFeedback() {
       alert("Failed to save feedback form. Is the backend running?");
     }
   }
-  
+
   function handleDiscard() {
     const confirmDiscard = window.confirm(
       "Are you sure you want to discard all changes?",
