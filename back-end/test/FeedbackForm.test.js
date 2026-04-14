@@ -26,6 +26,13 @@ const fakeSummaries = [
   },
 ];
 
+const fakeResults = [
+  {
+    id: 1,
+    submissions: []
+  }
+];
+
 describe("POST /createfeedback", () => {
   beforeEach(() => {
     sinon
@@ -33,7 +40,9 @@ describe("POST /createfeedback", () => {
       .onFirstCall()
       .callsFake((path, encoding, cb) => cb(null, JSON.stringify(fakeForms)))
       .onSecondCall()
-      .callsFake((path, encoding, cb) => cb(null, JSON.stringify(fakeSummaries)));
+      .callsFake((path, encoding, cb) => cb(null, JSON.stringify(fakeSummaries)))
+      .onThirdCall()
+      .callsFake((path, encoding, cb) => cb(null, JSON.stringify(fakeResults)));
 
     sinon.stub(fs, "writeFile").callsFake((path, data, cb) => cb(null));
   });
