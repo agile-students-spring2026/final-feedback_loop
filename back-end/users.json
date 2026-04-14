@@ -4,5 +4,47 @@
     "email": "a@nyu.edu",
     "password": "hi",
     "username": "Username"
+  },
+  {
+    "id": 1776152124695,
+    "email": "a@gmail.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152381746,
+    "email": "user-1776152381606@test.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152384489,
+    "email": "user-1776152384357@test.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152385898,
+    "email": "user-1776152385761@test.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152427210,
+    "email": "user-1776152427175@test.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152458752,
+    "email": "user-1776152458716@test.com",
+    "password": "pass123",
+    "username": "Username"
+  },
+  {
+    "id": 1776152463677,
+    "email": "user-1776152463636@test.com",
+    "password": "pass123",
+    "username": "Username"
   }
 ]

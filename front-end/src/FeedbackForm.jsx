@@ -15,10 +15,6 @@ const FeedbackForm = () => {
     fetch(`${API}/createfeedback/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (!data || !data.questions) {
-          console.error("Questions not found", data);
-          return;
-        }
         setForm(data);
         const initial = {};
         data.questions.forEach((q) => {

@@ -4,7 +4,11 @@
     "title": "Battle Arena",
     "description": "Compete against players in real-time battles.",
     "genre": "Action",
-    "tags": ["pvp", "multiplayer", "ranked"],
+    "tags": [
+      "pvp",
+      "multiplayer",
+      "ranked"
+    ],
     "visibility": "Draft",
     "lastUpdated": "2026-04-03"
   },
@@ -13,7 +17,11 @@
     "title": "Mystery Manor",
     "description": "Explore a haunted mansion and uncover secrets.",
     "genre": "Adventure",
-    "tags": ["story", "exploration", "mystery"],
+    "tags": [
+      "story",
+      "exploration",
+      "mystery"
+    ],
     "visibility": "Draft",
     "lastUpdated": "2026-04-02"
   },
@@ -22,7 +30,11 @@
     "title": "Sky Kingdom",
     "description": "Build and manage a floating kingdom in the sky.",
     "genre": "Simulation",
-    "tags": ["building", "management", "creative"],
+    "tags": [
+      "building",
+      "management",
+      "creative"
+    ],
     "visibility": "Draft",
     "lastUpdated": "2026-03-30"
   },
@@ -31,7 +43,11 @@
     "title": "Racing Rivals",
     "description": "High-speed racing with customizable cars.",
     "genre": "Racing",
-    "tags": ["cars", "multiplayer", "competition"],
+    "tags": [
+      "cars",
+      "multiplayer",
+      "competition"
+    ],
     "visibility": "Completed",
     "lastUpdated": "2026-03-20"
   },
@@ -40,7 +56,11 @@
     "title": "Fantasy Legends",
     "description": "Embark on an epic RPG journey in a magical world.",
     "genre": "RPG",
-    "tags": ["fantasy", "quests", "open-world"],
+    "tags": [
+      "fantasy",
+      "quests",
+      "open-world"
+    ],
     "visibility": "Draft",
     "lastUpdated": "2026-04-04"
   },
