@@ -134,8 +134,8 @@ function CreateProjectForm() {
           userId: "user_001",   // temp (redo after connect to login system)
           title,
           description,
-          genre: genre?.label || "",
-          tags: tags?.map(t => t.label) || [],
+          genre,
+          tags,
           visibility,
           uploadType,
           uploadUrl,
