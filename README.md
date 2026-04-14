@@ -51,9 +51,16 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Building and Testing
 
 1. Clone the repo with git clone
-2. cd into the front-end folder then run npm install
-3. from the front-end folder run npm start
+2. Install frontend dependencies: `cd front-end && npm install`
+3. Install backend dependencies: `cd back-end && npm install`
+4. Start the frontend: `cd front-end && npm start`
+5. Start the backend: `cd back-end && npm run dev`
 
+## Running Tests
+
+From the back-end folder:
+- Run tests: `npm test`
+- Run tests with coverage: `npm run coverage`
 ---
 
 ## Additional Documents
