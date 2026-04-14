@@ -1,17 +1,9 @@
 [
   {
-    "id": 1775959706989,
-    "projectId": 4,
-    "title": "Puzzle Quest",
-    "coverPreview": "",
-    "version": "v0.1",
-    "joined": true
-  },
-  {
-    "id": 1776137818717,
-    "projectId": 6,
-    "title": "Mystery Manor",
-    "coverPreview": "",
+    "id": 1776142985823,
+    "projectId": 2,
+    "title": "Shadow Circuit",
+    "coverPreview": "https://sm.pcmag.com/pcmag_me/review/g/google-pla/google-play-games_w6hm.jpg",
     "version": "v0.1",
     "joined": true
   }

@@ -12,14 +12,14 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const username = e.target.username.value;
+    const email = e.target.email.value;
     const password = e.target.password.value;
 
     try {
       const response = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -46,9 +46,9 @@ function SignIn() {
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
-                name="username"
+                name="email"
                 variant="test"
-                placeholderText="Email/Username"
+                placeholderText="Email"
                 required
               />
             </div>

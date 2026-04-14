@@ -26,7 +26,7 @@ function Register() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: email,
+          email,
           password,
         }),
       });
@@ -35,7 +35,7 @@ function Register() {
       if (data.success) {
         navigate("/signin");
       } else {
-        setError("Username taken");
+        setError("Email taken");
       }
     } catch (err) {
       setError("Try again");
