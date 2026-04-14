@@ -21,6 +21,7 @@ import NotificationCenter from "./NotificationCenter";
 import GameFeedback from "./GameFeedback";
 import FeedbackForm from "./FeedbackForm";
 import FeedbackResults from "./FeedbackResults";
+import ProtectedRoute, { PublicOnlyRoute } from "./ProtectedRoute";
 
 function App() {
   return (
@@ -28,25 +29,25 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/signin" />} />
 
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/report" element={<ReportForm />} />
-        <Route path="/devdash" element={<DeveloperDashboard />} />
-        <Route path="/devproject/:id" element={<ProjectInfo />} />
-        <Route path="/devlog/:id" element={<DevLog />} />
-        <Route path="/explore" element={<PlayerExplore />} />
-        <Route path="/project/:id" element={<ProjectDetails />} />
-        <Route path="/following" element={<FollowingPage />} />
-        <Route path="/notifications" element={<NotificationCenter />} />
-        <Route path="/game-feedback" element={<GameFeedback />} />
-        <Route path="/feedback-form/:id" element={<FeedbackForm />} />
-        <Route path="/feedback-results/:id" element={<FeedbackResults />} />
-        <Route path="/createProjectForm" element={<CreateProjectForm />} />
-        <Route path="/editProjectInfo/:id" element={<EditProjectInfo />} />
-        <Route path="/createNewFeedback/:id" element={<CreateNewFeedback />} />
-        <Route path="/playtest/:id" element={<ProjectDetails />} />
-        <Route path="/my-playtests" element={<PlayerPlaytest />} />
+        <Route path="/signin" element={<PublicOnlyRoute><SignIn /></PublicOnlyRoute>} />
+        <Route path="/register" element={<PublicOnlyRoute><Register /></PublicOnlyRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+        <Route path="/report" element={<ProtectedRoute><ReportForm /></ProtectedRoute>} />
+        <Route path="/devdash" element={<ProtectedRoute><DeveloperDashboard /></ProtectedRoute>} />
+        <Route path="/devproject/:id" element={<ProtectedRoute><ProjectInfo /></ProtectedRoute>} />
+        <Route path="/devlog/:id" element={<ProtectedRoute><DevLog /></ProtectedRoute>} />
+        <Route path="/explore" element={<ProtectedRoute><PlayerExplore /></ProtectedRoute>} />
+        <Route path="/project/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
+        <Route path="/following" element={<ProtectedRoute><FollowingPage /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><NotificationCenter /></ProtectedRoute>} />
+        <Route path="/game-feedback/:id" element={<ProtectedRoute><GameFeedback /></ProtectedRoute>} />
+        <Route path="/feedback-form/:id" element={<ProtectedRoute><FeedbackForm /></ProtectedRoute>} />
+        <Route path="/feedback-results/:id" element={<ProtectedRoute><FeedbackResults /></ProtectedRoute>} />
+        <Route path="/createProjectForm" element={<ProtectedRoute><CreateProjectForm /></ProtectedRoute>} />
+        <Route path="/editProjectInfo/:id" element={<ProtectedRoute><EditProjectInfo /></ProtectedRoute>} />
+        <Route path="/createNewFeedback/:id" element={<ProtectedRoute><CreateNewFeedback /></ProtectedRoute>} />
+        <Route path="/playtest/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
+        <Route path="/my-playtests" element={<ProtectedRoute><PlayerPlaytest /></ProtectedRoute>} />
 
 
         <Route path="*" element={<Navigate to="/signin" />} />

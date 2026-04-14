@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./FeedbackForm.css";
 import AppLayout from "./AppLayout";
-
-const API = "http://localhost:7002";
+import { apiFetch } from "./api";
 
 const FeedbackForm = () => {
   const navigate = useNavigate();
@@ -12,7 +11,7 @@ const FeedbackForm = () => {
   const [answers, setAnswers] = useState({});
 
   useEffect(() => {
-    fetch(`${API}/createfeedback/${id}`)
+    apiFetch(`/createfeedback/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setForm(data);
@@ -28,8 +27,23 @@ const FeedbackForm = () => {
     setAnswers({ ...answers, [key]: value });
   };
 
-  const handleSubmit = () => {
-    navigate("/game-feedback");
+  const handleSubmit = async () => {
+    if (!form) return;
+    try {
+      const res = await apiFetch(`/feedback-result/${id}`, {
+        method: "POST",
+        body: JSON.stringify({ answers }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Failed to submit. Please try again.");
+        return;
+      }
+      alert("Thanks for your feedback!");
+      navigate(`/game-feedback/${form.projectId}`);
+    } catch (e) {
+      alert("Network error. Is the backend running?");
+    }
   };
 
   const handleDiscard = () => {
@@ -83,13 +97,12 @@ const FeedbackForm = () => {
                         className="formSlider"
                       />
                       <div className="formSliderLabels">
-                        {Array.from(
-                          { length: q.max - q.min + 1 },
-                          (_, i) => q.min + i,
-                        ).map((n) => (
-                          <span key={n}>{n}</span>
-                        ))}
+                        <span>{q.min}</span>
+                        <span>{q.max}</span>
                       </div>
+                      <p className="formSliderValue">
+                        Selected: {answers[q.id] ?? q.value ?? q.min}
+                      </p>
                     </>
                   )}
 

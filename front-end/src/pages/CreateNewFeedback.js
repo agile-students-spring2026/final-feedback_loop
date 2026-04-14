@@ -5,6 +5,7 @@ import RatingScaleEditor from "../components/RatingScaleEditor";
 import ShortAnswerEditor from "../components/ShortAnswerEditor";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiFetch } from "../api";
 
 function CreateNewFeedback() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function CreateNewFeedback() {
         id: generateId(),
         type: type,
         question: "",
-        options: ["Choice 1", "Choice 2"],
+        options: ["", ""],
       };
     }
 
@@ -69,9 +70,8 @@ function CreateNewFeedback() {
   async function handleSaveAndView() {
     try {
       console.log(id);
-      const response = await fetch("http://localhost:7002/createfeedback", {
+      const response = await apiFetch("/createfeedback", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           projectId: id,
           title: title,
