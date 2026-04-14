@@ -107,14 +107,16 @@ function CreateProjectForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
-      name: title,
+      title,
       description,
-      genre: typeof genre === "object" ? genre.value : genre,
-      tags: tags.map((t) => (typeof t === "object" ? t.value : t)),
-      status: visibility === "public" ? "PUBLISHED" : "DRAFT",
+      genre,
+      tags,
+      visibility,
+      uploadType,
+      uploadUrl,
     };
 
-    fetch("/projects", {
+    fetch("/createprojects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

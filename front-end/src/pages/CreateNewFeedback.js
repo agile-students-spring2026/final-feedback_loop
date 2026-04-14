@@ -66,7 +66,7 @@ function CreateNewFeedback() {
   }
 
   function handleSaveAndView() {
-    fetch("/feedback", {
+    fetch("/createfeedback", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -76,7 +76,7 @@ function CreateNewFeedback() {
       }),
     })
       .then((res) => res.json())
-      .then(() => navigate("/feedback-form"))
+      .then((data) => navigate(`/feedback-form/${data.id}`))
       .catch((err) => console.error(err));
   }
 
@@ -99,10 +99,10 @@ function CreateNewFeedback() {
         <div className="logo">[ LOGO ]</div>
       </nav>
 
-      <main class="main">
-        <div class="dashboard">
-          <header class="header">
-            <h1 class="h1">Create a New Feedback Form</h1>
+      <main className="main">
+        <div className="dashboard">
+          <header className="header">
+            <h1 className="h1">Create a New Feedback Form</h1>
           </header>
           <div className="create-peoject-container">
             <div className="create-peoject-form">

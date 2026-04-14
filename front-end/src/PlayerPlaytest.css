@@ -126,11 +126,11 @@
 
 .thumbBox {
   width: 120px;
+  min-height: 120px;
+  object-fit: cover;
   background-color: #e5e7eb;
   border-right: 2px solid #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
 }
 
 .thumbText {

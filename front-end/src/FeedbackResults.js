@@ -12,8 +12,8 @@ function FeedbackResults() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`http://localhost:7002/createfeedback/${id}`).then(r => r.json()),
-      fetch(`http://localhost:7002/feedback-result/${id}`).then(r => r.json()),
+      fetch(`/createfeedback/${id}`).then(r => r.json()),
+      fetch(`/feedback-result/${id}`).then(r => r.json()),
     ]).then(([formData, resultsData]) => {
       setForm(formData);
       setResults(resultsData);

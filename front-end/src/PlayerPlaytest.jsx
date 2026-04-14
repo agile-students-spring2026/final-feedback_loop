@@ -31,7 +31,7 @@ const PlayerPlaytest = () => {
             <div key={game.id} className="libraryCard">
 
               <img
-                src={game.image}
+                src={game.coverPreview || "https://placehold.co/300x180?text=No+Image"}
                 alt={game.title}
                 className="thumbBox"
               />
@@ -56,7 +56,7 @@ const PlayerPlaytest = () => {
 
                   <button
                     className="btn"
-                    onClick={() => navigate("/feedback-form")}
+                    onClick={() => navigate(`/feedback-form/${game.projectId}`)}
                   >
                     Leave Feedback
                   </button>

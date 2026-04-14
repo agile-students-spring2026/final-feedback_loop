@@ -101,16 +101,14 @@ function EditProjectInfo() {
     fetch(`/projects/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setTitle(data.name || "");
+        setTitle(data.title || "");
         setDescription(data.description || "");
-        setGenre(
-          data.genre ? { value: data.genre, label: data.genre } : ""
-        );
-        setTags(
-          (data.tags || []).map((t) => ({ value: t, label: t }))
-        );
+        setGenre(data.genre || "");
+        setTags(data.tags || []);
         setCoverPreview(data.coverPreview || "");
-        setVisibility(data.status === "PUBLISHED" ? "public" : "draft");
+        setUploadType(data.uploadType || "download");
+        setUploadUrl(data.uploadUrl || "");
+        setVisibility(data.visibility || "");
       })
       .catch((err) => console.error(err));
   }, [id]);
@@ -126,14 +124,16 @@ function EditProjectInfo() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
-      name: title,
+      title,
       description,
-      genre: typeof genre === "object" ? genre.value : genre,
-      tags: tags.map((t) => (typeof t === "object" ? t.value : t)),
-      status: visibility === "public" ? "PUBLISHED" : "DRAFT",
+      genre,
+      tags,
+      visibility,
+      uploadType,
+      uploadUrl,
     };
 
-    fetch(`/projects/${id}`, {
+    fetch(`/createprojects/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

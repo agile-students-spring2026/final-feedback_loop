@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./FeedbackForm.css";
 import AppLayout from "./AppLayout";
 
-const API = "http://localhost:7002";
-
 const FeedbackForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -12,7 +10,7 @@ const FeedbackForm = () => {
   const [answers, setAnswers] = useState({});
 
   useEffect(() => {
-    fetch(`${API}/createfeedback/${id}`)
+    fetch(`/createfeedback/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setForm(data);
