@@ -1,26 +1,8 @@
-<<<<<<< HEAD
-[]
-=======
 [
   {
-    "id": 1775981723011,
-    "username": "wdad",
-    "password": "a"
-  },
-  {
-    "id": 1775982158025,
-    "username": "wdad",
-    "password": "wad"
-  },
-  {
-    "id": 1776023661674,
-    "username": "i",
-    "password": "ghjj"
-  },
-  {
-    "id": 1776139261144,
-    "username": "jaj9365@nyu.edu",
-    "password": "lol"
+    "id": 1776148190081,
+    "email": "a@nyu.edu",
+    "password": "hi",
+    "username": "Username"
   }
 ]
->>>>>>> 5e439e4dbff6a1710d65ee9ffae95da30f56645f
