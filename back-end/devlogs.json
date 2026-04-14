@@ -1,12 +1,5 @@
 [
   {
-    "id": 1,
-    "projectId": 1,
-    "teamMember": "@Margot",
-    "date": "2026-04-02",
-    "notes": "Fixed jumping bug"
-  },
-  {
     "id": 2,
     "projectId": "1",
     "teamMember": "hiii",
