@@ -14,16 +14,16 @@ function ProjectInfo() {
   const [feedback, setFeedback] = useState([]);
 
   const handleActivate = (formId) => {
-  const hasActive = feedback.some(f => f.status === "Active");
+  const hasActive = feedback.some(f => f.visibility === "Active");
   if (hasActive) {
     alert("There is already an active feedback form for this project. Please close it first.");
     return;
   }
 
-  fetch(`http://localhost:7002/createfeedback/${formId}/status`, {
+  fetch(`http://localhost:7002/createfeedback/${formId}/visibility`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status: "Active" })
+    body: JSON.stringify({ visibility: "Active" })
   })
     .then(res => res.json())
     .then(updated => {
@@ -32,10 +32,10 @@ function ProjectInfo() {
 };
 
 const handleClose = (formId) => {
-  fetch(`http://localhost:7002/createfeedback/${formId}/status`, {
+  fetch(`http://localhost:7002/createfeedback/${formId}/visibility`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status: "Closed" })
+    body: JSON.stringify({ visibility: "Closed" })
   })
     .then(res => res.json())
     .then(updated => {
@@ -92,16 +92,16 @@ const handleClose = (formId) => {
               </p>
 
               <p>
-                <strong>Genre:</strong> {project.genre?.label}
+                <strong>Genre:</strong> {project.genre}
               </p>
 
               <p>
                 <strong>Tag:</strong>{" "}
-                {project.tags?.map((t) => t.label).join(", ")}
+                {project.tags?.join(", ")}
               </p>
 
               <p>
-                <strong>Status:</strong> {project.visibility}
+                <strong>Visibility:</strong> {project.visibility}
               </p>
 
               <button
@@ -161,20 +161,20 @@ const handleClose = (formId) => {
                   <div className="formTitle">{f.title}</div>
 
                   <div className="formStats">
-                    <span>Status: {f.status}</span>
+                    <span>Visibility: {f.visibility}</span>
                     <span>Responses: {f.responseCount}</span>
                   </div>
 
                   <div className="feedbackActions">
-                    {f.status === "Draft" && (
+                    {f.visibility === "Draft" && (
                       <button onClick={() => handleActivate(f.id)}>
                         Activate
                       </button>
                     )}
-                    {f.status === "Active" && (
+                    {f.visibility === "Active" && (
                       <button onClick={() => handleClose(f.id)}>Close</button>
                     )}
-                    {f.status === "Closed" && (
+                    {f.visibility === "Closed" && (
                       <button onClick={() => handleActivate(f.id)}>
                         Reactivate
                       </button>

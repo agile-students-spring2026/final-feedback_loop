@@ -143,12 +143,22 @@ app.get("/projects/:id", (req, res) => {
   res.json(project || {});
 });
 
-// DELETE project
 app.delete("/projects/:id", (req, res) => {
+  const projectId = Number(req.params.id);
+
   let projects = readJSON(projectsPath);
-  projects = projects.filter((p) => p.id != req.params.id);
+  projects = projects.filter((p) => p.id !== projectId);
   writeJSON(projectsPath, projects);
-  res.json({ message: "Deleted successfully" });
+
+  let devlogs = readJSON(devlogsPath);
+  devlogs = devlogs.filter((d) => d.projectId !== projectId);
+  writeJSON(devlogsPath, devlogs);
+
+  let feedback = readJSON(feedbackPath);
+  feedback = feedback.filter((f) => f.projectId !== projectId);
+  writeJSON(feedbackPath, feedback);
+
+  res.json({ message: "Project and related data deleted successfully" });
 });
 
 // GET logs for a project
