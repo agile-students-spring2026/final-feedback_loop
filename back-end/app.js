@@ -118,14 +118,16 @@ app.post("/auth/login", (req, res) => {
   }
 });
 
-app.delete("/auth/users/id", (req, red) => {
+app.delete("/auth/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
-  const users = readJson(usersPath);
-  const updated = users.filter((user) => user.id !== userId);
+  const users = readJSON(usersPath);
+  const updated = users.filter((user) => String(user.id) !== String(userId));
 
   if (users.length === updated.length) {
-    return res.status(404).json({ success: false, message: "User not found" });
+    return res.status(404).json({ message: "User not found" });
   }
+  writeJSON(usersPath, updated);
+  res.status(200).json({ message: "User deleted" });
 });
 
 // GET all projects
