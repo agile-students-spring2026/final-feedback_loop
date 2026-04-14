@@ -73,7 +73,7 @@ function CreateNewFeedback() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          projectId: id,  // 关联到哪个项目
+          projectId: id,
           title: title,
           questions: questions,
         }),
