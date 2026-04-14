@@ -12,7 +12,7 @@
     "formId": 2,
     "projectId": "1",
     "title": "V3 Playtest",
-    "status": "Active",
+    "status": "Closed",
     "responseCount": 4
   },
   {
@@ -24,27 +24,11 @@
     "responseCount": 0
   },
   {
-    "id": 7,
-    "formId": 7,
+    "id": 10,
+    "formId": 10,
     "projectId": "1",
-    "title": "hey",
-    "status": "Draft",
-    "responseCount": 0
-  },
-  {
-    "id": 8,
-    "formId": 8,
-    "projectId": "1",
-    "title": "New form",
-    "status": "Draft",
-    "responseCount": 0
-  },
-  {
-    "id": 9,
-    "formId": 9,
-    "projectId": "3",
-    "title": "yuh",
-    "status": "Draft",
+    "title": "New Test",
+    "status": "Active",
     "responseCount": 0
   }
 ]
