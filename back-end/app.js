@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
+import fs, { read } from "fs";
 import path from "path";
 
 import createProjectRoutes from "./p5-routes/createProject.js";
@@ -83,18 +83,18 @@ app.post("/data/settings", (req, res) => {
 });
 
 app.post("/auth/register", (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   const users = readJSON(usersPath);
-  const user = users.find((person) => person.username === username);
+  const user = users.find((person) => person.email === email);
 
   if (user) {
     return res.status(409).json({
       success: false,
-      message: "Username is taken",
+      message: "Email is taken",
     });
   }
 
-  const newUser = { id: Date.now(), username, password };
+  const newUser = { id: Date.now(), email, password, username: "Username" };
   users.push(newUser);
   writeJSON(usersPath, users);
   res.status(201).json({
@@ -104,10 +104,10 @@ app.post("/auth/register", (req, res) => {
 });
 
 app.post("/auth/login", (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   const users = readJSON(usersPath);
   const user = users.find(
-    (person) => person.username === username && person.password === password,
+    (person) => person.email === email && person.password === password,
   );
 
   if (user) {
@@ -115,6 +115,16 @@ app.post("/auth/login", (req, res) => {
     res.json({ success: true, user: otherInfo });
   } else {
     res.status(401).json({ success: false });
+  }
+});
+
+app.delete("/auth/users/id", (req, red) => {
+  const userId = parseInt(req.params.id);
+  const users = readJson(usersPath);
+  const updated = users.filter((user) => user.id !== userId);
+
+  if (users.length === updated.length) {
+    return res.status(404).json({ success: false, message: "User not found" });
   }
 });
 
@@ -252,3 +262,4 @@ app.delete("/playtests/:projectId", (req, res) => {
 });
 
 export default app;
+export { readJSON, writeJSON };

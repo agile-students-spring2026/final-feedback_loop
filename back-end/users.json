@@ -1,17 +1,13 @@
 [
   {
-    "id": 1775981723011,
-    "username": "wdad",
-    "password": "a"
+    "id": 1776145527171,
+    "email": "gh@nyu.edu",
+    "password": "ghjk"
   },
   {
-    "id": 1775982158025,
-    "username": "wdad",
-    "password": "wad"
-  },
-  {
-    "id": 1776023661674,
-    "username": "i",
-    "password": "ghjj"
+    "id": 1776145650302,
+    "email": "fh@nyu.edu",
+    "password": "g",
+    "username": "heloo"
   }
 ]

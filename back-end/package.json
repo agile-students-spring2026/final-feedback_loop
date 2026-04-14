@@ -4,10 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server",
-    "dev": "nodemon ./server"
-  },
+  "test": "mocha \"test/**/*.test.js\" --timeout 5000",
+  "coverage": "c8 mocha \"test/**/*.test.js\" --timeout 5000",
+  "start": "node ./server",
+  "dev": "nodemon ./server"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,6 +20,12 @@
     "mongoose": "^9.3.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "c8": "^11.0.0",
+    "chai": "^6.2.2",
+    "chai-http": "^5.1.2",
+    "mocha": "^11.7.5",
+    "nodemon": "^3.1.14",
+    "sinon": "^21.1.2"
+
   }
 }

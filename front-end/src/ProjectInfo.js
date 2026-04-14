@@ -101,7 +101,7 @@ const handleClose = (formId) => {
               </p>
 
               <p>
-                <strong>Status:</strong> {project.status}
+                <strong>Status:</strong> {project.visibility}
               </p>
 
               <button
