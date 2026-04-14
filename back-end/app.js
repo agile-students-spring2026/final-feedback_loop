@@ -100,6 +100,7 @@ app.post("/auth/register", (req, res) => {
   res.status(201).json({
     success: true,
     message: "Registration successful!",
+    user: newUser,
   });
 });
 

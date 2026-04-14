@@ -1,10 +1,81 @@
 [
   {
+<<<<<<< HEAD
+    "id": 2,
+    "title": "Battle Arena",
+    "description": "Compete against players in real-time battles.",
+    "genre": "Action",
+    "tags": [
+      "pvp",
+      "multiplayer",
+      "ranked"
+    ],
+    "visibility": "Draft",
+    "lastUpdated": "2026-04-03"
+  },
+  {
+    "id": 3,
+    "title": "Mystery Manor",
+    "description": "Explore a haunted mansion and uncover secrets.",
+    "genre": "Adventure",
+    "tags": [
+      "story",
+      "exploration",
+      "mystery"
+    ],
+    "visibility": "Draft",
+    "lastUpdated": "2026-04-02"
+  },
+  {
+    "id": 4,
+    "title": "Sky Kingdom",
+    "description": "Build and manage a floating kingdom in the sky.",
+    "genre": "Simulation",
+    "tags": [
+      "building",
+      "management",
+      "creative"
+    ],
+    "visibility": "Draft",
+    "lastUpdated": "2026-03-30"
+  },
+  {
+    "id": 5,
+    "title": "Racing Rivals",
+    "description": "High-speed racing with customizable cars.",
+    "genre": "Racing",
+    "tags": [
+      "cars",
+      "multiplayer",
+      "competition"
+    ],
+    "visibility": "Completed",
+    "lastUpdated": "2026-03-20"
+  },
+  {
+    "id": 6,
+    "title": "Fantasy Legends",
+    "description": "Embark on an epic RPG journey in a magical world.",
+    "genre": "RPG",
+    "tags": [
+      "fantasy",
+      "quests",
+      "open-world"
+    ],
+    "visibility": "Draft",
+    "lastUpdated": "2026-04-04"
+  },
+  {
+    "id": 7,
+    "title": "My new stuff",
+    "description": "So cool!",
+=======
     "id": 1,
     "userId": "user_001",
     "title": "Dreamwalker",
     "lastUpdated": "04/12/2026",
     "description": "Sample description...",
+>>>>>>> 157bc52d9bd0e104d7f613e35e21d0e60b1872ab
     "genre": {
       "value": "Adventure",
       "label": "Adventure"
