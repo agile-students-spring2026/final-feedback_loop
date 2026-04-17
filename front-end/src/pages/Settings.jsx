@@ -3,6 +3,7 @@ import styles from "./settings.module.css";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import AppLayout from "../AppLayout";
+import { logout } from "../api";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -34,6 +35,7 @@ function SettingsPage() {
     nav("/report");
   };
   const handleLogout = () => {
+    logout();
     nav("/signin");
   };
 

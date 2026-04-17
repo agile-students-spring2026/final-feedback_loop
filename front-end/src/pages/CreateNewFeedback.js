@@ -68,6 +68,17 @@ function CreateNewFeedback() {
   }
 
   async function handleSaveAndView() {
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      if (q.type === "multiple_choice") {
+        const hasBlank = !q.options || q.options.some((opt) => !opt || !opt.trim());
+        if (hasBlank) {
+          alert(`Question ${i + 1}: multiple choice options cannot be blank.`);
+          return;
+        }
+      }
+    }
+
     try {
       console.log(id);
       const response = await apiFetch("/createfeedback", {
@@ -81,7 +92,7 @@ function CreateNewFeedback() {
 
       const newFeedback = await response.json();
       console.log("Created feedback form:", newFeedback);
-      navigate(`/feedback-form/${newFeedback.id}`);
+      navigate(`/devproject/${newFeedback.projectId}`);
     } catch (error) {
       console.error("Error creating feedback:", error);
       alert("Failed to save feedback form. Is the backend running?");

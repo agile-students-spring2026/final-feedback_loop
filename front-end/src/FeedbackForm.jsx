@@ -46,15 +46,6 @@ const FeedbackForm = () => {
     }
   };
 
-  const handleDiscard = () => {
-    if (!window.confirm("Discard all answers?")) return;
-    const reset = {};
-    form.questions.forEach((q) => {
-      reset[q.id] = q.type === "rating_scale" ? (q.value ?? 3) : "";
-    });
-    setAnswers(reset);
-  };
-
   return (
     <AppLayout>
       <div className="formPage">
@@ -120,9 +111,6 @@ const FeedbackForm = () => {
 
               <button className="formSubmitBtn" onClick={handleSubmit}>
                 Submit
-              </button>
-              <button className="formDiscardBtn" onClick={handleDiscard}>
-                Discard
               </button>
             </>
           ) : (
