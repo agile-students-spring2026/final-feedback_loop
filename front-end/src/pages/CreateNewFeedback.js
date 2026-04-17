@@ -5,6 +5,7 @@ import RatingScaleEditor from "../components/RatingScaleEditor";
 import ShortAnswerEditor from "../components/ShortAnswerEditor";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiFetch } from "../api";
 
 function CreateNewFeedback() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function CreateNewFeedback() {
         id: generateId(),
         type: type,
         question: "",
-        options: ["Choice 1", "Choice 2"],
+        options: ["", ""],
       };
     }
 
@@ -67,11 +68,21 @@ function CreateNewFeedback() {
   }
 
   async function handleSaveAndView() {
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      if (q.type === "multiple_choice") {
+        const hasBlank = !q.options || q.options.some((opt) => !opt || !opt.trim());
+        if (hasBlank) {
+          alert(`Question ${i + 1}: multiple choice options cannot be blank.`);
+          return;
+        }
+      }
+    }
+
     try {
       console.log(id);
-      const response = await fetch("http://localhost:7002/createfeedback", {
+      const response = await apiFetch("/createfeedback", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           projectId: id,
           title: title,
@@ -81,7 +92,7 @@ function CreateNewFeedback() {
 
       const newFeedback = await response.json();
       console.log("Created feedback form:", newFeedback);
-      navigate(`/feedback-form/${newFeedback.id}`);
+      navigate(`/devproject/${newFeedback.projectId}`);
     } catch (error) {
       console.error("Error creating feedback:", error);
       alert("Failed to save feedback form. Is the backend running?");

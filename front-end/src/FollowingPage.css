@@ -104,6 +104,50 @@
   margin: 0 0 16px 0;
 }
 
+.followDevlogs {
+  margin: 0 0 16px 0;
+  padding: 12px;
+  background: #f5f3ff;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+}
+
+.followDevlogsTitle {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4b5563;
+}
+
+.followDevlog {
+  margin-bottom: 10px;
+}
+
+.followDevlog:last-child {
+  margin-bottom: 0;
+}
+
+.followDevlogMeta {
+  margin: 0;
+  font-size: 12px;
+  color: #374151;
+}
+
+.followDevlogNotes {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.followEmpty {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+  font-style: italic;
+}
+
 .followBtnGroup {
   display: flex;
   gap: 8px;

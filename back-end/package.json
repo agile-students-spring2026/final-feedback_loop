@@ -4,19 +4,22 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-  "test": "mocha \"test/**/*.test.js\" --timeout 5000",
-  "coverage": "c8 mocha \"test/**/*.test.js\" --timeout 5000",
-  "start": "node ./server",
-  "dev": "nodemon ./server"
-},
+    "test": "mocha --file test/setup.js \"test/**/*.test.js\" --timeout 15000",
+    "coverage": "c8 mocha --file test/setup.js \"test/**/*.test.js\" --timeout 15000",
+    "start": "node ./server",
+    "dev": "nodemon ./server"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.1",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.0"
   },
   "devDependencies": {
@@ -26,6 +29,5 @@
     "mocha": "^11.7.5",
     "nodemon": "^3.1.14",
     "sinon": "^21.1.2"
-
   }
 }

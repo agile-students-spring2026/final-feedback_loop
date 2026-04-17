@@ -47,7 +47,7 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
           <button
             className={`nav-btn ${isActive("/following") ? "active" : ""}`}
             onClick={() => handleNav("/following")}>
-            Follow
+            Following
           </button>
 
           <button

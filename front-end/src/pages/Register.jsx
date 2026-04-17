@@ -5,6 +5,7 @@ import styles2 from "./register.module.css";
 import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { apiFetch, setToken, setUser } from "../api";
 
 function Register() {
   const [error, setError] = useState("");
@@ -13,7 +14,7 @@ function Register() {
   const checkInfo = async (e) => {
     e.preventDefault();
     setError("");
-    const email = e.target.email.value;
+    const username = e.target.username.value;
     const password = e.target.password.value;
     const confirm = e.target.confirm.value;
 
@@ -22,20 +23,18 @@ function Register() {
       return;
     }
     try {
-      const response = await fetch("/auth/register", {
+      const response = await apiFetch("/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
       if (data.success) {
-        navigate("/signin");
+        setToken(data.token);
+        setUser(data.user);
+        navigate("/explore");
       } else {
-        setError("Email taken");
+        setError(data.message || "Username taken");
       }
     } catch (err) {
       setError("Try again");
@@ -53,11 +52,11 @@ function Register() {
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
-                name="email"
-                type="email"
+                name="username"
+                type="text"
                 variant="test"
-                placeholderText="Email Address"
-                autoComplete="new-password"
+                placeholderText="Username"
+                autoComplete="username"
                 required
               />
             </div>

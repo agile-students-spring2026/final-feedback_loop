@@ -2,6 +2,7 @@ import { useState, useEffect  } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../api";
 
 function UploadSection({
   uploadType,
@@ -102,7 +103,7 @@ function CreateProjectForm() {
   useEffect(() => {
     async function fetchOptions() {
       try {
-        const response = await fetch("http://localhost:7002/options");
+        const response = await apiFetch("/options");
         const data = await response.json();
         setTagOption(data.tagOption);
         setGenreOption(data.genreOption);
@@ -127,9 +128,8 @@ function CreateProjectForm() {
     e.preventDefault();
  
     try {
-      const response = await fetch("http://localhost:7002/createprojects", {
+      const response = await apiFetch("/createprojects", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: "user_001",   // temp (redo after connect to login system)
           title,
@@ -143,7 +143,16 @@ function CreateProjectForm() {
         }),
       });
  
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        alert(err.message || "Failed to create project. Please sign in again.");
+        return;
+      }
       const newProject = await response.json();
+      if (!newProject.id) {
+        alert("Project created but no id returned.");
+        return;
+      }
       navigate(`/devproject/${newProject.id}`);
     } catch (error) {
       console.error("Error creating project:", error);

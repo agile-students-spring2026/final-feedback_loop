@@ -1,78 +1,71 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import Project from "../models/Project.js";
+import { nextId } from "../models/Counter.js";
+import { requireAuth } from "../auth.js";
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const filePath = path.join(__dirname, "../projects.json");
+const formattedDate = () =>
+  new Date().toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+  });
 
-router.post("/", (req, res) => {
-  const { title, description, genre, tags, visibility, uploadType, uploadUrl } =
+router.post("/", requireAuth, async (req, res) => {
+  const { title, description, genre, tags, visibility, uploadType, uploadUrl, version } =
     req.body;
 
-  fs.readFile(filePath, "utf-8", (err, data) => {
-    const projects = data ? JSON.parse(data) : [];
-    const newId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
+  const newId = await nextId("project");
 
-    const newProject = {
-      id: newId,
-      title,
-      description,
-      genre,
-      tags,
-      coverImage: null,
-      coverPreview: "",
-      uploadType,
-      uploadFile: null,
-      uploadUrl: uploadUrl || "",
-      visibility,
-      lastUpdated: new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }),
-      createdAt: new Date().toISOString(),
-    };
+  const newProject = {
+    id: newId,
+    userId: String(req.user.userId),
+    ownerUsername: req.user.username || "",
+    title,
+    description,
+    genre,
+    tags,
+    coverImage: null,
+    coverPreview: "",
+    uploadType,
+    uploadFile: null,
+    uploadUrl: uploadUrl || "",
+    visibility,
+    version: version || "v0.1",
+    lastUpdated: formattedDate(),
+    createdAt: new Date().toISOString(),
+  };
 
-    projects.push(newProject);
-
-    fs.writeFile(filePath, JSON.stringify(projects, null, 2), () => {
-      res.status(201).json(newProject);
-    });
-  });
+  await Project.create(newProject);
+  res.status(201).json(newProject);
 });
 
-router.put("/:id", (req, res) => {
-  const { title, description, genre, tags, visibility, uploadType, uploadUrl } =
+router.put("/:id", requireAuth, async (req, res) => {
+  const { title, description, genre, tags, visibility, uploadType, uploadUrl, version } =
     req.body;
+  const id = parseInt(req.params.id);
 
-  fs.readFile(filePath, "utf-8", (err, data) => {
-    if (err) return res.status(500).json({ error: "Read error" });
+  const existing = await Project.findOne({ id }).lean();
+  if (!existing) return res.status(404).json({ error: "Project not found" });
+  if (String(existing.userId) !== String(req.user.userId))
+    return res.status(403).json({ error: "Not your project" });
 
-    let projects = JSON.parse(data);
-    const index = projects.findIndex(
-      (p) => p.id === parseInt(req.params.id)
-    );
+  const update = {
+    title,
+    description,
+    genre,
+    tags,
+    visibility,
+    uploadType,
+    uploadUrl: uploadUrl || existing.uploadUrl,
+    version: version || existing.version || "v0.1",
+    lastUpdated: formattedDate(),
+  };
 
-    if (index === -1) {
-      return res.status(404).json({ error: "Project not found" });
-    }
-
-    projects[index] = {
-      ...projects[index],
-      title,
-      description,
-      genre,
-      tags,
-      visibility,
-      uploadType,
-      uploadUrl: uploadUrl || projects[index].uploadUrl,
-      lastUpdated: new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }),
-    };
-
-    fs.writeFile(filePath, JSON.stringify(projects, null, 2), () => {
-      res.json(projects[index]);
-    });
-  });
+  await Project.updateOne({ id }, update);
+  const updated = await Project.findOne({ id }, { _id: 0 }).lean();
+  res.json(updated);
 });
 
 export default router;
