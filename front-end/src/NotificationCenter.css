@@ -3,18 +3,7 @@
   background: #f3f4f6;
 }
 
-.notifHeaderBar {
-  background: var(--dark-eggplant);
-  color: var(--pale-lavender);
-  padding: 24px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
 .notifBody {
-  padding: 40px;
   max-width: 700px;
   margin: 0 auto;
 }
@@ -24,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
-  border-bottom: 2px solid #000;
+  border-bottom: 0.5px solid #888888;
 }
 
 .notifMessage {
@@ -36,7 +25,7 @@
 
 .notifActions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 6px;
   margin-left: 16px;
 }
@@ -80,49 +69,6 @@
   margin: 0;
 }
 
-.notifCard {
-  border: 2px solid #000;
-  background-color: #fff;
-  padding: 20px;
-  margin-bottom: 24px;
-  box-shadow: 4px 4px 0px 0px #000;
-}
-
-.notifCardTop {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.notifCardImg {
-  width: 120px;
-  height: 80px;
-  object-fit: cover;
-  border: 2px solid #000;
-  flex-shrink: 0;
-}
-
-.notifCardInfo {
-  flex: 1;
-}
-
-.notifCardTitleRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.notifCardTitle {
-  font-weight: 800;
-  font-size: 15px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.notifCardTitle:hover {
-  text-decoration: underline;
-}
 
 .notifCardTime {
   font-size: 11px;
@@ -138,9 +84,25 @@
   margin-bottom: 4px;
 }
 
-.notifCardDesc {
+.notifDevlogs {
+  margin: 0 0 16px 0;
+  padding: 12px;
+  background: #f5f3ff;
+  border: 1px solid #a641b4;
+  border-radius: 4px;
+}
+
+.notifDevlogsTitle {
+  margin: 0 0 8px 0;
   font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: #4b5563;
-  line-height: 1.5;
-  margin: 8px 0 0 0;
+}
+
+.notifDevlogNotes {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #111827;
+  line-height: 1.4;
 }

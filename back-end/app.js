@@ -14,6 +14,7 @@ import FeedbackResult from "./models/FeedbackResult.js";
 import Playtest from "./models/Playtest.js";
 import Settings from "./models/Settings.js";
 import FeedbackComment from "./models/FeedbackComment.js";
+import Notification from "./models/Notification.js";
 
 import { nextId } from "./models/Counter.js";
 import { strip } from "./utils.js";
@@ -207,6 +208,24 @@ app.post("/feedback-result/:formId", requireAuth, async (req, res) => {
   );
   await FeedbackSummary.updateOne({ formId }, { $inc: { responseCount: 1 } });
 
+  const form = await FeedbackSummary.findOne({ formId }).lean();
+
+  if (form) {
+    const project = await Project.findOne({ id: form.projectId }).lean();
+
+    if (project && String(project.userId) !== String(req.user.userId)) {
+      const user = await User.findOne({ id: req.user.userId }).lean();
+
+      await Notification.create({
+        id: Date.now() + Math.random(),
+        recipientId: String(project.userId),
+        senderId: String(req.user.userId),
+        projectId: project.id,
+        type: "feedback",
+        message: `${user.username} submitted feedback on ${project.title}`,
+      });
+    }
+  }
   res.status(201).json({ success: true });
 });
 
@@ -217,12 +236,30 @@ app.post("/devlogs", requireAuth, async (req, res) => {
 
   const project = await Project.findOne({ id: projectId }).lean();
   if (!project) return res.status(404).json({ error: "Project not found" });
+
   if (String(project.userId) !== String(req.user.userId))
     return res.status(403).json({ error: "Not your project" });
 
   const id = await nextId("devlog");
   const newLog = { id, ...req.body, projectId };
   await DevLog.create(newLog);
+
+  const followers = await Playtest.find({ projectId }).lean();
+
+  for (const f of followers) {
+    if (String(f.userId) === String(req.user.userId)) continue;
+
+    await Notification.create({
+      id: Date.now() + Math.random(),
+      recipientId: String(f.userId),
+      senderId: String(req.user.userId),
+      projectId,
+      devlogId: id,
+      type: "devlog",
+      message: `${project.title} posted a new devlog`,
+    });
+  }
+
   res.json(newLog);
 });
 
@@ -283,6 +320,26 @@ app.post("/playtests", requireAuth, async (req, res) => {
     joined: true,
   };
   await Playtest.create(entry);
+
+  try {
+    if (String(project.userId) !== userId) {
+
+      const user = await User.findOne({ id: req.user.userId }).lean();
+
+      await Notification.create({
+        id: Date.now() + Math.random(),
+        recipientId: String(project.userId), 
+        senderId: userId,                   
+        projectId: project.id,
+        type: "follow",
+        message: `${user.username} started following ${project.title}`,
+      });
+
+    }
+  } catch (err) {
+    console.error("Follow notification error:", err);
+  }
+
   res.status(201).json(entry);
 });
 
@@ -309,10 +366,12 @@ app.get("/feedback-comments/:projectId", async (req, res) => {
 
 app.post("/feedback-comments", requireAuth, async (req, res) => {
   const { projectId, text } = req.body;
+
   if (!projectId || !text)
     return res.status(400).json({ error: "projectId and text are required" });
 
   const user = await User.findOne({ id: req.user.userId }).lean();
+
   const comment = await FeedbackComment.create({
     id: await nextId("feedbackComment"),
     projectId: Number(projectId),
@@ -321,6 +380,20 @@ app.post("/feedback-comments", requireAuth, async (req, res) => {
     likes: 0,
     replies: [],
   });
+
+  const project = await Project.findOne({ id: Number(projectId) }).lean();
+
+  if (project && String(project.userId) !== String(req.user.userId)) {
+    await Notification.create({
+      id: Date.now() + Math.random(),
+      recipientId: String(project.userId),
+      senderId: String(req.user.userId),
+      projectId: Number(projectId),
+      type: "feedback",
+      message: `${user.username} commented on ${project.title}`,
+    });
+  }
+
   res.status(201).json(strip(comment.toObject()));
 });
 
@@ -338,9 +411,11 @@ app.post("/feedback-comments/:id/like", requireAuth, async (req, res) => {
 app.post("/feedback-comments/:id/reply", requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const { isDev, text } = req.body;
+
   if (!text) return res.status(400).json({ error: "text is required" });
 
   const user = await User.findOne({ id: req.user.userId }).lean();
+
   const reply = {
     id: await nextId("feedbackReply"),
     name: user?.username || "User",
@@ -348,18 +423,81 @@ app.post("/feedback-comments/:id/reply", requireAuth, async (req, res) => {
     text,
     createdAt: new Date(),
   };
+
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
     { $push: { replies: reply } },
     { returnDocument: "after", lean: true }
   );
+
   if (!updated) return res.status(404).json({ error: "Comment not found" });
+
+  try {
+    const project = await Project.findOne({ id: updated.projectId }).lean();
+
+    if (updated.player && updated.player !== user?.username) {
+      const originalUser = await User.findOne({
+        username: updated.player,
+      }).lean();
+
+      if (originalUser) {
+        await Notification.create({
+          id: Date.now() + Math.random(),
+          recipientId: String(originalUser.id),
+          senderId: String(req.user.userId),
+          projectId: updated.projectId,
+          type: "feedback",
+          message: `${user?.username || "Someone"} replied to your comment`,
+        });
+      }
+    }
+
+    if (project && String(project.userId) !== String(req.user.userId)) {
+      await Notification.create({
+        id: Date.now() + Math.random(),
+        recipientId: String(project.userId),
+        senderId: String(req.user.userId),
+        projectId: updated.projectId,
+        type: "feedback",
+        message: `${user?.username || "Someone"} replied in your game's comments`,
+      });
+    }
+  } catch (err) {
+    console.error("Notification error (reply):", err);
+  }
+
   res.json(strip(updated));
 });
 
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: err.message || "Internal server error" });
+});
+
+app.get("/notifications", requireAuth, async (req, res) => {
+  const notifications = await Notification.find({
+    recipientId: String(req.user.userId),
+  })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  res.json(strip(notifications));
+});
+
+app.patch("/notifications/:id/read", requireAuth, async (req, res) => {
+  const id = Number(req.params.id);
+
+  await Notification.updateOne({ id }, { read: true });
+
+  res.json({ message: "Marked as read" });
+});
+
+app.delete("/notifications/:id", requireAuth, async (req, res) => {
+  const id = Number(req.params.id);
+
+  await Notification.deleteOne({ id });
+
+  res.json({ message: "Deleted" });
 });
 
 export default app;

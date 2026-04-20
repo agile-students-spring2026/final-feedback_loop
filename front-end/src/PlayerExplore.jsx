@@ -12,8 +12,24 @@ const PlayerExplore = () => {
   const [followedIds, setFollowedIds] = useState(loadFollows());
   const [loading, setLoading] = useState(true);
 
-  const handleToggleFollow = (projectId) => {
-    setFollowedIds(toggleFollow(projectId));
+  const handleToggleFollow = async (projectId) => {
+    try {
+      console.log("🚀 calling /playtests for follow");
+
+      const res = await apiFetch("/playtests", {
+        method: "POST",
+        body: JSON.stringify({ projectId }),
+      });
+
+      console.log("response:", res.status);
+
+      if (res.ok || res.status === 409) {
+        // keep your local UI behavior
+        setFollowedIds(toggleFollow(projectId));
+      }
+    } catch (err) {
+      console.error("follow failed:", err);
+    }
   };
 
   useEffect(() => {

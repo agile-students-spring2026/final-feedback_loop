@@ -9,7 +9,7 @@ const Navbar = ({ onBurgerClick }) => {
       <button className="burger" onClick={onBurgerClick}>
         <img src={listIcon} alt="menu" className="burger-icon" />
       </button>
-      <div className="logo">[ LOGO ]</div>
+      <div className="logo">Feedback Loop</div>
       {user?.username && (
         <span style={{ marginLeft: "auto", fontSize: "0.75rem", opacity: 0.8 }}>
           @{user.username}
