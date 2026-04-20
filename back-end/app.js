@@ -38,37 +38,26 @@ app.get("/hello", (req, res) => {
   res.json({ message: "server is working" });
 });
 
-app.get("/data/settingsdata", requireAuth, async (req, res) => {
-  const settings = await Settings.findOne({ userId: req.user.userId }).lean();
-  res.json(settings ? { profilePic: settings.profilePic } : {});
-});
-
-app.post("/data/settingsdata", requireAuth, async (req, res) => {
-  const { profilePic } = req.body;
-  if (!profilePic) return res.status(400).json({ message: "profilePic required" });
-  await Settings.updateOne(
-    { userId: req.user.userId },
-    { profilePic, userId: req.user.userId },
-    { upsert: true }
-  );
-  res.status(200).json({ message: "Profile pic updated!" });
-});
-
 app.get("/data/settings", requireAuth, async (req, res) => {
   const user = await User.findOne({ id: req.user.userId }).lean();
+
   if (!user) return res.status(404).json({ message: "User not found" });
-  const { password, ...safeUser } = user;
-  res.json(strip(safeUser));
+
+  res.json({
+    username: user.username,
+    profilePic: user.profilePic || "/blank-pfp.png",
+  });
 });
 
 app.post("/data/settings", requireAuth, async (req, res) => {
-  const { username, password } = req.body;
-  const update = {};
-  if (username) update.username = username;
-  if (password) update.password = await hashPassword(password);
-  const result = await User.updateOne({ id: req.user.userId }, update);
-  if (result.matchedCount === 0)
-    return res.status(404).json({ message: "User not found" });
+  const { profilePic, username, password } = req.body;
+  const updateData = {};
+
+  if (profilePic) updateData.profilePic = profilePic;
+  if (username) updateData.username = username;
+  if (password) updateData.password = await hashPassword(password);
+
+  await User.updateOne({ id: req.user.userId }, { $set: updateData });
   res.status(200).json({ message: "Settings updated!" });
 });
 
@@ -79,7 +68,9 @@ app.post("/auth/register", async (req, res) => {
   }
   const existing = await User.findOne({ username });
   if (existing) {
-    return res.status(409).json({ success: false, message: "Username is taken" });
+    return res
+      .status(409)
+      .json({ success: false, message: "Username is taken" });
   }
   const userId = Date.now();
   const hashed = await hashPassword(password);
@@ -115,7 +106,9 @@ app.post("/auth/login", async (req, res) => {
 app.delete("/auth/users/:id", requireAuth, async (req, res) => {
   const userId = parseInt(req.params.id);
   if (userId !== req.user.userId)
-    return res.status(403).json({ message: "Can only delete your own account" });
+    return res
+      .status(403)
+      .json({ message: "Can only delete your own account" });
   const result = await User.deleteOne({ id: userId });
   if (result.deletedCount === 0)
     return res.status(404).json({ message: "User not found" });
@@ -203,7 +196,7 @@ app.post("/feedback-result/:formId", requireAuth, async (req, res) => {
   await FeedbackResult.updateOne(
     { id: formId },
     { $push: { submissions: submission }, $setOnInsert: { id: formId } },
-    { upsert: true }
+    { upsert: true },
   );
   await FeedbackSummary.updateOne({ formId }, { $inc: { responseCount: 1 } });
 
@@ -245,7 +238,8 @@ app.get("/explore/projects", async (req, res) => {
 
 app.get("/explore/projects/:id", async (req, res) => {
   const id = Number(req.params.id);
-  if (!Number.isFinite(id)) return res.status(400).json({ error: "Invalid project id" });
+  if (!Number.isFinite(id))
+    return res.status(400).json({ error: "Invalid project id" });
   const project = await Project.findOne({ id }).lean();
   if (!project) return res.status(404).json({ error: "Project not found" });
   res.json(strip(project));
@@ -260,7 +254,8 @@ app.get("/playtests", requireAuth, async (req, res) => {
 
 app.post("/playtests", requireAuth, async (req, res) => {
   const { projectId } = req.body;
-  if (!projectId) return res.status(400).json({ error: "projectId is required" });
+  if (!projectId)
+    return res.status(400).json({ error: "projectId is required" });
 
   const userId = String(req.user.userId);
   const already = await Playtest.findOne({
@@ -329,7 +324,7 @@ app.post("/feedback-comments/:id/like", requireAuth, async (req, res) => {
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
     { $inc: { likes: 1 } },
-    { returnDocument: "after", lean: true }
+    { returnDocument: "after", lean: true },
   );
   if (!updated) return res.status(404).json({ error: "Comment not found" });
   res.json(strip(updated));
@@ -351,7 +346,7 @@ app.post("/feedback-comments/:id/reply", requireAuth, async (req, res) => {
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
     { $push: { replies: reply } },
-    { returnDocument: "after", lean: true }
+    { returnDocument: "after", lean: true },
   );
   if (!updated) return res.status(404).json({ error: "Comment not found" });
   res.json(strip(updated));

@@ -8,15 +8,6 @@ import { logout } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const MOCK_PICSUM = [
-  { id: 1, url: "https://picsum.photos/200" },
-  { id: 2, url: "https://picsum.photos/200" },
-  { id: 3, url: "https://picsum.photos/200" },
-  { id: 4, url: "https://picsum.photos/200" },
-  { id: 5, url: "https://picsum.photos/200" },
-  { id: 6, url: "https://picsum.photos/200" },
-];
-
 function SettingsPage() {
   const [user, setUser] = useState({
     username: "",
@@ -74,17 +65,17 @@ function SettingsPage() {
     }
   };
 
-  const handlePfp = async () => {
-    if (tempPfp) {
-      await fetch("/data/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profilePic: tempPfp }),
-      });
-      setUser((prev) => ({ ...prev, profilePic: tempPfp }));
-    }
-    setIsSelect(false);
-  };
+  // const handlePfp = async () => {
+  //   if (tempPfp) {
+  //     await fetch("/data/settings", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ profilePic: tempPfp }),
+  //     });
+  //     setUser((prev) => ({ ...prev, profilePic: tempPfp }));
+  //   }
+  //   setIsSelect(false);
+  // };
 
   const handleInfoSubmit = async (e) => {
     e.preventDefault();
@@ -112,21 +103,57 @@ function SettingsPage() {
     }
   };
 
+  const openWidget = () => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloudName: "dpdidryxs",
+        uploadPreset: "preset_123",
+        sources: ["local", "camera", "url"],
+        multiple: false,
+        cropping: true,
+      },
+      async (error, result) => {
+        if (!error && result && result.event === "success") {
+          const imageUrl = result.info.secure_url;
+
+          try {
+            const res = await fetch("/data/settings", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: currentUser.id,
+                profilePic: imageUrl,
+              }),
+            });
+
+            if (res.ok) {
+              setUser((prev) => ({ ...prev, profilePic: imageUrl }));
+              alert("Profile picture updated!");
+            }
+          } catch (err) {
+            console.error("Database save failed", err);
+          }
+        }
+      },
+    );
+  };
+
   useEffect(() => {
     const loadData = async () => {
-      const userRes = await fetch(`/data/settings?userId=${currentUser.id}`);
-      const userData = await userRes.json();
-
-      const settingsRes = await fetch("/data/settingsdata");
-      const settingsData = await settingsRes.json();
-
-      setUser({
-        username: userData.username || "",
-        password: "",
-        profilePic: settingsData.profilePic || "/blank-pfp.png",
-      });
+      try {
+        const res = await fetch(`/data/settings`);
+        const data = await res.json();
+        if (res.ok) {
+          setUser({
+            username: data.username || "",
+            password: "",
+            profilePic: data.profilePic || "/blank-pfp.png",
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load settings", err);
+      }
     };
-
     loadData();
   }, []);
 
@@ -139,20 +166,14 @@ function SettingsPage() {
 
         <div className={styles.settingsWrapper}>
           <Outline variant="pfp">
-            <div className="pfpWrapper" onClick={() => setIsSelect(true)}>
-              <img
-                className={styles.img}
-                src={isSelect ? tempPfp || user.profilePic : user.profilePic}
-                alt="Avatar"
-              />
+            <div
+              className="pfpWrapper"
+              onClick={openWidget}
+              style={{ cursor: "pointer" }}
+            >
+              <img className={styles.img} src={user.profilePic} alt="Avatar" />
             </div>
-            {isSelect ? (
-              <Button variant="settings" onClick={handlePfp}>
-                Confirm
-              </Button>
-            ) : (
-              <p className={styles.user}>{user.username}</p>
-            )}
+            <p className={styles.user}>{user.username}</p>
           </Outline>
           <Outline variant="settings">
             {!isSelect ? (
