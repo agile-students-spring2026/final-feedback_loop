@@ -4,6 +4,7 @@ import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import AppLayout from "../AppLayout";
 import { logout } from "../api";
+import { apiFetch } from "../api";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -12,14 +13,14 @@ function SettingsPage() {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    profilePic: "/blank-pfp.png",
+    profilePic:
+      "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png",
   });
   const [accButtonText, setAccButtonText] = useState("Account Code");
   const [clicked, setClicked] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [isSelect, setIsSelect] = useState(false);
   const [tempPfp, setTempPfp] = useState(false);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const currentUser = JSON.parse(localStorage.getItem("authUser") || "{}");
 
   const nav = useNavigate();
   const handleReport = () => {
@@ -49,7 +50,7 @@ function SettingsPage() {
       setTimeout(() => setConfirm(false), 3000);
     } else {
       try {
-        const res = await fetch(`/auth/users/${currentUser.id}`, {
+        const res = await apiFetch(`/auth/users/${currentUser.id}`, {
           method: "DELETE",
         });
         if (res.ok) {
@@ -65,25 +66,13 @@ function SettingsPage() {
     }
   };
 
-  // const handlePfp = async () => {
-  //   if (tempPfp) {
-  //     await fetch("/data/settings", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ profilePic: tempPfp }),
-  //     });
-  //     setUser((prev) => ({ ...prev, profilePic: tempPfp }));
-  //   }
-  //   setIsSelect(false);
-  // };
-
   const handleInfoSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newUsername = formData.get("usernameField");
     const newPassword = formData.get("passwordField");
 
-    const response = await fetch("/data/settings", {
+    const response = await apiFetch("/data/settings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -117,7 +106,7 @@ function SettingsPage() {
           const imageUrl = result.info.secure_url;
 
           try {
-            const res = await fetch("/data/settings", {
+            const res = await apiFetch("/data/settings", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -134,20 +123,24 @@ function SettingsPage() {
             console.error("Database save failed", err);
           }
         }
-      },
+      }
     );
   };
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetch(`/data/settings`);
+        const res = await apiFetch(`/data/settings`);
         const data = await res.json();
         if (res.ok) {
+          const finalPfp =
+            !data.profilePic || data.profilePic === "/blank-pfp.png"
+              ? "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png"
+              : data.profilePic;
           setUser({
             username: data.username || "",
             password: "",
-            profilePic: data.profilePic || "/blank-pfp.png",
+            profilePic: finalPfp,
           });
         }
       } catch (err) {
@@ -176,71 +169,51 @@ function SettingsPage() {
             <p className={styles.user}>{user.username}</p>
           </Outline>
           <Outline variant="settings">
-            {!isSelect ? (
-              <form onSubmit={handleInfoSubmit}>
-                <Outline variant="info" legendText="Account Info">
-                  <div className={styles.info}>
-                    <p className={styles.p}>Change Username:</p>
-                    <InfoInput
-                      name="usernameField"
-                      variant="single"
-                      placeholderText="Enter new username"
-                    />
-                  </div>
-                  <div className={styles.info}>
-                    <p className={styles.p}>Change Password:</p>
-                    <InfoInput
-                      name="passwordField"
-                      variant="single"
-                      placeholderText="Enter new password"
-                    />
-                  </div>
-                  <div className={styles.buttonWrapper}>
-                    <Button type="submit" variant="settings">
-                      Submit
-                    </Button>
-                  </div>
-                </Outline>
-                <Outline variant="acc" legendText="Utilities">
-                  <Button
-                    variant="settings"
-                    onClick={handleAccCode}
-                    disabled={clicked}
-                  >
-                    {accButtonText}
+            <form onSubmit={handleInfoSubmit}>
+              <Outline variant="info" legendText="Account Info">
+                <div className={styles.info}>
+                  <p className={styles.p}>Change Username:</p>
+                  <InfoInput
+                    name="usernameField"
+                    variant="single"
+                    placeholderText="Enter new username"
+                  />
+                </div>
+                <div className={styles.info}>
+                  <p className={styles.p}>Change Password:</p>
+                  <InfoInput
+                    name="passwordField"
+                    variant="single"
+                    placeholderText="Enter new password"
+                  />
+                </div>
+                <div className={styles.buttonWrapper}>
+                  <Button type="submit" variant="settings">
+                    Submit
                   </Button>
-                  <Button variant="settings" onClick={handleReport}>
-                    Report
+                </div>
+              </Outline>
+              <Outline variant="acc" legendText="Utilities">
+                <Button
+                  variant="settings"
+                  onClick={handleAccCode}
+                  disabled={clicked}
+                >
+                  {accButtonText}
+                </Button>
+                <Button variant="settings" onClick={handleReport}>
+                  Report
+                </Button>
+                <Button variant="settings" onClick={handleLogout}>
+                  Log Out
+                </Button>
+                <div className={styles.deleteWrapper}>
+                  <Button variant="settings" onClick={handleDelete}>
+                    {confirm ? "Are you sure?" : "Delete Account"}
                   </Button>
-                  <Button variant="settings" onClick={handleLogout}>
-                    Log Out
-                  </Button>
-                  <div className={styles.deleteWrapper}>
-                    <Button variant="settings" onClick={handleDelete}>
-                      {confirm ? "Are you sure?" : "Delete Account"}
-                    </Button>
-                  </div>
-                </Outline>
-              </form>
-            ) : (
-              <div className={styles.gallery}>
-                {MOCK_PICSUM.map((photo) => (
-                  <div
-                    key={photo.id}
-                    className={`${styles.galleryItem} ${
-                      tempPfp === photo.url ? styles.activePhoto : ""
-                    }`}
-                    onClick={() => setTempPfp(photo.url)}
-                  >
-                    <img
-                      src={photo.url}
-                      alt="Option"
-                      className={styles.galleryImg}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+                </div>
+              </Outline>
+            </form>
           </Outline>
         </div>
       </div>

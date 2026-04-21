@@ -45,7 +45,9 @@ app.get("/data/settings", requireAuth, async (req, res) => {
 
   res.json({
     username: user.username,
-    profilePic: user.profilePic || "/blank-pfp.png",
+    profilePic:
+      user.profilePic ||
+      "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png",
   });
 });
 
@@ -196,7 +198,7 @@ app.post("/feedback-result/:formId", requireAuth, async (req, res) => {
   await FeedbackResult.updateOne(
     { id: formId },
     { $push: { submissions: submission }, $setOnInsert: { id: formId } },
-    { upsert: true },
+    { upsert: true }
   );
   await FeedbackSummary.updateOne({ formId }, { $inc: { responseCount: 1 } });
 
@@ -324,7 +326,7 @@ app.post("/feedback-comments/:id/like", requireAuth, async (req, res) => {
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
     { $inc: { likes: 1 } },
-    { returnDocument: "after", lean: true },
+    { returnDocument: "after", lean: true }
   );
   if (!updated) return res.status(404).json({ error: "Comment not found" });
   res.json(strip(updated));
@@ -346,7 +348,7 @@ app.post("/feedback-comments/:id/reply", requireAuth, async (req, res) => {
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
     { $push: { replies: reply } },
-    { returnDocument: "after", lean: true },
+    { returnDocument: "after", lean: true }
   );
   if (!updated) return res.status(404).json({ error: "Comment not found" });
   res.json(strip(updated));
