@@ -26,7 +26,6 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
             onClick={() => handleNav("/devdash")}>
             Dashboard
           </button>
-
         </div>
 
         <div className="sidebar-section">
@@ -36,12 +35,6 @@ const Sidebar = ({ myPlaytests = [], isOpen, close }) => {
             className={`nav-btn ${isActive("/explore") ? "active" : ""}`}
             onClick={() => handleNav("/explore")}>
             Explore
-          </button>
-
-          <button
-            className={`nav-btn ${isActive("/my-playtests") ? "active" : ""}`}
-            onClick={() => handleNav("/my-playtests")}>
-            My Playtests
           </button>
 
           <button
