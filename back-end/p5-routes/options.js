@@ -1,20 +1,20 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
- 
+import Options from "../models/Options.js";
+
 const router = express.Router();
- 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const filePath = path.join(__dirname, "../p5-data/options.json");
- 
-router.get("/", (req, res) => {
-  fs.readFile(filePath, "utf-8", (err, data) => {
-    if (err) return res.status(500).json({ error: "Read error" });
-    const options = JSON.parse(data);
-    res.json(options);
-  });
+
+router.get("/", async (req, res) => {
+  try {
+    let options = await Options.findOne().lean();
+    if (!options) {
+      const created = await Options.create({});
+      options = created.toObject();
+    }
+    const { _id, ...rest } = options;
+    res.json(rest);
+  } catch (err) {
+    res.status(500).json({ error: "Read error" });
+  }
 });
- 
+
 export default router;

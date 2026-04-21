@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import "./ProjectDetails.css";
-
-const API = "http://localhost:7002";
+import { apiFetch } from "./api";
 
 const ProjectDetails = () => {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ const ProjectDetails = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await fetch(`${API}/explore/projects/${id}`);
+        const res = await apiFetch(`/explore/projects/${id}`);
         if (res.status === 404) {
           setNotFound(true);
           return;

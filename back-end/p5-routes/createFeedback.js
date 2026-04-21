@@ -1,104 +1,73 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import FeedbackForm from "../models/FeedbackForm.js";
+import FeedbackSummary from "../models/FeedbackSummary.js";
+import FeedbackResult from "../models/FeedbackResult.js";
+import Project from "../models/Project.js";
+import { nextId } from "../models/Counter.js";
+import { requireAuth } from "../auth.js";
+import { strip } from "../utils.js";
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const formFilePath = path.join(__dirname, "../p5-data/feedbackform.json");
-const summaryFilePath = path.join(__dirname, "../feedback.json");
-const resultFilePath = path.join(__dirname, "../feedbackResult.json");
-
-router.post("/", (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const { projectId, title, questions } = req.body;
 
   if (!projectId)
     return res.status(400).json({ error: "projectId is required" });
   if (!title) return res.status(400).json({ error: "title is required" });
 
-  fs.readFile(formFilePath, "utf-8", (err, formData) => {
-    const feedbacks = formData ? JSON.parse(formData) : [];
-    const newId =
-      feedbacks.length > 0 ? Math.max(...feedbacks.map((f) => f.id)) + 1 : 1;
+  const project = await Project.findOne({ id: Number(projectId) }).lean();
+  if (!project) return res.status(404).json({ error: "Project not found" });
+  if (String(project.userId) !== String(req.user.userId))
+    return res.status(403).json({ error: "Not your project" });
 
-    const newFeedback = {
-      id: newId,
-      projectId,
-      title,
-      questions: questions || [],
-    };
+  const newId = await nextId("feedbackForm");
 
-    feedbacks.push(newFeedback);
+  const newFeedback = {
+    id: newId,
+    projectId,
+    title,
+    questions: questions || [],
+  };
 
-    fs.writeFile(formFilePath, JSON.stringify(feedbacks, null, 2), () => {
-      fs.readFile(summaryFilePath, "utf-8", (err, summaryData) => {
-        const summaries = summaryData ? JSON.parse(summaryData) : [];
-
-        const newSummary = {
-          id: newId,
-          formId: newId,
-          projectId,
-          title,
-          status: "Draft",
-          responseCount: 0,
-        };
-
-        summaries.push(newSummary);
-
-        fs.writeFile(
-          summaryFilePath,
-          JSON.stringify(summaries, null, 2),
-          () => {
-            fs.readFile(resultFilePath, "utf-8", (err, resultData) => {
-              const results = resultData ? JSON.parse(resultData) : [];
-
-              const newResult = {
-                id: newId,
-                submissions: [],
-              };
-
-              results.push(newResult);
-
-              fs.writeFile(
-                resultFilePath,
-                JSON.stringify(results, null, 2),
-                () => {
-                  res.status(201).json(newFeedback);
-                },
-              );
-            });
-          },
-        );
-      });
-    });
+  await FeedbackForm.create(newFeedback);
+  await FeedbackSummary.create({
+    id: newId,
+    formId: newId,
+    projectId,
+    title,
+    status: "Draft",
+    responseCount: 0,
   });
+  await FeedbackResult.create({ id: newId, submissions: [] });
+
+  res.status(201).json(newFeedback);
 });
 
-router.patch("/:id/status", (req, res) => {
+router.patch("/:id/status", requireAuth, async (req, res) => {
   const { status } = req.body;
   const formId = parseInt(req.params.id);
 
-  fs.readFile(summaryFilePath, "utf-8", (err, data) => {
-    const feedbacks = data ? JSON.parse(data) : [];
-    const index = feedbacks.findIndex((f) => f.id === formId);
-    feedbacks[index].status = status;
+  const summary = await FeedbackSummary.findOne({ id: formId }).lean();
+  if (!summary) return res.status(404).json({ error: "Summary not found" });
 
-    fs.writeFile(summaryFilePath, JSON.stringify(feedbacks, null, 2), () => {
-      res.json(feedbacks[index]);
-    });
-  });
+  const project = await Project.findOne({ id: summary.projectId }).lean();
+  if (!project || String(project.userId) !== String(req.user.userId))
+    return res.status(403).json({ error: "Not your project" });
+
+  const result = await FeedbackSummary.findOneAndUpdate(
+    { id: formId },
+    { status },
+    { returnDocument: "after", lean: true }
+  );
+  res.json(strip(result));
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const formId = parseInt(req.params.id);
-  fs.readFile(formFilePath, "utf-8", (err, data) => {
-    const forms = data ? JSON.parse(data) : [];
-    const form = forms.find((f) => f.id === formId);
-    if (!form) return res.status(404).json({ error: "Form not found" });
-    res.json(form);
-  });
+  const form = await FeedbackForm.findOne({ id: formId }).lean();
+  if (!form) return res.status(404).json({ error: "Form not found" });
+  res.json(strip(form));
 });
 
 export default router;

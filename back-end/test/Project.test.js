@@ -1,34 +1,27 @@
 import { use, expect } from "chai";
 import chaiHttp, { request } from "chai-http";
-import sinon from "sinon";
-import fs from "fs";
 import app from "../app.js";
+import Project from "../models/Project.js";
+import Counter from "../models/Counter.js";
+import { authHeader } from "./setup.js";
 
 use(chaiHttp);
 
-const fakeProjects = [
-  {
-    id: 1,
-    title: "Test Game",
-    description: "A test game",
-    genre: "Puzzle",
-    tags: [],
-    visibility: "public",
-  },
-];
-
 describe("POST /createprojects", () => {
-  beforeEach(() => {
-    sinon.stub(fs, "readFile").callsFake((path, encoding, cb) => {
-      cb(null, JSON.stringify(fakeProjects));
+  beforeEach(async () => {
+    await Project.deleteMany({});
+    await Counter.findByIdAndUpdate(
+      "project",
+      { $max: { seq: 1 } },
+      { upsert: true }
+    );
+    await Project.create({
+      id: 1,
+      userId: "9999",
+      title: "Test Game",
+      description: "A test game",
+      visibility: "public",
     });
-    sinon.stub(fs, "writeFile").callsFake((path, data, cb) => {
-      cb(null);
-    });
-  });
-
-  afterEach(() => {
-    sinon.restore();
   });
 
   it("should create a new project and return 201", async () => {
@@ -41,46 +34,54 @@ describe("POST /createprojects", () => {
       uploadType: "url",
       uploadUrl: "https://example.com/game",
     };
-
-    const res = await request.execute(app).post("/createprojects").send(newProject);
-
+    const res = await request
+      .execute(app)
+      .post("/createprojects")
+      .set(authHeader())
+      .send(newProject);
     expect(res).to.have.status(201);
     expect(res.body.title).to.equal("My New Game");
     expect(res.body.id).to.exist;
   });
 
-  it("should assign an id greater than existing max id", async () => {
-    const res = await request.execute(app)
+  it("should assign a new unique id", async () => {
+    const first = await request.execute(app)
       .post("/createprojects")
+      .set(authHeader())
       .send({ title: "Another Game", visibility: "public" });
-
-    expect(res).to.have.status(201);
-    expect(res.body.id).to.equal(2);
+    expect(first).to.have.status(201);
+    const second = await request.execute(app)
+      .post("/createprojects")
+      .set(authHeader())
+      .send({ title: "Third Game", visibility: "public" });
+    expect(second.body.id).to.be.greaterThan(first.body.id);
   });
 });
 
 describe("PUT /createprojects/:id", () => {
-  beforeEach(() => {
-    sinon.stub(fs, "readFile").callsFake((path, encoding, cb) => {
-      cb(null, JSON.stringify(fakeProjects));
+  beforeEach(async () => {
+    await Project.deleteMany({});
+    await Counter.findByIdAndUpdate(
+      "project",
+      { $max: { seq: 1 } },
+      { upsert: true }
+    );
+    await Project.create({
+      id: 1,
+      userId: "9999",
+      title: "Test Game",
+      description: "A test game",
+      visibility: "public",
     });
-    sinon.stub(fs, "writeFile").callsFake((path, data, cb) => {
-      cb(null);
-    });
-  });
-
-  afterEach(() => {
-    sinon.restore();
   });
 
   it("should update an existing project and return 200", async () => {
-    const updates = {
-      title: "Updated Game Title",
-      description: "Now updated"
-    };
-
-    const res = await request.execute(app).put("/createprojects/1").send(updates);
-
+    const updates = { title: "Updated Game Title", description: "Now updated" };
+    const res = await request
+      .execute(app)
+      .put("/createprojects/1")
+      .set(authHeader())
+      .send(updates);
     expect(res).to.have.status(200);
     expect(res.body.title).to.equal("Updated Game Title");
   });
@@ -88,8 +89,8 @@ describe("PUT /createprojects/:id", () => {
   it("should return 404 if project does not exist", async () => {
     const res = await request.execute(app)
       .put("/createprojects/999")
+      .set(authHeader())
       .send({ title: "Ghost Game" });
-
     expect(res).to.have.status(404);
   });
 });

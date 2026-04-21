@@ -3,6 +3,7 @@ import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { apiFetch } from "./api";
 
 function ProjectInfo() {
   const navigate = useNavigate();
@@ -20,9 +21,8 @@ function ProjectInfo() {
     return;
   }
 
-  fetch(`http://localhost:7002/createfeedback/${formId}/status`, {
+  apiFetch(`/createfeedback/${formId}/status`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status : "Active" })
   })
     .then(res => res.json())
@@ -32,9 +32,8 @@ function ProjectInfo() {
 };
 
 const handleClose = (formId) => {
-  fetch(`http://localhost:7002/createfeedback/${formId}/status `, {
+  apiFetch(`/createfeedback/${formId}/status`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status : "Closed" })
   })
     .then(res => res.json())
@@ -45,17 +44,17 @@ const handleClose = (formId) => {
 
   useEffect(() => {
     // project
-    fetch(`http://localhost:7002/projects/${id}`)
+    apiFetch(`/projects/${id}`)
       .then((res) => res.json())
       .then(setProject);
 
     // dev logs
-    fetch(`http://localhost:7002/devlogs/${id}`)
+    apiFetch(`/devlogs/${id}`)
       .then((res) => res.json())
       .then(setDevLogs);
 
     // feedback
-    fetch(`http://localhost:7002/feedback/${id}`)
+    apiFetch(`/feedback/${id}`)
       .then((res) => res.json())
       .then(setFeedback);
   }, [id]);
@@ -104,6 +103,10 @@ const handleClose = (formId) => {
                 <strong>Visibility:</strong> {project.visibility}
               </p>
 
+              <p>
+                <strong>Version:</strong> {project.version || "v0.1"}
+              </p>
+
               <button
                 className="plainButton"
                 onClick={() => navigate(`/editProjectInfo/${id}`)}
@@ -119,7 +122,7 @@ const handleClose = (formId) => {
 
                   if (!confirmDelete) return;
 
-                  fetch(`http://localhost:7002/projects/${id}`, {
+                  apiFetch(`/projects/${id}`, {
                     method: "DELETE",
                   }).then(() => {
                     alert("Your project has been deleted!");

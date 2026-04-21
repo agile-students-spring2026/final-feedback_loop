@@ -34,9 +34,12 @@ function RatingScaleEditor(props) {
           <label className="rse-label">Min</label>
           <input
             type="number"
+            min={0}
+            max={100}
             value={q.min}
             onChange={(e) => {
-              update("min", Number(e.target.value));
+              const n = Math.max(0, Math.min(100, Number(e.target.value)));
+              update("min", n);
             }}
             className="num-input"
           />
@@ -46,9 +49,12 @@ function RatingScaleEditor(props) {
           <label className="rse-label">Max</label>
           <input
             type="number"
+            min={1}
+            max={100}
             value={q.max}
             onChange={(e) => {
-              update("max", Number(e.target.value));
+              const n = Math.max(1, Math.min(100, Number(e.target.value)));
+              update("max", n);
             }}
             className="num-input"
           />

@@ -2,6 +2,7 @@ import { expect } from "chai";
 import chaiHttp, { request } from "chai-http";
 import { use } from "chai";
 import app from "../app.js";
+import { authHeader } from "./setup.js";
 
 use(chaiHttp);
 
@@ -22,19 +23,27 @@ describe("PlayerExplore", () => {
   });
 
   it("GET /playtests → 200 and returns an array", async () => {
-    const res = await request.execute(app).get("/playtests");
+    const res = await request.execute(app).get("/playtests").set(authHeader());
     expect(res).to.have.status(200);
     expect(res.body).to.be.an("array");
   });
 
   it("POST /playtests without projectId → 400 bad request", async () => {
-    const res = await request.execute(app).post("/playtests").send({});
+    const res = await request
+      .execute(app)
+      .post("/playtests")
+      .set(authHeader())
+      .send({});
     expect(res).to.have.status(400);
     expect(res.body).to.have.property("error");
   });
 
   it("POST /playtests with non-existent projectId → 404", async () => {
-    const res = await request.execute(app).post("/playtests").send({ projectId: 99999999 });
+    const res = await request
+      .execute(app)
+      .post("/playtests")
+      .set(authHeader())
+      .send({ projectId: 99999999 });
     expect(res).to.have.status(404);
     expect(res.body).to.have.property("error");
   });
@@ -43,7 +52,7 @@ describe("PlayerExplore", () => {
 //playtest
 describe("PlayerPlaytest", () => {
   it("GET /playtests → 200 and returns an array", async () => {
-    const res = await request.execute(app).get("/playtests");
+    const res = await request.execute(app).get("/playtests").set(authHeader());
     expect(res).to.have.status(200);
     expect(res.body).to.be.an("array");
   });
@@ -61,7 +70,10 @@ describe("PlayerPlaytest", () => {
   });
 
   it("DELETE /playtests/:projectId with unknown id → 404", async () => {
-    const res = await request.execute(app).delete("/playtests/99999999");
+    const res = await request
+      .execute(app)
+      .delete("/playtests/99999999")
+      .set(authHeader());
     expect(res).to.have.status(404);
     expect(res.body).to.have.property("error");
   });

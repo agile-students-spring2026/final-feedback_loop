@@ -1,73 +1,131 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FollowingPage.css";
 import AppLayout from "./AppLayout";
-import { followedGames } from "./mockData";
+import { apiFetch } from "./api";
+import { loadFollows, toggleFollow as toggleFollowFn } from "./follows";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
-  const [games, setGames] = useState(followedGames);
+  const [projects, setProjects] = useState([]);
+  const [followedIds, setFollowedIds] = useState(loadFollows());
+  const [logsByProject, setLogsByProject] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const handleFollow = (id) => {
-    setGames(
-      games.map((game) => {
-        if (game.id === id) {
-          return { ...game, following: !game.following };
-        }
-        return game;
-      }),
-    );
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const projRes = await apiFetch(`/explore/projects`);
+        const projData = await projRes.json();
+        if (cancelled) return;
+        const all = Array.isArray(projData) ? projData : [];
+        setProjects(all);
+
+        const followed = all.filter((p) => loadFollows().includes(p.id));
+        const entries = await Promise.all(
+          followed.map(async (p) => {
+            const res = await apiFetch(`/devlogs/${p.id}`);
+            const data = res.ok ? await res.json() : [];
+            return [p.id, Array.isArray(data) ? data : []];
+          })
+        );
+        if (cancelled) return;
+        setLogsByProject(Object.fromEntries(entries));
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const toggleFollow = (id) => {
+    setFollowedIds(toggleFollowFn(id));
   };
+
+  const followedProjects = projects.filter((p) => followedIds.includes(p.id));
 
   return (
     <AppLayout>
       <div className="followPage">
         <header className="followHeader">
-          <h1 className="followH1">Latest Activity</h1>
+          <h1 className="followH1">Following</h1>
         </header>
 
+        {loading && <p>Loading…</p>}
+        {!loading && followedProjects.length === 0 && (
+          <p>You're not following any projects yet. Head to Explore to find some!</p>
+        )}
+
         <div className="followList">
-          {games.map((game) => (
-            <div key={game.id} className="followCard">
-              <div className="followCardTop">
-                <img
-                  src={game.image}
-                  alt={game.title}
-                  className="followCardImg"
-                />
-                <div className="followCardInfo">
-                  <div className="followCardTitleRow">
-                    <span
-                      className="followCardTitle"
-                      onClick={() => navigate("/game-feedback")}
-                    >
-                      {game.title}
+          {followedProjects.map((game) => {
+            const logs = logsByProject[game.id] || [];
+            return (
+              <div key={game.id} className="followCard">
+                <div className="followCardTop">
+                  <img
+                    src={
+                      game.coverPreview ||
+                      `https://picsum.photos/seed/${game.id}/300/200`
+                    }
+                    alt={game.title}
+                    className="followCardImg"
+                  />
+                  <div className="followCardInfo">
+                    <div className="followCardTitleRow">
+                      <span
+                        className="followCardTitle"
+                        onClick={() => navigate(`/game-feedback/${game.id}`)}
+                      >
+                        {game.title}
+                      </span>
+                    </div>
+                    <span className="followCardDev">
+                      {game.genre?.label || ""}
                     </span>
+                    <span className="followCardTime">{game.lastUpdated}</span>
                   </div>
-                  {game.isNew && <span className="followNewTag">NEW</span>}
-                  <span className="followCardDev">{game.developer}</span>
-                  <span className="followCardTime">{game.time}</span>
+                </div>
+
+                <p className="followCardDesc">{game.description}</p>
+
+                <div className="followDevlogs">
+                  <h4 className="followDevlogsTitle">Dev Logs</h4>
+                  {logs.length === 0 ? (
+                    <p className="followEmpty">No dev logs yet.</p>
+                  ) : (
+                    logs.slice(0, 3).map((log) => (
+                      <div key={log.id} className="followDevlog">
+                        <p className="followDevlogMeta">
+                          <strong>{log.teamMember}</strong>
+                          {log.date ? ` · ${log.date}` : ""}
+                        </p>
+                        <p className="followDevlogNotes">{log.notes}</p>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="followBtnGroup">
+                  <button
+                    className="followBtn followBtnPrimary"
+                    onClick={() => navigate(`/game-feedback/${game.id}`)}
+                  >
+                    View Comments
+                  </button>
+                  <button
+                    className="followBtn followBtnActive"
+                    onClick={() => toggleFollow(game.id)}
+                  >
+                    Unfollow
+                  </button>
                 </div>
               </div>
-
-              <p className="followCardDesc">{game.description}</p>
-
-              <div className="followBtnGroup">
-                <button
-                  className={`followBtn ${game.following ? "followBtnActive" : ""}`}
-                  onClick={() => handleFollow(game.id)}
-                >
-                  {game.following ? "Following" : "Follow"}
-                </button>
-                <button
-                  className="followBtn followBtnPrimary"
-                  onClick={() => navigate(`/feedback-form/${game.id}`)}
-                >
-                  Leave Feedback
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </AppLayout>

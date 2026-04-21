@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiFetch } from "../api";
 
 function UploadSection({
   uploadType,
@@ -96,6 +97,7 @@ function EditProjectInfo() {
   const [uploadUrl, setUploadUrl] = useState("");
 
   const [visibility, setVisibility] = useState("");
+  const [version, setVersion] = useState("v0.1");
 
   const [originalProject, setOriginalProject] = useState(null);
 
@@ -105,7 +107,7 @@ function EditProjectInfo() {
   useEffect(() => {
     async function fetchOptions() {
       try {
-        const response = await fetch("http://localhost:7002/options");
+        const response = await apiFetch("/options");
         const data = await response.json();
         setTagOption(data.tagOption);
         setGenreOption(data.genreOption);
@@ -119,7 +121,7 @@ function EditProjectInfo() {
   useEffect(() => {
     async function fetchProject() {
       try {
-        const response = await fetch(`http://localhost:7002/projects/${id}`);
+        const response = await apiFetch(`/projects/${id}`);
         const project = await response.json();
 
         setTitle(project.title);
@@ -132,6 +134,7 @@ function EditProjectInfo() {
         setUploadFile(project.uploadFile);
         setUploadUrl(project.uploadUrl);
         setVisibility(project.visibility);
+        setVersion(project.version || "v0.1");
 
         setOriginalProject(project);
       } catch (error) {
@@ -156,11 +159,10 @@ function EditProjectInfo() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:7002/createprojects/${id}`,
+      const response = await apiFetch(
+        `/createprojects/${id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title,
             description,
@@ -169,10 +171,16 @@ function EditProjectInfo() {
             visibility,
             uploadType,
             uploadUrl,
+            version,
           }),
         },
       );
 
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        alert(err.message || "Failed to update project. Please sign in again.");
+        return;
+      }
       navigate(`/devproject/${originalProject.id}`);
     } catch (error) {
       console.error("Error updating project:", error);
@@ -192,6 +200,7 @@ function EditProjectInfo() {
       setGenre(originalProject.genre);
       setTags(originalProject.tags);
       setVisibility(originalProject.visibility);
+      setVersion(originalProject.version || "v0.1");
       setUploadType(originalProject.uploadType);
       setCoverImage(originalProject.coverImage);
       setCoverPreview(originalProject.coverPreview);
@@ -301,6 +310,17 @@ function EditProjectInfo() {
                   setUploadFile={setUploadFile}
                   uploadUrl={uploadUrl}
                   setUploadUrl={setUploadUrl}
+                />
+              </div>
+
+              <div className="form-section">
+                <h3>Version</h3>
+                <input
+                  type="text"
+                  value={version}
+                  onChange={(e) => setVersion(e.target.value)}
+                  placeholder="v0.1"
+                  className="single-line-input"
                 />
               </div>
 

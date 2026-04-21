@@ -2,47 +2,41 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PlayerPlaytest.css";
 import AppLayout from "./AppLayout";
-
-const API = "http://localhost:7002";
+import { apiFetch } from "./api";
 
 const PlayerPlaytest = () => {
   const navigate = useNavigate();
   const [playtests, setPlaytests] = useState([]);
+  const [formsByProject, setFormsByProject] = useState({});
   const [loading, setLoading] = useState(true);
-  const [activeForms, setActiveForms] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const playtestRes = await fetch(`${API}/playtests`);
+        const playtestRes = await apiFetch(`/playtests`);
         const playtestData = await playtestRes.json();
-        setPlaytests(playtestData);
+        setPlaytests(Array.isArray(playtestData) ? playtestData : []);
 
-        const feedbackResults = await Promise.all(
-          playtestData.map((p) =>
-            fetch(`${API}/feedback/${p.projectId}`).then((r) => r.json()),
-          ),
+        const entries = await Promise.all(
+          (Array.isArray(playtestData) ? playtestData : []).map(async (p) => {
+            const res = await apiFetch(`/feedback/${p.projectId}`);
+            const data = res.ok ? await res.json() : [];
+            return [p.projectId, data.filter((f) => f.status === "Active")];
+          })
         );
-
-        const allFeedbacks = feedbackResults.flat();
-        setActiveForms(allFeedbacks.filter((f) => f.status === "Active"));
+        setFormsByProject(Object.fromEntries(entries));
       } catch (err) {
         console.error("Failed to load data:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   const handleLeave = async (projectId) => {
-    try {
-      await fetch(`${API}/playtests/${projectId}`, { method: "DELETE" });
-      setPlaytests((prev) => prev.filter((p) => p.projectId !== projectId));
-    } catch (err) {
-      console.error("Failed to leave playtest:", err);
-    }
+    await apiFetch(`/playtests/${projectId}`, { method: "DELETE" });
+    setPlaytests((prev) => prev.filter((p) => p.projectId !== projectId));
   };
 
   if (loading)
@@ -60,14 +54,14 @@ const PlayerPlaytest = () => {
 
       {playtests.length === 0 ? (
         <div className="empty">
-          <p className="emptyText">No active playtests found.</p>
+          <p className="emptyText">
+            No playtests yet. Join one from Explore!
+          </p>
         </div>
       ) : (
         <div className="libraryGrid">
           {playtests.map((game) => {
-            const activeForm = activeForms.find(
-              (f) => f.projectId == game.projectId,
-            );
+            const activeForms = formsByProject[game.projectId] || [];
             return (
               <div key={game.id} className="libraryCard">
                 <img
@@ -85,21 +79,37 @@ const PlayerPlaytest = () => {
                       <span className="versionBox">{game.version}</span>
                     </div>
                     <div className="statusBox">
-                      <span className="statusText">Registered</span>
+                      <span className="statusText">
+                        {activeForms.length === 0
+                          ? "No active forms"
+                          : `${activeForms.length} active form${activeForms.length === 1 ? "" : "s"}`}
+                      </span>
                     </div>
                   </div>
+
+                  {activeForms.length > 0 && (
+                    <div className="btnGroup">
+                      {activeForms.map((f) => (
+                        <button
+                          key={f.formId}
+                          className="btn btnPrimary"
+                          onClick={() =>
+                            navigate(`/feedback-form/${f.formId}`)
+                          }
+                        >
+                          Submit: {f.title}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="btnGroup">
-                    <button className="btn btnPrimary">Launch</button>
-                    {activeForm && (
-                      <button
-                        className="btn"
-                        onClick={() =>
-                          navigate(`/feedback-form/${activeForm.formId}`)
-                        }
-                      >
-                        Leave Feedback
-                      </button>
-                    )}
+                    <button
+                      className="btn btnPrimary"
+                      onClick={() => navigate(`/playtest/${game.projectId}`)}
+                    >
+                      Launch
+                    </button>
                     <button
                       className="btn"
                       onClick={() => handleLeave(game.projectId)}

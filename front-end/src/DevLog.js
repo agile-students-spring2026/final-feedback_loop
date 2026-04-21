@@ -4,6 +4,7 @@ import projectImg from "./assets/projectIcon.png";
 import "./DevLog.css";
 import AppLayout from "./AppLayout";
 import { useParams } from "react-router-dom";
+import { apiFetch } from "./api";
 
 function DevLog() {
   const navigate = useNavigate();
@@ -33,11 +34,8 @@ function DevLog() {
     return;
   }
 
-  fetch("http://localhost:7002/devlogs", {
+  apiFetch("/devlogs", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
     body: JSON.stringify({
       projectId: id,
       teamMember,
@@ -84,8 +82,7 @@ function DevLog() {
 
           <label>Submission Date</label>
           <input
-            type="text"
-            placeholder="mm/dd/yyyy"
+            type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />

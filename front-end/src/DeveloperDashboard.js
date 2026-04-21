@@ -3,6 +3,7 @@ import "./DeveloperDashboard.css";
 import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
+import { apiFetch } from "./api";
 
 
 function DeveloperDashboard() {
@@ -11,7 +12,7 @@ function DeveloperDashboard() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-  fetch("http://localhost:7002/projects")
+  apiFetch("/projects")
     .then(res => res.json())
     .then(data => {
       console.log("PROJECTS:", data); // debug
@@ -46,7 +47,7 @@ function DeveloperDashboard() {
 
             <div className="actions">
               <button onClick={() => navigate(`/editProjectInfo/${project.id}`)}>Edit</button>
-              <button onClick={() => navigate("/game-feedback")}>
+              <button onClick={() => navigate(`/game-feedback/${project.id}`)}>
                 Feedback
               </button>
               <button onClick={() => navigate(`/devlog/${project.id}`)}>DevLog</button>

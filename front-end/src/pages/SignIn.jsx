@@ -4,6 +4,7 @@ import InfoInput from "../components/InfoInput/InfoInput";
 import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { apiFetch, setToken, setUser } from "../api";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -12,19 +13,20 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const email = e.target.email.value;
+    const username = e.target.username.value;
     const password = e.target.password.value;
 
     try {
-      const response = await fetch("/auth/login", {
+      const response = await apiFetch("/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
 
       if (data.success) {
+        setToken(data.token);
+        setUser(data.user);
         localStorage.setItem("currentUser", JSON.stringify(data.user));
         navigate("/explore");
       } else {
@@ -46,9 +48,9 @@ function SignIn() {
             </Link>
             <div className={styles.usernameDiv}>
               <InfoInput
-                name="email"
+                name="username"
                 variant="test"
-                placeholderText="Email"
+                placeholderText="Username"
                 required
               />
             </div>
