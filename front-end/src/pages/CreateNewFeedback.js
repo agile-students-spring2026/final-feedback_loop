@@ -115,7 +115,7 @@ function CreateNewFeedback() {
   return (
     <div className="page-container">
       <nav className="nav">
-        <div className="logo"> Feedback Loop</div>
+        <div className="logo">Feedback Loop</div>
       </nav>
 
       <main class="main">
