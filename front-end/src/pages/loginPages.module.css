@@ -6,9 +6,11 @@
   height: 100vh;
   padding: 0;
   margin: 0;
-  background-image:
-    linear-gradient(hsla(293, 27%, 37%, 0.493), hsla(305, 22%, 10%, 0.863)),
-    url("../assets/bg.jpg");
+  background-image: linear-gradient(
+      hsla(293, 27%, 37%, 0.493),
+      hsla(305, 22%, 10%, 0.863)
+    ),
+    url("https://res.cloudinary.com/dpdidryxs/image/upload/v1776739417/bg_zbedso.jpg");
 
   background-size: cover;
 }
