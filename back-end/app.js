@@ -11,7 +11,6 @@ import DevLog from "./models/DevLog.js";
 import FeedbackForm from "./models/FeedbackForm.js";
 import FeedbackSummary from "./models/FeedbackSummary.js";
 import FeedbackResult from "./models/FeedbackResult.js";
-import Playtest from "./models/Playtest.js";
 import Settings from "./models/Settings.js";
 import FeedbackComment from "./models/FeedbackComment.js";
 
@@ -146,7 +145,6 @@ app.delete("/projects/:id", requireAuth, async (req, res) => {
     DevLog.deleteMany({ projectId }),
     FeedbackSummary.deleteMany({ projectId }),
     FeedbackForm.deleteMany({ projectId }),
-    Playtest.deleteMany({ projectId }),
     FeedbackComment.deleteMany({ projectId }),
   ]);
 
@@ -245,53 +243,6 @@ app.get("/explore/projects/:id", async (req, res) => {
   const project = await Project.findOne({ id }).lean();
   if (!project) return res.status(404).json({ error: "Project not found" });
   res.json(strip(project));
-});
-
-app.get("/playtests", requireAuth, async (req, res) => {
-  const playtests = await Playtest.find({
-    userId: String(req.user.userId),
-  }).lean();
-  res.json(strip(playtests));
-});
-
-app.post("/playtests", requireAuth, async (req, res) => {
-  const { projectId } = req.body;
-  if (!projectId)
-    return res.status(400).json({ error: "projectId is required" });
-
-  const userId = String(req.user.userId);
-  const already = await Playtest.findOne({
-    projectId: Number(projectId),
-    userId,
-  });
-  if (already)
-    return res.status(409).json({ error: "Already joined this playtest" });
-
-  const project = await Project.findOne({ id: Number(projectId) }).lean();
-  if (!project) return res.status(404).json({ error: "Project not found" });
-
-  const entry = {
-    id: Date.now(),
-    userId,
-    projectId: project.id,
-    title: project.title,
-    coverPreview: project.coverPreview || "",
-    version: "v0.1",
-    joined: true,
-  };
-  await Playtest.create(entry);
-  res.status(201).json(entry);
-});
-
-app.delete("/playtests/:projectId", requireAuth, async (req, res) => {
-  const projectId = Number(req.params.projectId);
-  const result = await Playtest.deleteMany({
-    projectId,
-    userId: String(req.user.userId),
-  });
-  if (result.deletedCount === 0)
-    return res.status(404).json({ error: "Playtest not found" });
-  res.json({ message: "Left playtest successfully" });
 });
 
 app.get("/feedback-comments/:projectId", async (req, res) => {
