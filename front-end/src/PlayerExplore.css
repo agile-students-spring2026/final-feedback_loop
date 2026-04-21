@@ -31,3 +31,22 @@
   object-fit: cover;
   border-bottom: 2px solid #000;
 }
+
+.controls {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.dropdown {
+  padding: 8px;
+  border-radius: 6px;
+}

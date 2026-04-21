@@ -11,10 +11,13 @@ const PlayerExplore = () => {
   const [joinedIds, setJoinedIds] = useState(new Set());
   const [followedIds, setFollowedIds] = useState(loadFollows());
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("All");
+  const [genreOption, setGenreOption] = useState([]);
 
   const handleToggleFollow = async (projectId) => {
     try {
-      console.log("🚀 calling /playtests for follow");
+      console.log("calling /playtests for follow");
 
       const res = await apiFetch("/playtests", {
         method: "POST",
@@ -35,12 +38,14 @@ const PlayerExplore = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [gamesRes, playtestsRes] = await Promise.all([
+        const [gamesRes, playtestsRes, genreRes] = await Promise.all([
           apiFetch(`/explore/projects`),
           apiFetch(`/playtests`),
+          apiFetch(`/options`),
         ]);
         const gamesData = await gamesRes.json();
         const playtestsData = await playtestsRes.json();
+        const genreData = await genreRes.json();
         setGames(Array.isArray(gamesData) ? gamesData : []);
         setJoinedIds(
           new Set(
@@ -49,6 +54,7 @@ const PlayerExplore = () => {
             )
           )
         );
+        setGenreOption(genreData.genreOption);
       } catch (err) {
         console.error("Failed to load explore data:", err);
       } finally {
@@ -69,6 +75,7 @@ const PlayerExplore = () => {
     }
   };
 
+
   if (loading)
     return (
       <AppLayout>
@@ -76,14 +83,51 @@ const PlayerExplore = () => {
       </AppLayout>
     );
 
+  const filteredGames = games
+    .filter((game) => {
+        const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesGenre =
+          selectedGenre === "All" ||
+          (game.genre && game.genre.value === selectedGenre);
+        return matchesSearch && matchesGenre;
+      })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+
   return (
     <AppLayout>
       <header className="header">
         <h1 className="h1">Explore Projects</h1>
       </header>
 
+      <div className="controls">
+        <input
+          type="text"
+          placeholder="Search by project name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="searchInput"
+        />
+         <select
+          value={selectedGenre}
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          className="dropdown"
+        >
+          <option value="All">All</option>
+          {genreOption.map((genre) => (
+            <option key={genre.value} value={genre.value}>
+              {genre.label}
+            </option>
+          ))}
+        </select> 
+
+      </div>
+
       <div className="grid">
-        {games.map((game) => {
+        {filteredGames.length === 0 ? (
+          <p> There are no public projects in this genre.</p>
+        ) : (
+        filteredGames.map((game) => {
           const isJoined = joinedIds.has(String(game.id));
           const isFollowing = followedIds.includes(game.id);
           return (
@@ -126,7 +170,8 @@ const PlayerExplore = () => {
               </div>
             </div>
           );
-        })}
+        })
+      )}
       </div>
     </AppLayout>
   );
