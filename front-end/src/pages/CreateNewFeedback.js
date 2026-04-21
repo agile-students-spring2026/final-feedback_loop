@@ -92,7 +92,7 @@ function CreateNewFeedback() {
 
       const newFeedback = await response.json();
       console.log("Created feedback form:", newFeedback);
-      navigate(`/devproject/${newFeedback.projectId}`);
+      navigate(`/devproject/${id}`, { state: { tab: "feedback" } });
     } catch (error) {
       console.error("Error creating feedback:", error);
       alert("Failed to save feedback form. Is the backend running?");
@@ -109,7 +109,7 @@ function CreateNewFeedback() {
     setTitle("");
     setQuestions([]);
     setShowSelector(false);
-    navigate("/project");
+    navigate(`/devproject/${id}`, { state: { tab: "feedback" } });
   }
 
   return (
@@ -120,18 +120,9 @@ function CreateNewFeedback() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">Create a New Feedback Form</h1>
-          </header>
+          <button className="backButton" onClick={() => navigate(`/devproject/${id}`, { state: { tab: "feedback" } })}>
+              Back
+          </button>
           <div className="create-peoject-container">
             <div className="create-peoject-form">
               <div className="info-container">

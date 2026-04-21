@@ -2,8 +2,31 @@ import express from "express";
 import Project from "../models/Project.js";
 import { nextId } from "../models/Counter.js";
 import { requireAuth } from "../auth.js";
+import Options from "../models/Options.js";
 
 const router = express.Router();
+
+const syncOptions = async (genre, tags) => {
+  let options = await Options.findOne();
+  if (!options) options = await Options.create({});
+
+  const genreList = options.genreOption;
+  const tagList = options.tagOption;
+
+  if (genre && !genreList.some((g) => g.value === genre.value)) {
+    genreList.push(genre);
+  }
+
+  if (tags) {
+    for (const tag of tags) {
+      if (!tagList.some((t) => t.value === tag.value)) {
+        tagList.push(tag);
+      }
+    }
+  }
+
+  await Options.updateOne({}, { genreOption: genreList, tagOption: tagList });
+};
 
 const formattedDate = () =>
   new Date().toLocaleDateString("en-US", {
@@ -38,6 +61,7 @@ router.post("/", requireAuth, async (req, res) => {
   };
 
   await Project.create(newProject);
+  await syncOptions(genre, tags);
   res.status(201).json(newProject);
 });
 
@@ -64,6 +88,7 @@ router.put("/:id", requireAuth, async (req, res) => {
   };
 
   await Project.updateOne({ id }, update);
+  await syncOptions(genre, tags);
   const updated = await Project.findOne({ id }, { _id: 0 }).lean();
   res.json(updated);
 });

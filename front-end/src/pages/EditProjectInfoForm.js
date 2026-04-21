@@ -218,19 +218,9 @@ function EditProjectInfo() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">EDIT PROJECT INFORMATION</h1>
-          </header>
-
+          <button className="backButton" onClick={handleDiscard}>
+            Back
+          </button>
           <div className="create-peoject-container">
             <form onSubmit={handleSubmit} className="create-peoject-form">
               <div className="info-container">

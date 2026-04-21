@@ -184,18 +184,9 @@ function CreateProjectForm() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/devdash")}
-            style={{ cursor: "pointer" }}
-          >
-            Dashboard
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">CREATE A NEW PROJECT!</h1>
-          </header>
+          <button className="backButton" onClick={handleDiscard}>
+            Back
+          </button>
 
           <div className="create-peoject-container">
             <form onSubmit={handleSubmit} className="create-peoject-form">
