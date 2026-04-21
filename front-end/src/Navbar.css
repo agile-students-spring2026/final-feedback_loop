@@ -25,20 +25,22 @@
   display: block;
 }
 
-.logo {
+.appLogo {
   font-size: 16px;
   font-weight: 800;
-  color: var(--pale-lavender);
   letter-spacing: 1px;
+  padding: 20px 20px;
+  margin-top: 5px;
+  border-radius: 10px;
+  filter: invert(1);
 }
 
 @media (max-width: 768px) {
-
   .burger {
     display: flex;
   }
 
-  .logo {
+  .appLogo {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
