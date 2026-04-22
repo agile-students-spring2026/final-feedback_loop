@@ -32,6 +32,8 @@
   box-shadow: 4px 4px 0px #000;
   cursor: pointer;
   transition: transform 0.1s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -49,6 +51,9 @@
 
 .cardBody {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .cardTitleRow {
@@ -71,14 +76,17 @@
   margin: 0 0 16px 0;
   font-weight: 500;
   display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 }
 
 /* Buttons */
 .btnGroup {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: auto;
 }
 
 .btn {
