@@ -10,6 +10,9 @@ const PlayerExplore = () => {
   const [games, setGames] = useState([]);
   const [followedIds, setFollowedIds] = useState(loadFollows());
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("All");
+  const [genreOption, setGenreOption] = useState([]);
 
   const handleToggleFollow = (projectId) => {
     setFollowedIds(toggleFollow(projectId));
@@ -20,6 +23,10 @@ const PlayerExplore = () => {
       try {
         const gamesRes = await apiFetch(`/explore/projects`);
         const gamesData = await gamesRes.json();
+        const optionsRes = await apiFetch("/options");
+        const optionsData = await optionsRes.json();
+
+        setGenreOption(optionsData.genreOption || []);
         setGames(Array.isArray(gamesData) ? gamesData : []);
       } catch (err) {
         console.error("Failed to load explore data:", err);
@@ -37,14 +44,51 @@ const PlayerExplore = () => {
       </AppLayout>
     );
 
+  const filteredGames = games
+    .filter((game) => {
+        const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesGenre =
+          selectedGenre === "All" ||
+          (game.genre && game.genre.value === selectedGenre);
+        return matchesSearch && matchesGenre;
+      })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+
   return (
     <AppLayout>
-      <header className="header">
+      <header className="headerExplore">
         <h1 className="h1">Explore Projects</h1>
       </header>
 
+      <div className="controls">
+        <input
+          type="text"
+          placeholder="Search by project name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="searchInput"
+        />
+         <select
+          value={selectedGenre}
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          className="dropdown"
+        >
+          <option value="All">All</option>
+          {genreOption.map((genre) => (
+            <option key={genre.value} value={genre.value}>
+              {genre.label}
+            </option>
+          ))}
+        </select> 
+
+      </div>
+
       <div className="grid">
-        {games.map((game) => {
+        {filteredGames.length === 0 ? (
+          <p> No projects currently posted in this genre.</p>
+        ) : (
+        filteredGames.map((game) => {
           const isFollowing = followedIds.includes(game.id);
           return (
             <div key={game.id} className="card">
@@ -75,7 +119,8 @@ const PlayerExplore = () => {
               </div>
             </div>
           );
-        })}
+        })
+      )}
       </div>
     </AppLayout>
   );
