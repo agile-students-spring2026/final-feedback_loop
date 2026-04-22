@@ -58,7 +58,7 @@ const ProjectDetails = () => {
             <div className="right-col">
               <div className="config-block">
                 <span className="label">Configuration</span>
-                <div className="dropdown">VERSION: v0.1</div>
+                <div className="dropdown">VERSION: {game.version}</div>
                 <div className="dropdown">STATUS: {game.visibility}</div>
               </div>
               <div className="action-box">
@@ -72,12 +72,11 @@ const ProjectDetails = () => {
           </div>
           <div className="patch-box">
             <div className="patch-header">
-              <div className="patch-tag">BUILD v0.1</div>
+              <div className="patch-tag">BUILD {game.version}</div>
               <h3>Patch Notes</h3>
             </div>
             <p className="patch-text">
-              {game.description}. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {game.description}
             </p>
           </div>
         </div>
