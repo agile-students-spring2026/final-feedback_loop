@@ -10,6 +10,8 @@ function DeveloperDashboard() {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("newest");
 
   useEffect(() => {
   apiFetch("/projects")
@@ -21,14 +23,48 @@ function DeveloperDashboard() {
     .catch(err => console.error("FETCH ERROR:", err));
 }, []);
 
+  const sortedProjects = [...projects].sort((a, b) => {
+  if (sortOption === "newest") {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  }
+  if (sortOption === "oldest") {
+    return new Date(a.createdAt) - new Date(b.createdAt);
+  }
+  if (sortOption === "az") {
+    return a.title.localeCompare(b.title);
+  } 
+  return 0;
+});
+  
   return (
     <AppLayout>
       {/* <div className="dashboard"> */}
       <div>
-        <header className="header">
-          <h1 className="h1">Explore Projects</h1>
+        <header className="headerDev">
+          <h1 className="h1">Your Projects</h1>
         </header>
-        {projects.map((project) => (
+
+        <div className="controls">
+        <input
+          type="text"
+          placeholder="Search by project name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="searchInput"
+        />
+         <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+          className="dropdown"
+        >
+          <option value="newest">Newest → Oldest</option>
+          <option value="oldest">Oldest → Newest</option>
+          <option value="az">A → Z</option>
+        </select>
+
+      </div>
+
+        {sortedProjects.map((project) => (
           <div key={project.id} className="projectContainer">
             <div className="entry">
               <img 

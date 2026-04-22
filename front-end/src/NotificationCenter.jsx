@@ -109,7 +109,7 @@ const NotificationCenter = () => {
         <div className="notifBody">
           
           {!loadingNotifications && notifications.length === 0 && (
-            <p>No active notifications.</p>
+            <p>No active developer notifications.</p>
           )}
 
           {loadingNotifications && <p>Loading notifications...</p>}

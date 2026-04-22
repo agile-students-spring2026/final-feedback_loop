@@ -96,7 +96,7 @@ const PlayerExplore = () => {
 
   return (
     <AppLayout>
-      <header className="header">
+      <header className="headerExplore">
         <h1 className="h1">Explore Projects</h1>
       </header>
 

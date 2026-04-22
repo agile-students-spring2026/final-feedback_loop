@@ -66,6 +66,14 @@ body {
   padding: 20px;
 }
 
+.headerDev {
+    border-bottom: 2px solid #000;
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .main {
     flex: 1;
     padding: 40px;
