@@ -4,6 +4,7 @@ import "./FollowingPage.css";
 import AppLayout from "./AppLayout";
 import { apiFetch } from "./api";
 import { loadFollows, toggleFollow as toggleFollowFn } from "./follows";
+import formIcon from "../src/assets/form.svg";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
@@ -89,6 +90,36 @@ const FollowingPage = () => {
                       >
                         {game.title}
                       </span>
+
+                      {activeForms.length === 1 && (
+                        <button
+                          className="formBadge"
+                          onClick={() => navigate(`/feedback-form/${activeForms[0].formId}`)}
+                          title="Submit feedback form"
+                        >
+                          <span className="formIconBox">
+                            <img src={formIcon} alt="" className="formIcon" />
+                          </span>
+                          Form
+                        </button>
+                      )}
+                      {activeForms.length > 1 && (
+                        <div className="formBadgeGroup">
+                          {activeForms.map((f, i) => (
+                            <button
+                              key={f.formId}
+                              className="formBadge"
+                              onClick={() => navigate(`/feedback-form/${f.formId}`)}
+                              title={f.title}
+                            >
+                              <span className="formIconBox">
+                                <img src={formIcon} alt="" className="formIcon" />
+                              </span>
+                              {i + 1}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <span className="followCardDev">{game.genre?.label || ""}</span>
                     <span className="followCardTime">{game.lastUpdated}</span>
@@ -113,20 +144,6 @@ const FollowingPage = () => {
                     ))
                   )}
                 </div>
-
-                {activeForms.length > 0 && (
-                  <div className="followBtnGroup">
-                    {activeForms.map((f) => (
-                      <button
-                        key={f.formId}
-                        className="followBtn followBtnPrimary"
-                        onClick={() => navigate(`/feedback-form/${f.formId}`)}
-                      >
-                        Submit: {f.title}
-                      </button>
-                    ))}
-                  </div>
-                )}
 
                 <div className="followBtnGroup">
                   <button
