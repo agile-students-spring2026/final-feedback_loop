@@ -60,7 +60,7 @@ const PlayerExplore = () => {
                 <p className="cardDesc">{game.description}</p>
                 <div className="btnGroup">
                   <button
-                    className={`btn ${isFollowing ? "btnPrimary" : ""}`}
+                    className={`btn ${isFollowing ? "btnFollowing" : ""}`}
                     onClick={() => handleToggleFollow(game.id)}
                   >
                     {isFollowing ? "Following" : "Follow"}
