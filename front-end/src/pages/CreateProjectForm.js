@@ -166,7 +166,7 @@ function CreateProjectForm() {
     setTitle("");
     setDescription("");
     setGenre("");
-    setTags("");
+    setTags([]);
     setVisibility("");
     setUploadType("download");
     setCoverImage(null);

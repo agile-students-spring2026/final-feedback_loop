@@ -58,21 +58,57 @@ const ProjectDetails = () => {
             <div className="right-col">
               <div className="config-block">
                 <span className="label">Configuration</span>
-                <div className="dropdown">VERSION: v0.1</div>
+                <div className="dropdown">VERSION: {game.version || "v0.1"}</div>
                 <div className="dropdown">STATUS: {game.visibility}</div>
               </div>
               <div className="action-box">
                 <span className="label">Launch Options</span>
-                <button className="action-btn" onClick={() => alert("Launching playtest...")}>
-                  Playtest Link
-                </button>
-                <button className="action-btn secondary">Download Client</button>
+
+                {game.uploadType === "url" && game.uploadUrl ? (
+                  <a
+                    href={game.uploadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="action-btn"
+                    style={{ textDecoration: "none", textAlign: "center" }}
+                  >
+                    Playtest Link
+                  </a>
+                ) : (
+                  <button
+                    className="action-btn"
+                    disabled
+                    style={{ opacity: 0.4, cursor: "not-allowed" }}
+                  >
+                    Playtest Link
+                  </button>
+                )}
+
+                {game.uploadType === "download" && game.uploadFile ? (
+                  <a
+                    href={game.uploadFile}
+                    download
+                    className="action-btn secondary"
+                    style={{ textDecoration: "none", textAlign: "center" }}
+                  >
+                    Download Client
+                  </a>
+                ) : (
+                  <button
+                    className="action-btn secondary"
+                    disabled
+                    style={{ opacity: 0.4, cursor: "not-allowed" }}
+                  >
+                    Download Client
+                  </button>
+                )}
+
               </div>
             </div>
           </div>
           <div className="patch-box">
             <div className="patch-header">
-              <div className="patch-tag">BUILD v0.1</div>
+              <div className="patch-tag">BUILD {game.version || "v0.1"}</div>
               <h3>Patch Notes</h3>
             </div>
             <p className="patch-text">
