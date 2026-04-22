@@ -1,316 +1,315 @@
-.project-wrapper {
-  width: 100%;
-  min-height: 100%;
+.main {
+  color: #000;
+}
+
+.header {
+  border-bottom: 2px solid #000;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Explore grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 4px 4px 0px #000;
+  cursor: pointer;
+  transition: transform 0.1s ease;
   display: flex;
   flex-direction: column;
 }
 
-/* Header */
-.launcher-header {
+.card:hover {
+  transform: translate(-2px, -2px);
+}
+
+.cardThumb {
+  background-color: #e5e7eb;
+  aspect-ratio: 16 / 10;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cardTitleRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  border-bottom: 2px solid #000;
+  margin-bottom: 12px;
 }
 
-.back-btn {
+.cardTitle {
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: #4b5563;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* Buttons */
+.btnGroup {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn {
   display: inline-block;
   background: var(--dark-eggplant);
   color: var(--pale-lavender);
-  border: 2px solid #000;
-  padding: 6px 12px;
+  padding: 10px 14px;
   font-size: 11px;
+  border: 2px solid #000;
+  border-radius: 0;
+  cursor: pointer;
   font-weight: 700;
   text-transform: uppercase;
-  cursor: pointer;
   box-shadow: 3px 3px 0px #000;
   transition: transform 0.1s ease, box-shadow 0.1s ease,
     background-color 0.2s ease;
+  flex: 1;
 }
 
-.back-btn:hover {
+.btn:hover {
   background: var(--eggplant);
+  color: var(--pale-lavender);
   transform: translate(-1px, -1px);
   box-shadow: 4px 4px 0px #000;
 }
 
-.back-btn:active {
+.btn:active {
   transform: translate(0, 0);
   box-shadow: 2px 2px 0px #000;
 }
 
-.launcher-title {
-  font-weight: 700;
-  font-size: 18px;
-  text-transform: uppercase;
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.header-spacer {
-  width: 60px;
+/* Library view */
+.libraryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
 }
 
-/* Content */
-.content-area {
-  padding: 40px;
+.libraryCard {
   display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.top-grid {
-  display: flex;
-  gap: 40px;
-  align-items: stretch;
-}
-
-.left-col {
-  flex: 1 1 65%;
-}
-
-.right-col {
-  flex: 1 1 35%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.left-col,
-.right-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.left-col .section-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.section-box,
-.config-block,
-.action-box {
   border: 2px solid #000;
-  padding: 20px;
-  min-height: 200px;
+  background: #fff;
+  box-shadow: 4px 4px 0px #000;
 }
 
-.label {
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 13px;
-  margin-bottom: 12px;
-  display: block;
-}
-
-/* .project-img {
-  flex: 1;
-  background: #e5e7eb;
+.thumbBox {
+  width: 120px;
+  background-color: #e5e7eb;
+  border-right: 2px solid #000;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-weight: 700;
-  color: #6b7280;
-  margin-top: 12px;
-} */
-
-.project-img {
-  width: 100%;
-  height: 220px; /* adjust if you want bigger */
-  object-fit: cover;
-  border: 2px solid #000;
-  display: block;
 }
 
-.config-block {
+.thumbText {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.libraryBody {
+  flex: 1;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
 }
 
-.dropdown {
-  border: 2px solid #000;
-  padding: 12px 14px;
-
+.libraryTop {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
 
-  font-weight: 700;
+.versionBox {
+  border: 1px solid #000;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
+.statusBox {
+  border: 2px solid #000;
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #000;
+}
+
+.statusText {
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+/* Empty state */
+.empty {
+  border: 2px dashed #000;
+  padding: 64px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.emptyText {
+  font-weight: 800;
+  color: #9ca3af;
   font-size: 12px;
   text-transform: uppercase;
 }
 
-.action-box {
-  border: 2px solid #000;
-  padding: 20px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.action-btn {
-  padding: 14px;
-  border: 2px solid #000;
-  background: var(--dark-eggplant);
-  color: var(--pale-lavender);
-  font-weight: 800;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 3px 3px 0px #000;
-  transition: transform 0.1s ease, box-shadow 0.1s ease,
-    background-color 0.2s ease;
-}
-
-.action-btn:hover {
-  background: var(--eggplant);
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0px #000;
-}
-
-.action-btn:active {
-  transform: translate(0, 0);
-  box-shadow: 2px 2px 0px #000;
-}
-
-.patch-box {
-  border: 2px solid #000;
-  padding: 30px;
-}
-
-.patch-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-
-.patch-tag {
-  border: 1px solid #000;
-  padding: 2px 8px;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.patch-header h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.patch-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #1f2937;
-}
-
 @media (max-width: 1024px) {
-
-  .content-area {
-    padding: 24px;
-    gap: 24px;
+  .h1 {
+    font-size: 26px;
   }
 
-  .launcher-header {
-    padding: 16px 24px;
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
   }
 
-  .top-grid {
-    gap: 24px;
+  .libraryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .libraryCard {
+    flex-direction: row;
   }
 }
 
 @media (max-width: 768px) {
-
-  .launcher-header {
-    padding: 12px 16px;
-    flex-direction: row;
-  }
-
-  .launcher-title {
-    font-size: 14px;
-    text-align: center;
-  }
-
-  .back-btn {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  .content-area {
-    padding: 16px;
-    gap: 20px;
-  }
-
-  .top-grid {
+  .header {
     flex-direction: column;
-    gap: 16px;
-  }
-
-  .left-col,
-  .right-col {
-    flex: 1 1 100%;
-  }
-
-  .section-box,
-  .config-block,
-  .action-box {
-    min-height: auto;
-    padding: 16px;
-  }
-
-  .project-img {
-    min-height: 180px;
-  }
-
-  .dropdown {
-    font-size: 11px;
-    padding: 10px 12px;
-  }
-
-  .action-btn {
-    padding: 12px;
-    font-size: 11px;
-  }
-
-  .patch-box {
-    padding: 18px;
-  }
-
-  .patch-header h3 {
-    font-size: 16px;
-  }
-
-  .patch-text {
-    font-size: 13px;
-  }
-}
-
-
-@media (max-width: 420px) {
-
-  .launcher-header {
-    flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
+    gap: 12px;
   }
 
-  .launcher-title {
+  .h1 {
+    font-size: 22px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    box-shadow: 2px 2px 0px 0px #000;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .cardBody {
+    padding: 12px;
+  }
+
+  .cardTitle {
     font-size: 13px;
   }
 
-  .project-img {
-    min-height: 140px;
+  .cardDesc {
+    font-size: 11px;
   }
 
-  .patch-text {
+  .btnGroup {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 10px;
+    padding: 10px;
+  }
+
+  .libraryCard {
+    flex-direction: column;
+  }
+
+  .thumbBox {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-bottom: 2px solid #000;
+    display: block;
+  }
+
+  .libraryBody {
+    padding: 14px;
+  }
+
+  .libraryTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
     font-size: 12px;
   }
 
-  .action-btn {
-    font-size: 10px;
+  .empty {
+    padding: 32px 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .h1 {
+    font-size: 18px;
+  }
+
+  .cardDesc {
+    display: none;
+  }
+
+  .btn {
+    font-size: 9px;
+    padding: 8px;
   }
 }
