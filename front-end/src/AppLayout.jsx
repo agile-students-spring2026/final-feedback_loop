@@ -8,20 +8,18 @@ const AppLayout = ({ children, myPlaytests, hideNav }) => {
 
   return (
     <div className="container">
-      {!hideNav && <Navbar onBurgerClick={() => setSidebarOpen(!sidebarOpen)} />}
+      {!hideNav && (
+        <Navbar onBurgerClick={() => setSidebarOpen(!sidebarOpen)} />
+      )}
 
       <div className="layout">
-
         <Sidebar
           myPlaytests={myPlaytests}
           isOpen={sidebarOpen}
           close={() => setSidebarOpen(false)}
         />
 
-        <main className="main">
-          {children}
-        </main>
-
+        <main className="main">{children}</main>
       </div>
     </div>
   );

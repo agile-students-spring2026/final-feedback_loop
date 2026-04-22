@@ -107,9 +107,9 @@ const NotificationCenter = () => {
         </header>
 
         <div className="notifBody">
-          
+          <h2 className="notifSectionTitle">Your projects</h2>
           {!loadingNotifications && notifications.length === 0 && (
-            <p>No active developer notifications.</p>
+            <p>No active developer notifications. Try publishing more projects for user engagement!</p>
           )}
 
           {loadingNotifications && <p>Loading notifications...</p>}
@@ -142,7 +142,7 @@ const NotificationCenter = () => {
 
 
           <div className="notifSectionHeader">
-            <h2 className="notifSectionTitle">Followed Project Updates</h2>
+            <h2 className="notifSectionTitle">Projects you follow</h2>
             <button
               className="notifBtn notifBtnPrimary"
               onClick={() => navigate("/following")}
