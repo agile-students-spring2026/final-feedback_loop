@@ -117,6 +117,9 @@ function SettingsPage() {
 
             if (res.ok) {
               setUser((prev) => ({ ...prev, profilePic: imageUrl }));
+              const updated = { ...currentUser, profilePic: imageUrl };
+              localStorage.setItem("authUser", JSON.stringify(updated));
+              window.dispatchEvent(new Event("storage"));
               alert("Profile picture updated!");
             }
           } catch (err) {

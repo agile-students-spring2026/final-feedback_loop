@@ -6,7 +6,6 @@ import { authHeader } from "./setup.js";
 
 use(chaiHttp);
 
-// playerexplore
 describe("PlayerExplore", () => {
   it("GET /explore/projects → 200 and returns an array", async () => {
     const res = await request.execute(app).get("/explore/projects");
@@ -21,42 +20,9 @@ describe("PlayerExplore", () => {
       expect(["published", "public"]).to.include(p.visibility);
     });
   });
-
-  it("GET /playtests → 200 and returns an array", async () => {
-    const res = await request.execute(app).get("/playtests").set(authHeader());
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an("array");
-  });
-
-  it("POST /playtests without projectId → 400 bad request", async () => {
-    const res = await request
-      .execute(app)
-      .post("/playtests")
-      .set(authHeader())
-      .send({});
-    expect(res).to.have.status(400);
-    expect(res.body).to.have.property("error");
-  });
-
-  it("POST /playtests with non-existent projectId → 404", async () => {
-    const res = await request
-      .execute(app)
-      .post("/playtests")
-      .set(authHeader())
-      .send({ projectId: 99999999 });
-    expect(res).to.have.status(404);
-    expect(res.body).to.have.property("error");
-  });
 });
 
-//playtest
-describe("PlayerPlaytest", () => {
-  it("GET /playtests → 200 and returns an array", async () => {
-    const res = await request.execute(app).get("/playtests").set(authHeader());
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an("array");
-  });
-
+describe("FollowingPage", () => {
   it("GET /feedback/:projectId → 200 and returns an array", async () => {
     const res = await request.execute(app).get("/feedback/1");
     expect(res).to.have.status(200);
@@ -68,18 +34,8 @@ describe("PlayerPlaytest", () => {
     expect(res).to.have.status(200);
     expect(res.body).to.be.an("array").that.is.empty;
   });
-
-  it("DELETE /playtests/:projectId with unknown id → 404", async () => {
-    const res = await request
-      .execute(app)
-      .delete("/playtests/99999999")
-      .set(authHeader());
-    expect(res).to.have.status(404);
-    expect(res.body).to.have.property("error");
-  });
 });
 
-// projectdetails
 describe("ProjectDetails", () => {
   it("GET /explore/projects/:id with unknown id → 404", async () => {
     const res = await request.execute(app).get("/explore/projects/99999999");

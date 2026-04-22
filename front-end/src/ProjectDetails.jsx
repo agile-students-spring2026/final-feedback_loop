@@ -15,10 +15,7 @@ const ProjectDetails = () => {
     const fetchProject = async () => {
       try {
         const res = await apiFetch(`/explore/projects/${id}`);
-        if (res.status === 404) {
-          setNotFound(true);
-          return;
-        }
+        if (res.status === 404) { setNotFound(true); return; }
         const data = await res.json();
         setGame(data);
       } catch (err) {
@@ -28,7 +25,6 @@ const ProjectDetails = () => {
         setLoading(false);
       }
     };
-
     fetchProject();
   }, [id]);
 
@@ -40,36 +36,78 @@ const ProjectDetails = () => {
       <div className="project-wrapper">
         <div className="launcher-header">
           <button className="back-btn" onClick={() => navigate("/explore")}>Back</button>
-          <span className="launcher-title">Game Launcher</span>
+          <span className="launcher-title">{game.title}</span>
           <div className="header-spacer" />
         </div>
         <div className="content-area">
+          <div className="hero-box">
+            <img
+              src={game.coverPreview || `https://picsum.photos/seed/${game.id}/1200/500`}
+              alt={game.title}
+              className="hero-img"
+            />
+          </div>
           <div className="top-grid">
             <div className="left-col">
-              <div className="section-box">
-                <span className="label">PROJECT NAME: {game.title}</span>
-                <img
-                  src={game.coverPreview || "https://picsum.photos/seed/alpha/600/400"}
-                  alt={game.title}
-                  className="project-img"
-                />
+              <div className="config-block">
+                <span className="label">About</span>
+                <p className="game-description">{game.description || "No description provided."}</p>
+
+                <div className="meta-row">
+                  {game.genre?.label && (
+                    <span className="meta-tag">{game.genre.label}</span>
+                  )}
+                  {Array.isArray(game.tags) && game.tags.map((tag) => (
+                    <span key={tag.value} className="meta-tag">{tag.label}</span>
+                  ))}
+                </div>
               </div>
             </div>
+
             <div className="right-col">
               <div className="config-block">
                 <span className="label">Configuration</span>
                 <div className="dropdown">VERSION: {game.version}</div>
                 <div className="dropdown">STATUS: {game.visibility}</div>
               </div>
+
               <div className="action-box">
                 <span className="label">Launch Options</span>
-                <button className="action-btn" onClick={() => alert("Launching playtest...")}>
-                  Playtest Link
-                </button>
-                <button className="action-btn secondary">Download Client</button>
+
+                {game.uploadType === "url" && game.uploadUrl ? (
+                  <a
+                    href={game.uploadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="action-btn"
+                    style={{ textDecoration: "none", textAlign: "center" }}
+                  >
+                    Playtest Now
+                  </a>
+                ) : (
+                  <button className="action-btn" disabled style={{ opacity: 0.4, cursor: "not-allowed" }}>
+                    Playtest Now
+                  </button>
+                )}
+
+                {game.uploadType === "download" && game.uploadFile ? (
+                  <a
+                    href={game.uploadFile}
+                    download
+                    className="action-btn secondary"
+                    style={{ textDecoration: "none", textAlign: "center" }}
+                  >
+                    Download
+                  </a>
+                ) : (
+                  <button className="action-btn secondary" disabled style={{ opacity: 0.4, cursor: "not-allowed" }}>
+                    Download
+                  </button>
+                )}
               </div>
             </div>
           </div>
+
           <div className="patch-box">
             <div className="patch-header">
               <div className="patch-tag">BUILD {game.version}</div>

@@ -213,7 +213,7 @@ function EditProjectInfo() {
   return (
     <div className="page-container">
       <nav className="nav">
-        <div className="logo">[ LOGO ]</div>
+        <div className="logo">Feedback Loop</div>
       </nav>
 
       <main class="main">

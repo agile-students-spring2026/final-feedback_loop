@@ -4,12 +4,14 @@ import "./FollowingPage.css";
 import AppLayout from "./AppLayout";
 import { apiFetch } from "./api";
 import { loadFollows, toggleFollow as toggleFollowFn } from "./follows";
+import formIcon from "../src/assets/form.svg";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [followedIds, setFollowedIds] = useState(loadFollows());
   const [logsByProject, setLogsByProject] = useState({});
+  const [formsByProject, setFormsByProject] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,28 +25,36 @@ const FollowingPage = () => {
         setProjects(all);
 
         const followed = all.filter((p) => loadFollows().includes(p.id));
-        const entries = await Promise.all(
-          followed.map(async (p) => {
-            const res = await apiFetch(`/devlogs/${p.id}`);
-            const data = res.ok ? await res.json() : [];
-            return [p.id, Array.isArray(data) ? data : []];
-          })
-        );
+
+        const [logEntries, formEntries] = await Promise.all([
+          Promise.all(
+            followed.map(async (p) => {
+              const res = await apiFetch(`/devlogs/${p.id}`);
+              const data = res.ok ? await res.json() : [];
+              return [p.id, Array.isArray(data) ? data : []];
+            })
+          ),
+          Promise.all(
+            followed.map(async (p) => {
+              const res = await apiFetch(`/feedback/${p.id}`);
+              const data = res.ok ? await res.json() : [];
+              return [p.id, data.filter((f) => f.status === "Active")];
+            })
+          ),
+        ]);
+
         if (cancelled) return;
-        setLogsByProject(Object.fromEntries(entries));
+        setLogsByProject(Object.fromEntries(logEntries));
+        setFormsByProject(Object.fromEntries(formEntries));
       } finally {
         if (!cancelled) setLoading(false);
       }
     };
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  const toggleFollow = (id) => {
-    setFollowedIds(toggleFollowFn(id));
-  };
+  const toggleFollow = (id) => setFollowedIds(toggleFollowFn(id));
 
   const followedProjects = projects.filter((p) => followedIds.includes(p.id));
 
@@ -63,14 +73,12 @@ const FollowingPage = () => {
         <div className="followList">
           {followedProjects.map((game) => {
             const logs = logsByProject[game.id] || [];
+            const activeForms = formsByProject[game.id] || [];
             return (
               <div key={game.id} className="followCard">
                 <div className="followCardTop">
                   <img
-                    src={
-                      game.coverPreview ||
-                      `https://picsum.photos/seed/${game.id}/300/200`
-                    }
+                    src={game.coverPreview || `https://picsum.photos/seed/${game.id}/300/200`}
                     alt={game.title}
                     className="followCardImg"
                   />
@@ -82,10 +90,38 @@ const FollowingPage = () => {
                       >
                         {game.title}
                       </span>
+
+                      {activeForms.length === 1 && (
+                        <button
+                          className="formBadge"
+                          onClick={() => navigate(`/feedback-form/${activeForms[0].formId}`)}
+                          title="Submit feedback form"
+                        >
+                          <span className="formIconBox">
+                            <img src={formIcon} alt="" className="formIcon" />
+                          </span>
+                          Form
+                        </button>
+                      )}
+                      {activeForms.length > 1 && (
+                        <div className="formBadgeGroup">
+                          {activeForms.map((f, i) => (
+                            <button
+                              key={f.formId}
+                              className="formBadge"
+                              onClick={() => navigate(`/feedback-form/${f.formId}`)}
+                              title={f.title}
+                            >
+                              <span className="formIconBox">
+                                <img src={formIcon} alt="" className="formIcon" />
+                              </span>
+                              {i + 1}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <span className="followCardDev">
-                      {game.genre?.label || ""}
-                    </span>
+                    <span className="followCardDev">{game.genre?.label || ""}</span>
                     <span className="followCardTime">{game.lastUpdated}</span>
                   </div>
                 </div>

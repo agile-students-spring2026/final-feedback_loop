@@ -47,7 +47,7 @@ function FeedbackResults() {
   return (
     <div className="container">
       <nav className="nav">
-        <div className="logo">[ LOGO ]</div>
+        <div className="logo">Feedback Loop</div>
       </nav>
 
       <div className="layout">

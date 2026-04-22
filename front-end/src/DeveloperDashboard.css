@@ -44,7 +44,10 @@ body {
 
 .projectContainer {
   width: 100%;
+  justify-content: center;
+  align-items: center;
   max-width: 900px;
+  margin: 0 auto;
   background: #fff;
   border: 2px solid #000;
   margin-bottom: 20px;
@@ -64,6 +67,14 @@ body {
   align-items: center;
   gap: 18px;
   padding: 20px;
+}
+
+.headerDev {
+    border-bottom: 2px solid #000;
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main {
@@ -158,11 +169,13 @@ body {
 
   .projectContainer {
     max-width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 
   .entry {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .mainIcon {

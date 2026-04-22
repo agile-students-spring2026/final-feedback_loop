@@ -13,7 +13,6 @@ import CreateNewFeedback from "./pages/CreateNewFeedback";
 import DeveloperDashboard from "./DeveloperDashboard";
 import ProjectInfo from "./ProjectInfo";
 import DevLog from "./DevLog";
-import PlayerPlaytest from "./PlayerPlaytest";
 import ProjectDetails from "./ProjectDetails";
 import PlayerExplore from "./PlayerExplore";
 import FollowingPage from "./FollowingPage";
@@ -45,9 +44,6 @@ function App() {
         <Route path="/createProjectForm" element={<ProtectedRoute><CreateProjectForm /></ProtectedRoute>} />
         <Route path="/editProjectInfo/:id" element={<ProtectedRoute><EditProjectInfo /></ProtectedRoute>} />
         <Route path="/createNewFeedback/:id" element={<ProtectedRoute><CreateNewFeedback /></ProtectedRoute>} />
-        <Route path="/playtest/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
-        <Route path="/my-playtests" element={<ProtectedRoute><PlayerPlaytest /></ProtectedRoute>} />
-
 
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>

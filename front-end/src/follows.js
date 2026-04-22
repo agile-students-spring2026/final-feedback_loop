@@ -21,5 +21,6 @@ export const toggleFollow = (id) => {
     ? current.filter((x) => x !== id)
     : [...current, id];
   saveFollows(next);
+  window.dispatchEvent(new Event("followsUpdated"));
   return next;
 };
