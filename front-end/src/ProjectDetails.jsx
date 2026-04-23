@@ -107,16 +107,6 @@ const ProjectDetails = () => {
               </div>
             </div>
           </div>
-
-          <div className="patch-box">
-            <div className="patch-header">
-              <div className="patch-tag">BUILD {game.version}</div>
-              <h3>Patch Notes</h3>
-            </div>
-            <p className="patch-text">
-              {game.description}
-            </p>
-          </div>
         </div>
       </div>
     </AppLayout>
