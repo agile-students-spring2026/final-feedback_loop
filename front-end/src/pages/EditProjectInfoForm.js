@@ -104,6 +104,8 @@ function EditProjectInfo() {
   const [tagOption, setTagOption] = useState([]);
   const [genreOption, setGenreOption] = useState([]);
 
+  const [isUploading, setIsUploading] = useState(false);
+
   useEffect(() => {
     async function fetchOptions() {
       try {
@@ -157,24 +159,42 @@ function EditProjectInfo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isUploading) return;
+    setIsUploading(true);
 
     try {
-      const response = await apiFetch(
-        `/createprojects/${id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            title,
-            description,
-            genre,
-            tags,
-            visibility,
-            uploadType,
-            uploadUrl,
-            version,
-          }),
-        },
-      );
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("genre", JSON.stringify(genre));
+      formData.append("tags", JSON.stringify(tags));
+      formData.append("visibility", visibility);
+      formData.append("uploadType", uploadType);
+      formData.append("uploadUrl", uploadUrl);
+      formData.append("version", version);
+
+      const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
+
+      if (uploadType === "download" && uploadFile instanceof File) {
+        const fileExt = uploadFile?.name?.split(".").pop().toLowerCase();
+        //file size should be under 50MB
+        if (uploadFile.size > 50 * 1024 * 1024) {
+          alert("File size must be under 50MB");
+          return;
+        }
+        //file should be a zip or rar...
+        if (!allowedFormats.includes(fileExt)) {
+          alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
+          return;
+        }
+
+        formData.append("uploadFile", uploadFile);
+      }
+
+      const response = await apiFetch(`/createprojects/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
@@ -184,7 +204,9 @@ function EditProjectInfo() {
       navigate(`/devproject/${originalProject.id}`);
     } catch (error) {
       console.error("Error updating project:", error);
-      alert("Failed to update project. Is the backend running?");
+      alert("Failed to update project.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -218,19 +240,9 @@ function EditProjectInfo() {
 
       <main class="main">
         <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">EDIT PROJECT INFORMATION</h1>
-          </header>
-
+          <button className="backButton" onClick={handleDiscard}>
+            Back
+          </button>
           <div className="create-peoject-container">
             <form onSubmit={handleSubmit} className="create-peoject-form">
               <div className="info-container">
@@ -355,8 +367,8 @@ function EditProjectInfo() {
               </div>
 
               <div>
-                <button type="submit" className="basic-button">
-                  Save and View Pages
+                <button type="submit" className="basic-button" disabled={isUploading}>
+                  {isUploading ? "Uploading..." : "Save and View Page"}
                 </button>
               </div>
 

@@ -34,7 +34,6 @@ function App() {
         <Route path="/report" element={<ProtectedRoute><ReportForm /></ProtectedRoute>} />
         <Route path="/devdash" element={<ProtectedRoute><DeveloperDashboard /></ProtectedRoute>} />
         <Route path="/devproject/:id" element={<ProtectedRoute><ProjectInfo /></ProtectedRoute>} />
-        <Route path="/devlog/:id" element={<ProtectedRoute><DevLog /></ProtectedRoute>} />
         <Route path="/explore" element={<ProtectedRoute><PlayerExplore /></ProtectedRoute>} />
         <Route path="/project/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
         <Route path="/following" element={<ProtectedRoute><FollowingPage /></ProtectedRoute>} />

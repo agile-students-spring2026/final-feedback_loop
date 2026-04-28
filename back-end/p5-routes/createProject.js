@@ -2,8 +2,32 @@ import express from "express";
 import Project from "../models/Project.js";
 import { nextId } from "../models/Counter.js";
 import { requireAuth } from "../auth.js";
+import Options from "../models/Options.js";
+import { upload, uploadToSupabase, deleteFromSupabase } from "../upload.js";
 
 const router = express.Router();
+
+const syncOptions = async (genre, tags) => {
+  let options = await Options.findOne();
+  if (!options) options = await Options.create({});
+
+  const genreList = options.genreOption;
+  const tagList = options.tagOption;
+
+  if (genre && !genreList.some((g) => g.value === genre.value)) {
+    genreList.push(genre);
+  }
+
+  if (tags) {
+    for (const tag of tags) {
+      if (!tagList.some((t) => t.value === tag.value)) {
+        tagList.push(tag);
+      }
+    }
+  }
+
+  await Options.updateOne({}, { genreOption: genreList, tagOption: tagList });
+};
 
 const formattedDate = () =>
   new Date().toLocaleDateString("en-US", {
@@ -12,11 +36,13 @@ const formattedDate = () =>
     year: "numeric",
   });
 
-router.post("/", requireAuth, async (req, res) => {
-  const { title, description, genre, tags, visibility, uploadType, uploadUrl, version } =
+router.post("/", requireAuth, upload.single("uploadFile"), async (req, res) => {
+  const { title, description, visibility, uploadType, uploadUrl, version } =
     req.body;
-
+  const genre = JSON.parse(req.body.genre);
+  const tags = JSON.parse(req.body.tags);
   const newId = await nextId("project");
+  const fileUrl = req.file ? await uploadToSupabase(req.file) : null;
 
   const newProject = {
     id: newId,
@@ -29,7 +55,7 @@ router.post("/", requireAuth, async (req, res) => {
     coverImage: null,
     coverPreview: "",
     uploadType,
-    uploadFile: null,
+    uploadFile: fileUrl,
     uploadUrl: uploadUrl || "",
     visibility,
     version: version || "v0.1",
@@ -38,34 +64,52 @@ router.post("/", requireAuth, async (req, res) => {
   };
 
   await Project.create(newProject);
+  await syncOptions(genre, tags);
   res.status(201).json(newProject);
 });
 
-router.put("/:id", requireAuth, async (req, res) => {
-  const { title, description, genre, tags, visibility, uploadType, uploadUrl, version } =
-    req.body;
-  const id = parseInt(req.params.id);
+router.put(
+  "/:id",
+  requireAuth,
+  upload.single("uploadFile"),
+  async (req, res) => {
+    const { title, description, visibility, uploadType, uploadUrl, version } =
+      req.body;
+    const genre = JSON.parse(req.body.genre);
+    const tags = JSON.parse(req.body.tags);
+    const id = parseInt(req.params.id);
 
-  const existing = await Project.findOne({ id }).lean();
-  if (!existing) return res.status(404).json({ error: "Project not found" });
-  if (String(existing.userId) !== String(req.user.userId))
-    return res.status(403).json({ error: "Not your project" });
+    const existing = await Project.findOne({ id }).lean();
+    if (!existing) return res.status(404).json({ error: "Project not found" });
+    if (String(existing.userId) !== String(req.user.userId))
+      return res.status(403).json({ error: "Not your project" });
 
-  const update = {
-    title,
-    description,
-    genre,
-    tags,
-    visibility,
-    uploadType,
-    uploadUrl: uploadUrl || existing.uploadUrl,
-    version: version || existing.version || "v0.1",
-    lastUpdated: formattedDate(),
-  };
+    let fileUrl = existing.uploadFile;
+    if (req.file) {
+      if (existing.uploadFile) {
+        await deleteFromSupabase(existing.uploadFile);
+      }
+      fileUrl = await uploadToSupabase(req.file);
+    }
 
-  await Project.updateOne({ id }, update);
-  const updated = await Project.findOne({ id }, { _id: 0 }).lean();
-  res.json(updated);
-});
+    const update = {
+      title,
+      description,
+      genre,
+      tags,
+      visibility,
+      uploadType,
+      uploadFile: fileUrl,
+      uploadUrl: uploadUrl || existing.uploadUrl,
+      version: version || existing.version || "v0.1",
+      lastUpdated: formattedDate(),
+    };
+
+    await Project.updateOne({ id }, update);
+    await syncOptions(genre, tags);
+    const updated = await Project.findOne({ id }, { _id: 0 }).lean();
+    res.json(updated);
+  },
+);
 
 export default router;

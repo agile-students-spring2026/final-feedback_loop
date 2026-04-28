@@ -1,106 +1,58 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import projectImg from "./assets/projectIcon.png";
-import "./DevLog.css";
-import AppLayout from "./AppLayout";
-import { useParams } from "react-router-dom";
 import { apiFetch } from "./api";
+import "./DevLog.css"
 
-function DevLog() {
-  const navigate = useNavigate();
-
+function DevLogForm({ projectId, onSuccess }) {
   const [teamMember, setTeamMember] = useState("");
-
-  const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
-  const { id } = useParams();
 
   const handleSubmit = () => {
- 
-  if (!teamMember.startsWith("@")) {
-    alert("Username must start with '@'");
-    return;
-  }
+    if (!teamMember.startsWith("@")) {
+      alert("Username must start with '@'");
+      return;
+    }
+    if (!notes.trim()) {
+      alert("Developer notes cannot be empty");
+      return;
+    }
 
+    const today = new Date().toISOString().split("T")[0];
 
-  const parsedDate = new Date(date);
-  if (isNaN(parsedDate.getTime())) {
-    alert("Please enter a valid date (mm/dd/yyyy)");
-    return;
-  }
-
-  if (!notes.trim()) {
-    alert("Developer notes cannot be empty");
-    return;
-  }
-
-  apiFetch("/devlogs", {
-    method: "POST",
-    body: JSON.stringify({
-      projectId: id,
-      teamMember,
-      date,
-      notes
+    apiFetch("/devlogs", {
+      method: "POST",
+      body: JSON.stringify({ projectId, teamMember, date: today, notes }),
     })
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Saved:", data);
-      alert("Dev log saved successfully!");
-      navigate(`/devproject/${id}`);
-    })
-    .catch(err => console.error(err));
-};
+      .then((res) => res.json())
+      .then((data) => {
+        setTeamMember("");
+        setNotes("");
+        onSuccess(data); // 通知父组件提交成功，把新 log 传回去
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
-    <AppLayout>
-      <div className="devlog">
-        <button className="backButton" onClick={() => navigate(`/devproject/${id}`)}>
-          Back
-        </button>
+    <div className="devlogSection">
+      <label>Team Member</label>
+      <input
+        type="text"
+        placeholder="@developer"
+        value={teamMember}
+        onChange={(e) => setTeamMember(e.target.value)}
+      />
 
-        <div className="devHeader">
-          <div className="headerText">
-            <p className="welcome">Welcome to</p>
-            <h1>My Project</h1>
-            <p className="lastUpdated">Last updated: mm/dd/yyyy</p>
-          </div>
+      <label>Developer Notes</label>
+      <textarea
+        placeholder="Enter notes here..."
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
 
-          <img src={projectImg} alt="Project Icon" className="projIcon" />
-        </div>
-
-        <div className="devlogSection">
-          <h2>Submit Dev Log</h2>
-
-          <label>Team member</label>
-          <input
-            type="text"
-            placeholder="@Margot"
-            value={teamMember}
-            onChange={(e) => setTeamMember(e.target.value)}
-          />
-
-          <label>Submission Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-
-          <label>Developer Notes</label>
-          <textarea
-            placeholder="Enter notes here..."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-
-          <button className="plainButton" onClick={handleSubmit}>
-            Submit Dev Log
-          </button>
-        </div>
-      </div>
-    </AppLayout>
+      <button className="plainButton" onClick={handleSubmit}>
+        Submit Dev Log
+      </button>
+    </div>
   );
 }
 
-export default DevLog;
+export default DevLogForm;

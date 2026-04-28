@@ -82,11 +82,9 @@ function DeveloperDashboard() {
             </div>
 
             <div className="actions">
-              <button onClick={() => navigate(`/editProjectInfo/${project.id}`)}>Edit</button>
-              <button onClick={() => navigate(`/game-feedback/${project.id}`)}>
-                Feedback
-              </button>
-              <button onClick={() => navigate(`/devlog/${project.id}`)}>DevLog</button>
+              <button onClick={() => navigate(`/devproject/${project.id}`, { state: { tab: "info" } })}>Info</button>
+              <button onClick={() => navigate(`/devproject/${project.id}`, { state: { tab: "logs" } })}>DevLog</button>
+              <button onClick={() => navigate(`/devproject/${project.id}`, { state: { tab: "feedback" } })}>Feedback</button>
             </div>
           </div>
         ))}

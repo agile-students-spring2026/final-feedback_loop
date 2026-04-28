@@ -162,8 +162,8 @@ body {
   background: #fff;
   border: 2px solid #000;
   border-radius: 0;
-  box-shadow: 4px 4px 0px #000;
   padding: 24px;
+  margin-top: 20px;
 }
 
 .devlogSection h2 {

@@ -38,7 +38,6 @@ body {
 .create-peoject-container {
   width: 100%;
   max-width: 900px;
-  margin: 40px auto;
   background: #f3f4f6;
   color: var(--dark-eggplant);
   overflow: hidden;
@@ -66,14 +65,25 @@ body {
   background-color: white;
 }
 
+.create-peoject-form h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--black1);
+  text-transform: uppercase;
+}
+
 .info-container {
   margin-bottom: 24px;
 }
 
 .info-container label {
   display: block;
-  margin-bottom: 8px;
-  color: var(--dark-eggplant);
+  margin: 16px 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--dark-indigo);
+  text-transform: uppercase;
 }
 
 .single-line-input,
@@ -84,7 +94,6 @@ textarea {
   font-size: 14px;
   background: #fff;
   color: var(--black1);
-  box-shadow: 2px 2px 0px #000;
   box-sizing: border-box;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
@@ -93,7 +102,7 @@ textarea {
 textarea:focus {
   outline: none;
   transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px #000;
+  box-shadow: 3px 3px 0px var(--purple);
 }
 
 textarea {
