@@ -23,6 +23,7 @@
   width: 22px;
   height: 22px;
   display: block;
+  filter: invert(1);
 }
 
 .appLogo {
