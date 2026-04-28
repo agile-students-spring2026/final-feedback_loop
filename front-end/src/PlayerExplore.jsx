@@ -46,14 +46,15 @@ const PlayerExplore = () => {
 
   const filteredGames = games
     .filter((game) => {
-        const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesGenre =
-          selectedGenre === "All" ||
-          (game.genre && game.genre.value === selectedGenre);
-        return matchesSearch && matchesGenre;
-      })
+      const matchesSearch = game.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesGenre =
+        selectedGenre === "All" ||
+        (game.genre && game.genre.value === selectedGenre);
+      return matchesSearch && matchesGenre;
+    })
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
 
   return (
     <AppLayout>
@@ -69,7 +70,7 @@ const PlayerExplore = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="searchInput"
         />
-         <select
+        <select
           value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
           className="dropdown"
@@ -80,47 +81,49 @@ const PlayerExplore = () => {
               {genre.label}
             </option>
           ))}
-        </select> 
-
+        </select>
       </div>
 
       <div className="grid">
         {filteredGames.length === 0 ? (
           <p> No projects currently posted in this genre.</p>
         ) : (
-        filteredGames.map((game) => {
-          const isFollowing = followedIds.includes(game.id);
-          return (
-            <div key={game.id} className="card">
-              <img
-                src={game.coverPreview || "https://picsum.photos/seed/alpha/300/200"}
-                alt="preview"
-                className="cardThumb"
-              />
-              <div className="cardBody">
-                <div className="cardTitleRow">
-                  <h3 className="cardTitle">{game.title}</h3>
-                </div>
-                <p className="cardDesc">{game.description}</p>
-                <div className="btnGroup">
-                  <button
-                    className={`btn ${isFollowing ? "btnFollowing" : ""}`}
-                    onClick={() => handleToggleFollow(game.id)}
-                  >
-                    {isFollowing ? "Following" : "Follow"}
-                  </button>
-                  <button
-                    className="btn"
-                    onClick={() => navigate(`/project/${game.id}`)}
-                  >
-                    Details
-                  </button>
+          filteredGames.map((game) => {
+            const isFollowing = followedIds.includes(game.id);
+            return (
+              <div key={game.id} className="card">
+                <img
+                  src={
+                    game.coverImage ||
+                    "https://picsum.photos/seed/alpha/300/200"
+                  }
+                  alt="preview"
+                  className="cardThumb"
+                />
+                <div className="cardBody">
+                  <div className="cardTitleRow">
+                    <h3 className="cardTitle">{game.title}</h3>
+                  </div>
+                  <p className="cardDesc">{game.description}</p>
+                  <div className="btnGroup">
+                    <button
+                      className={`btn ${isFollowing ? "btnFollowing" : ""}`}
+                      onClick={() => handleToggleFollow(game.id)}
+                    >
+                      {isFollowing ? "Following" : "Follow"}
+                    </button>
+                    <button
+                      className="btn"
+                      onClick={() => navigate(`/project/${game.id}`)}
+                    >
+                      Details
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })
-      )}
+            );
+          })
+        )}
       </div>
     </AppLayout>
   );

@@ -149,14 +149,20 @@ function EditProjectInfo() {
     fetchProject();
   }, [id]);
 
-  const handleCoverUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setCoverImage(file);
-
-    const imageUrl = URL.createObjectURL(file);
-    setCoverPreview(imageUrl);
+  const openWidget = (type) => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloudName: "dpdidryxs",
+        uploadPreset: "preset_123",
+        sources: ["local", "url", "camera"],
+        multiple: false,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          setCoverPreview(result.info.secure_url);
+        }
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -190,6 +196,7 @@ function EditProjectInfo() {
       formData.append("uploadType", uploadType);
       formData.append("uploadUrl", uploadUrl);
       formData.append("version", version);
+      formData.append("coverImage", coverPreview || coverImage || "");
 
       const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
 
@@ -301,16 +308,11 @@ function EditProjectInfo() {
 
               <div className="info-container">
                 <label>Cover Image</label>
-
-                <input
-                  id="cover-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleCoverUpload}
-                  style={{ display: "none" }}
-                />
-
-                <label htmlFor="cover-upload" className="cover-upload-area">
+                <div
+                  className="cover-upload-area"
+                  onClick={() => openWidget("cover")}
+                  style={{ cursor: "pointer" }}
+                >
                   {coverPreview ? (
                     <img
                       src={coverPreview}
@@ -325,7 +327,7 @@ function EditProjectInfo() {
                       <span className="upload-sub-text">PNG, JPG, JPEG</span>
                     </div>
                   )}
-                </label>
+                </div>
               </div>
 
               <div className="form-section">

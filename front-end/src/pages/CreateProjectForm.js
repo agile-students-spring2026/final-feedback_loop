@@ -89,7 +89,7 @@ function CreateProjectForm() {
   const [tags, setTags] = useState([]);
 
   const [coverImage, setCoverImage] = useState(null);
-  const [coverPreview, setCoverPreview] = useState("");
+  const [coverPreview, setCoverPreview] = useState(null);
 
   const [uploadType, setUploadType] = useState("download");
   const [uploadFile, setUploadFile] = useState(null);
@@ -118,14 +118,25 @@ function CreateProjectForm() {
     fetchOptions();
   }, []);
 
-  const handleCoverUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setCoverImage(file);
-
-    const imageUrl = URL.createObjectURL(file);
-    setCoverPreview(imageUrl);
+  const openWidget = (type) => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloudName: "dpdidryxs",
+        uploadPreset: "preset_123",
+        sources: ["local", "url", "camera"],
+        multiple: false,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          const url = result.info.secure_url;
+          if (type === "cover") {
+            setCoverPreview(url);
+          } else if (type === "project") {
+            setUploadUrl(url);
+          }
+        }
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -157,6 +168,7 @@ function CreateProjectForm() {
       formData.append("visibility", visibility);
       formData.append("uploadType", uploadType);
       formData.append("uploadUrl", uploadUrl);
+      formData.append("coverImage", coverPreview);
 
       const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
 
@@ -170,7 +182,6 @@ function CreateProjectForm() {
           alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
           return;
         }
-
         formData.append("uploadFile", uploadFile);
       }
 
@@ -217,7 +228,10 @@ function CreateProjectForm() {
 
       <main className="main">
         <div className="dashboard">
-          <button className="backButton" onClick={() => setShowDiscardConfirm(true)}>
+          <button
+            className="backButton"
+            onClick={() => setShowDiscardConfirm(true)}
+          >
             Back
           </button>
 
@@ -264,16 +278,11 @@ function CreateProjectForm() {
 
               <div className="info-container">
                 <label>Cover Image</label>
-
-                <input
-                  id="cover-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleCoverUpload}
-                  style={{ display: "none" }}
-                />
-
-                <label htmlFor="cover-upload" className="cover-upload-area">
+                <div
+                  className="cover-upload-area"
+                  onClick={() => openWidget("cover")}
+                  style={{ cursor: "pointer" }}
+                >
                   {coverPreview ? (
                     <img
                       src={coverPreview}
@@ -288,7 +297,7 @@ function CreateProjectForm() {
                       <span className="upload-sub-text">PNG, JPG, JPEG</span>
                     </div>
                   )}
-                </label>
+                </div>
               </div>
 
               <div className="form-section">
@@ -334,7 +343,11 @@ function CreateProjectForm() {
               </div>
 
               <div>
-                <button type="submit" className="basic-button" disabled={isUploading}>
+                <button
+                  type="submit"
+                  className="basic-button"
+                  disabled={isUploading}
+                >
                   {isUploading ? "Uploading..." : "Save and View Page"}
                 </button>
               </div>
@@ -357,10 +370,16 @@ function CreateProjectForm() {
             <div className="cnf-discard-box">
               <p className="cnf-discard-msg">Discard all changes?</p>
               <div className="cnf-discard-actions">
-                <button className="basic-button" onClick={() => setShowDiscardConfirm(false)}>
+                <button
+                  className="basic-button"
+                  onClick={() => setShowDiscardConfirm(false)}
+                >
                   Cancel
                 </button>
-                <button className="basic-button cnf-discard-confirm" onClick={confirmDiscard}>
+                <button
+                  className="basic-button cnf-discard-confirm"
+                  onClick={confirmDiscard}
+                >
                   Discard
                 </button>
               </div>

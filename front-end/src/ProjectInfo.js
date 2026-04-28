@@ -24,7 +24,7 @@ function ProjectInfo() {
     const hasActive = feedback.some((f) => f.status === "Active");
     if (hasActive) {
       alert(
-        "There is already an active feedback form for this project. Please close it first.",
+        "There is already an active feedback form for this project. Please close it first."
       );
       return;
     }
@@ -92,7 +92,11 @@ function ProjectInfo() {
                 </p>
               </div>
 
-              <img src={projectImg} alt="Project Icon" className="projIcon" />
+              <img
+                src={project.coverImage || projectImg}
+                alt="Project Icon"
+                className="projIcon"
+              />
             </div>
 
             <div className="tabBar">
@@ -109,7 +113,9 @@ function ProjectInfo() {
                 Developer Logs
               </button>
               <button
-                className={`tabBtn ${activeTab === "feedback" ? "tabActive" : ""}`}
+                className={`tabBtn ${
+                  activeTab === "feedback" ? "tabActive" : ""
+                }`}
                 onClick={() => setActiveTab("feedback")}
               >
                 Feedback
@@ -246,16 +252,24 @@ function ProjectInfo() {
         </main>
       </div>
 
-
       {showDeleteConfirm && (
         <div className="cnf-discard-overlay">
           <div className="cnf-discard-box">
-            <p className="cnf-discard-msg">Are you sure you want to delete this project? This cannot be undone.</p>
+            <p className="cnf-discard-msg">
+              Are you sure you want to delete this project? This cannot be
+              undone.
+            </p>
             <div className="cnf-discard-actions">
-              <button className="plainButton" onClick={() => setShowDeleteConfirm(false)}>
+              <button
+                className="plainButton"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
                 Cancel
               </button>
-              <button className="plainButton cnf-discard-confirm" onClick={handleDelete}>
+              <button
+                className="plainButton cnf-discard-confirm"
+                onClick={handleDelete}
+              >
                 Delete
               </button>
             </div>
@@ -268,7 +282,10 @@ function ProjectInfo() {
           <div className="cnf-discard-box">
             <p className="cnf-discard-msg">Your project has been deleted.</p>
             <div className="cnf-discard-actions">
-              <button className="plainButton" onClick={() => navigate("/devdash")}>
+              <button
+                className="plainButton"
+                onClick={() => navigate("/devdash")}
+              >
                 Go to Dashboard
               </button>
             </div>
