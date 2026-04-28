@@ -47,3 +47,7 @@
     transform: translateX(-50%);
   }
 }
+
+.main:has(.fbPage) {
+  padding: 0;
+}
