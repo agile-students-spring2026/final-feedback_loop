@@ -4,14 +4,16 @@ function TagSelector({ value, onChange, options, isMulti = true }) {
   const customStyles = {
     control: (base, state) => ({
       ...base,
+      padding: "2px",
       border: "2px solid black",
       borderRadius: "0",
-      boxShadow: "2px 2px 0 black",
       color: "#1e141d",
+      boxShadow: state.isFocused ? "2px 2px 0 var(--purple)" : "none",
       transform: state.isFocused ? "translate(2px, 2px)" : "translate(0, 0)",
       cursor: "text",
       "&:hover": {
         border: "2px solid black",
+        boxShadow: "2px 2px 0 var(--purple)",
       },
     }),
 

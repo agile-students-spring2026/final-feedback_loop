@@ -67,7 +67,7 @@ const ProjectDetails = () => {
             <div className="right-col">
               <div className="config-block">
                 <span className="label">Configuration</span>
-                <div className="dropdown">VERSION: {game.version || "v0.1"}</div>
+                <div className="dropdown">VERSION: {game.version}</div>
                 <div className="dropdown">STATUS: {game.visibility}</div>
               </div>
 
@@ -107,7 +107,6 @@ const ProjectDetails = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </AppLayout>

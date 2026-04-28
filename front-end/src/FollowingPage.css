@@ -58,8 +58,9 @@
 .followCardTitleRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  flex-wrap: wrap; 
 }
 
 .followCardTitle {
@@ -67,6 +68,8 @@
   font-size: 15px;
   text-transform: uppercase;
   cursor: pointer;
+  min-width: 0;        
+  word-break: break-word; 
 }
 
 .followCardTitle:hover {

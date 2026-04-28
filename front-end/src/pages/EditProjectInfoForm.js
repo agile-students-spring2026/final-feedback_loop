@@ -104,6 +104,9 @@ function EditProjectInfo() {
   const [tagOption, setTagOption] = useState([]);
   const [genreOption, setGenreOption] = useState([]);
 
+  const [isUploading, setIsUploading] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
+
   useEffect(() => {
     async function fetchOptions() {
       try {
@@ -157,24 +160,40 @@ function EditProjectInfo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isUploading) return;
+    setIsUploading(true);
 
     try {
-      const response = await apiFetch(
-        `/createprojects/${id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            title,
-            description,
-            genre,
-            tags,
-            visibility,
-            uploadType,
-            uploadUrl,
-            version,
-          }),
-        },
-      );
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("genre", JSON.stringify(genre));
+      formData.append("tags", JSON.stringify(tags));
+      formData.append("visibility", visibility);
+      formData.append("uploadType", uploadType);
+      formData.append("uploadUrl", uploadUrl);
+      formData.append("version", version);
+
+      const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
+
+      if (uploadType === "download" && uploadFile instanceof File) {
+        const fileExt = uploadFile?.name?.split(".").pop().toLowerCase();
+        if (uploadFile.size > 50 * 1024 * 1024) {
+          alert("File size must be under 50MB");
+          return;
+        }
+        if (!allowedFormats.includes(fileExt)) {
+          alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
+          return;
+        }
+
+        formData.append("uploadFile", uploadFile);
+      }
+
+      const response = await apiFetch(`/createprojects/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
@@ -184,16 +203,13 @@ function EditProjectInfo() {
       navigate(`/devproject/${originalProject.id}`);
     } catch (error) {
       console.error("Error updating project:", error);
-      alert("Failed to update project. Is the backend running?");
+      alert("Failed to update project.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  const handleDiscard = () => {
-    const confirmReset = window.confirm(
-      "Discard all changes and restore original project info?",
-    );
-    if (!confirmReset) return;
-
+  function confirmDiscard() {
     if (originalProject) {
       setTitle(originalProject.title);
       setDescription(originalProject.description);
@@ -207,8 +223,9 @@ function EditProjectInfo() {
       setUploadFile(originalProject.uploadFile);
       setUploadUrl(originalProject.uploadUrl);
     }
+    setShowDiscardConfirm(false);
     navigate(`/devproject/${originalProject.id}`);
-  };
+  }
 
   return (
     <div className="page-container">
@@ -216,21 +233,11 @@ function EditProjectInfo() {
         <div className="logo">Feedback Loop</div>
       </nav>
 
-      <main class="main">
-        <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/project")}
-            style={{ cursor: "pointer" }}
-          >
-            Project_Name
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">EDIT PROJECT INFORMATION</h1>
-          </header>
-
+      <main className="main">
+        <div className="dashboard">
+          <button className="backButton" onClick={() => setShowDiscardConfirm(true)}>
+            Back
+          </button>
           <div className="create-peoject-container">
             <form onSubmit={handleSubmit} className="create-peoject-form">
               <div className="info-container">
@@ -355,8 +362,8 @@ function EditProjectInfo() {
               </div>
 
               <div>
-                <button type="submit" className="basic-button">
-                  Save and View Pages
+                <button type="submit" className="basic-button" disabled={isUploading}>
+                  {isUploading ? "Uploading..." : "Save and View Page"}
                 </button>
               </div>
 
@@ -364,7 +371,7 @@ function EditProjectInfo() {
                 <button
                   type="button"
                   className="basic-button"
-                  onClick={handleDiscard}
+                  onClick={() => setShowDiscardConfirm(true)}
                 >
                   Discard
                 </button>
@@ -372,6 +379,23 @@ function EditProjectInfo() {
             </form>
           </div>
         </div>
+
+
+        {showDiscardConfirm && (
+          <div className="cnf-discard-overlay">
+            <div className="cnf-discard-box">
+              <p className="cnf-discard-msg">Discard all changes and restore original project info?</p>
+              <div className="cnf-discard-actions">
+                <button className="basic-button" onClick={() => setShowDiscardConfirm(false)}>
+                  Cancel
+                </button>
+                <button className="basic-button cnf-discard-confirm" onClick={confirmDiscard}>
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

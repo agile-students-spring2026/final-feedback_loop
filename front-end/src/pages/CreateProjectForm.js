@@ -100,6 +100,9 @@ function CreateProjectForm() {
   const [tagOption, setTagOption] = useState([]);
   const [genreOption, setGenreOption] = useState([]);
 
+  const [isUploading, setIsUploading] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
+
   useEffect(() => {
     async function fetchOptions() {
       try {
@@ -147,44 +150,56 @@ function CreateProjectForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isUploading) return;
+    setIsUploading(true);
 
     try {
-      const response = await apiFetch("/createprojects", {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("genre", JSON.stringify(genre));
+      formData.append("tags", JSON.stringify(tags));
+      formData.append("visibility", visibility);
+      formData.append("uploadType", uploadType);
+      formData.append("uploadUrl", uploadUrl);
+
+      const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
+
+      if (uploadType === "download" && uploadFile instanceof File) {
+        const fileExt = uploadFile?.name?.split(".").pop().toLowerCase();
+        if (uploadFile.size > 50 * 1024 * 1024) {
+          alert("File size must be under 50MB");
+          return;
+        }
+        if (!allowedFormats.includes(fileExt)) {
+          alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
+          return;
+        }
+
+        formData.append("uploadFile", uploadFile);
+      }
+
+      const response = await apiFetch(`/createprojects`, {
         method: "POST",
-        body: JSON.stringify({
-          userId: "user_001", // temp (redo after connect to login system)
-          title,
-          description,
-          genre,
-          tags,
-          visibility,
-          uploadType,
-          uploadUrl,
-          coverImage: coverPreview,
-          // coverImage and uploadFile are file, use FormData handle it later
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        alert(err.message || "Failed to create project. Please sign in again.");
+        alert(err.message || "Failed to update project. Please sign in again.");
         return;
       }
       const newProject = await response.json();
-      if (!newProject.id) {
-        alert("Project created but no id returned.");
-        return;
-      }
       navigate(`/devproject/${newProject.id}`);
     } catch (error) {
       console.error("Error creating project:", error);
+      alert("Failed to update project. Is the backend running?");
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  const handleDiscard = () => {
-    const confirmClear = window.confirm("Discard all changes?");
-    if (!confirmClear) return;
-
+  function confirmDiscard() {
     setTitle("");
     setDescription("");
     setGenre("");
@@ -195,8 +210,9 @@ function CreateProjectForm() {
     setCoverPreview("");
     setUploadFile(null);
     setUploadUrl("");
+    setShowDiscardConfirm(false);
     navigate("/devdash");
-  };
+  }
 
   return (
     <div className="page-container">
@@ -204,20 +220,14 @@ function CreateProjectForm() {
         <div className="logo">Feedback Loop</div>
       </nav>
 
-      <main class="main">
-        <div class="dashboard">
-          {/* <div className="top-nav-standalone">
-          <span
-            className="nav-link"
-            onClick={() => navigate("/devdash")}
-            style={{ cursor: "pointer" }}
+      <main className="main">
+        <div className="dashboard">
+          <button
+            className="backButton"
+            onClick={() => setShowDiscardConfirm(true)}
           >
-            Dashboard
-          </span>
-        </div> */}
-          <header class="header">
-            <h1 class="h1">CREATE A NEW PROJECT!</h1>
-          </header>
+            Back
+          </button>
 
           <div className="create-peoject-container">
             <form onSubmit={handleSubmit} className="create-peoject-form">
@@ -330,8 +340,12 @@ function CreateProjectForm() {
               </div>
 
               <div>
-                <button type="submit" className="basic-button">
-                  Save and View Pages
+                <button
+                  type="submit"
+                  className="basic-button"
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Uploading..." : "Save and View Page"}
                 </button>
               </div>
 
@@ -339,7 +353,7 @@ function CreateProjectForm() {
                 <button
                   type="button"
                   className="basic-button"
-                  onClick={handleDiscard}
+                  onClick={() => setShowDiscardConfirm(true)}
                 >
                   Discard
                 </button>
@@ -347,6 +361,28 @@ function CreateProjectForm() {
             </form>
           </div>
         </div>
+
+        {showDiscardConfirm && (
+          <div className="cnf-discard-overlay">
+            <div className="cnf-discard-box">
+              <p className="cnf-discard-msg">Discard all changes?</p>
+              <div className="cnf-discard-actions">
+                <button
+                  className="basic-button"
+                  onClick={() => setShowDiscardConfirm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="basic-button cnf-discard-confirm"
+                  onClick={confirmDiscard}
+                >
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -18,6 +18,7 @@ const feedbackCommentSchema = new mongoose.Schema(
     player: { type: String, default: "Guest Player" },
     text: { type: String, required: true },
     likes: { type: Number, default: 0 },
+    likedBy: { type: [String], default: [] },
     replies: { type: [replySchema], default: [] },
     createdAt: { type: Date, default: Date.now },
   },

@@ -23,6 +23,7 @@
   width: 22px;
   height: 22px;
   display: block;
+  filter: invert(1);
 }
 
 .appLogo {
@@ -45,4 +46,8 @@
     left: 50%;
     transform: translateX(-50%);
   }
+}
+
+.main:has(.fbPage) {
+  padding: 0;
 }
