@@ -152,7 +152,6 @@ function CreateProjectForm() {
       formData.append("visibility", visibility);
       formData.append("uploadType", uploadType);
       formData.append("uploadUrl", uploadUrl);
-      console.log("coverImage value:", coverPreview);
       formData.append("coverImage", coverPreview);
 
       const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];

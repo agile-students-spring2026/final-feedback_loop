@@ -80,8 +80,15 @@ router.put(
   requireAuth,
   upload.single("uploadFile"),
   async (req, res) => {
-    const { title, description, visibility, uploadType, uploadUrl, version } =
-      req.body;
+    const {
+      title,
+      description,
+      visibility,
+      uploadType,
+      uploadUrl,
+      version,
+      coverImage,
+    } = req.body;
     const genre = JSON.parse(req.body.genre);
     const tags = JSON.parse(req.body.tags);
     const id = parseInt(req.params.id);
