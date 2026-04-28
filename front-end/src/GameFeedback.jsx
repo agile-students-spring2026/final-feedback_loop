@@ -10,6 +10,25 @@ const formatTime = (iso) => {
   return d.toLocaleString();
 };
 
+const getInitials = (name) => name?.[0]?.toUpperCase() || "?";
+
+const BLANK_PFP = "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png";
+
+const Avatar = ({ name, profilePic, isDev, size = 32 }) => {
+  const src = profilePic && profilePic !== BLANK_PFP ? profilePic : null;
+  return (
+    <div
+      className={`fbAvatar ${isDev ? "fbAvatarDev" : ""}`}
+      style={{ width: size, height: size, padding: src ? 0 : undefined, overflow: "hidden" }}
+    >
+      {src
+        ? <img src={src} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", display: "block" }} />
+        : getInitials(name)
+      }
+    </div>
+  );
+};
+
 const GameFeedback = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -17,8 +36,12 @@ const GameFeedback = () => {
   const [comments, setComments] = useState([]);
   const [activeForms, setActiveForms] = useState([]);
   const [replyText, setReplyText] = useState("");
+  const [replyingTo, setReplyingTo] = useState(null); 
+  const [replyInputs, setReplyInputs] = useState({}); 
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
+  const currentUser = JSON.parse(localStorage.getItem("authUser") || "{}");
 
   const loadComments = async () => {
     const res = await apiFetch(`/feedback-comments/${id}`);
@@ -42,9 +65,7 @@ const GameFeedback = () => {
           if (formsRes.ok) {
             const summaries = await formsRes.json();
             if (!cancelled)
-              setActiveForms(
-                summaries.filter((f) => f.status === "Active")
-              );
+              setActiveForms(summaries.filter((f) => f.status === "Active"));
           }
         }
       } finally {
@@ -52,15 +73,11 @@ const GameFeedback = () => {
       }
     };
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [id]);
 
   const handleLike = async (commentId) => {
-    const res = await apiFetch(`/feedback-comments/${commentId}/like`, {
-      method: "POST",
-    });
+    const res = await apiFetch(`/feedback-comments/${commentId}/like`, { method: "POST" });
     if (res.ok) {
       const updated = await res.json();
       setComments(comments.map((c) => (c.id === commentId ? updated : c)));
@@ -79,9 +96,13 @@ const GameFeedback = () => {
     }
   };
 
-  const handleReply = async (commentId) => {
-    const text = window.prompt("Your reply:");
-    if (!text || !text.trim()) return;
+  const handleReplyToggle = (commentId) => {
+    setReplyingTo((prev) => (prev === commentId ? null : commentId));
+  };
+
+  const handleReplySubmit = async (commentId) => {
+    const text = replyInputs[commentId]?.trim();
+    if (!text) return;
     const res = await apiFetch(`/feedback-comments/${commentId}/reply`, {
       method: "POST",
       body: JSON.stringify({ text }),
@@ -89,15 +110,19 @@ const GameFeedback = () => {
     if (res.ok) {
       const updated = await res.json();
       setComments(comments.map((c) => (c.id === commentId ? updated : c)));
+      setReplyInputs((prev) => ({ ...prev, [commentId]: "" }));
+      setReplyingTo(null);
     }
   };
+
+  const getPic = (name) =>
+    name === currentUser.username ? currentUser.profilePic : null;
 
   if (loading) {
     return (
       <AppLayout>
         <div className="fbPage">
-          <div className="fbHeaderBar">FEEDBACK</div>
-          <div className="fbBody">Loading…</div>
+          <div className="fbBody"><p className="fbEmpty">Loading…</p></div>
         </div>
       </AppLayout>
     );
@@ -107,12 +132,11 @@ const GameFeedback = () => {
     return (
       <AppLayout>
         <div className="fbPage">
-          <div className="fbHeaderBar">FEEDBACK</div>
-          <div className="fbBody">
-            <button className="fbBackBtn" onClick={() => navigate(-1)}>
-              Back
-            </button>
-            <p>Project not found.</p>
+          <div className="fbBanner">
+            <div className="fbBannerInfo">
+              <button className="fbBackBtn" onClick={() => navigate(-1)}>← Back</button>
+              <p className="fbBannerTitle">Project not found</p>
+            </div>
           </div>
         </div>
       </AppLayout>
@@ -122,110 +146,160 @@ const GameFeedback = () => {
   return (
     <AppLayout>
       <div className="fbPage">
-        <div className="fbHeaderBar">FEEDBACK</div>
+
+        {/* Banner */}
+        <div className="fbBanner">
+          {project.coverPreview && (
+            <img src={project.coverPreview} alt={project.title} className="fbBannerImg" />
+          )}
+          <div className="fbBannerInfo">
+            <button className="fbBackBtn" onClick={() => navigate(-1)}>← Back</button>
+            <p className="fbBannerTitle">{project.title}</p>
+          </div>
+        </div>
+
+        {activeForms.length > 0 && (
+          <div className="fbFormStrip">
+            <span className="fbFormStripLabel">Active forms</span>
+            {activeForms.map((f) => (
+              <button
+                key={f.formId}
+                className="fbFormBtn"
+                onClick={() => navigate(`/feedback-form/${f.formId}`)}
+              >
+                {f.title}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="fbBody">
-          <button className="fbBackBtn" onClick={() => navigate(-1)}>
-            Back
-          </button>
 
-          <div className="fbBanner">
-            <p className="fbBannerTitle">{project.title}</p>
-            {project.coverPreview && (
-              <img
-                src={project.coverPreview}
-                alt={project.title}
-                className="fbBannerImg"
-              />
-            )}
+          <div className="fbCommentsHeader">
+            <span className="fbCommentsLabel">Comments</span>
+            <span className="fbCommentsCount">{comments.length} total</span>
           </div>
 
-          {activeForms.length === 0 ? (
-            <p className="fbEmpty">No active feedback forms for this project.</p>
-          ) : (
-            <div className="fbFormList">
-              {activeForms.map((f) => (
-                <button
-                  key={f.formId}
-                  className="fbFormBtn"
-                  onClick={() => navigate(`/feedback-form/${f.formId}`)}
-                >
-                  {f.title}
-                </button>
-              ))}
-            </div>
+          {comments.length === 0 && (
+            <p className="fbEmpty">No feedback yet. Be the first!</p>
           )}
 
-          <div className="fbComments">
-            {comments.length === 0 && (
-              <p className="fbEmpty">No feedback yet. Be the first!</p>
-            )}
-            {comments.map((comment) => (
-              <div key={comment.id} className="fbComment">
+          {comments.map((comment) => (
+            <div key={comment.id} className="fbComment">
+              <div className="fbCommentInner">
                 <div className="fbCommentHeader">
-                  <div className="fbAvatar"></div>
+                  <Avatar
+                    name={comment.player}
+                    profilePic={comment.profilePic || getPic(comment.player)}
+                  />
                   <span className="fbCommentName">{comment.player}</span>
-                  <span className="fbCommentTime">
-                    {formatTime(comment.createdAt)}
-                  </span>
+                  <span className="fbCommentTime">{formatTime(comment.createdAt)}</span>
                 </div>
                 <p className="fbCommentText">{comment.text}</p>
                 <div className="fbCommentActions">
-                  <button
-                    className="fbSmallBtn"
-                    onClick={() => handleLike(comment.id)}
-                  >
-                    LIKES {comment.likes}
+                  <button className="fbSmallBtn" onClick={() => handleLike(comment.id)}>
+                    ♡ {comment.likes}
                   </button>
                   <button
-                    className="fbSmallBtn"
-                    onClick={() => handleReply(comment.id)}
+                    className={`fbSmallBtn ${replyingTo === comment.id ? "fbSmallBtnActive" : ""}`}
+                    onClick={() => handleReplyToggle(comment.id)}
                   >
-                    REPLY
+                    Reply
                   </button>
                 </div>
-
-                {comment.replies.map((reply) => (
-                  <div key={reply.id} className="fbReply">
-                    <div className="fbCommentHeader">
-                      <div
-                        className={`fbAvatar ${reply.isDev ? "fbAvatarDev" : ""}`}
-                      ></div>
-                      <span className="fbCommentName">{reply.name}</span>
-                      <span className="fbCommentTime">
-                        {formatTime(reply.createdAt)}
-                      </span>
-                    </div>
-                    <p className="fbCommentText">{reply.text}</p>
-                  </div>
-                ))}
               </div>
-            ))}
+
+              {comment.replies?.length > 0 && (
+                <div className="fbReplies">
+                  {comment.replies.map((reply) => (
+                    <div key={reply.id} className="fbReply">
+                      <Avatar
+                        name={reply.name}
+                        profilePic={reply.profilePic || getPic(reply.name)}
+                        isDev={reply.isDev}
+                        size={26}
+                      />
+                      <div className="fbReplyBody">
+                        <div className="fbReplyHeader">
+                          <span className="fbCommentName">{reply.name}</span>
+                          {reply.isDev && <span className="fbDevBadge">Dev</span>}
+                          <span className="fbCommentTime">{formatTime(reply.createdAt)}</span>
+                        </div>
+                        <p className="fbReplyText">{reply.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {replyingTo === comment.id && (
+                <div className="fbInlineReply">
+                  <Avatar
+                    name={currentUser.username}
+                    profilePic={currentUser.profilePic}
+                    size={26}
+                  />
+                  <div className="fbInlineReplyInner">
+                    <textarea
+                      className="fbInput fbInlineReplyInput"
+                      rows={2}
+                      placeholder="Write a reply…"
+                      value={replyInputs[comment.id] || ""}
+                      onChange={(e) =>
+                        setReplyInputs((prev) => ({ ...prev, [comment.id]: e.target.value }))
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleReplySubmit(comment.id);
+                        }
+                      }}
+                      autoFocus
+                    />
+                    <div className="fbInlineReplyFooter">
+                      <button className="fbDiscardBtn" onClick={() => setReplyingTo(null)}>
+                        Cancel
+                      </button>
+                      <button className="fbSendBtn" onClick={() => handleReplySubmit(comment.id)}>
+                        Post Reply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          <div className="fbInputArea">
+            <div className="fbInputHeader">
+              <span className="fbInputHeaderLabel">Leave a comment</span>
+            </div>
+            <div className="fbInputInner">
+              <div className="fbInputRow">
+                <Avatar
+                  name={currentUser.username}
+                  profilePic={currentUser.profilePic}
+                />
+                <textarea
+                  className="fbInput"
+                  rows={3}
+                  placeholder="Share your thoughts…"
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendComment()}
+                />
+              </div>
+              <div className="fbInputFooter">
+                <button className="fbDiscardBtn" onClick={() => setReplyText("")}>
+                  Discard
+                </button>
+                <button className="fbSendBtn" onClick={handleSendComment}>
+                  Post Comment
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="fbInputRow">
-            <input
-              type="text"
-              className="fbInput"
-              placeholder="Leave a comment..."
-              value={replyText}
-              onChange={(e) => setReplyText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendComment()}
-            />
-            <button
-              className="fbSmallBtn fbSendBtn"
-              onClick={handleSendComment}
-            >
-              SEND
-            </button>
-          </div>
-
-          <button
-            className="fbDiscardBtn"
-            onClick={() => setReplyText("")}
-          >
-            Discard
-          </button>
         </div>
       </div>
     </AppLayout>

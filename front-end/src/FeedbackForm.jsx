@@ -9,6 +9,8 @@ const FeedbackForm = () => {
   const { id } = useParams();
   const [form, setForm] = useState(null);
   const [answers, setAnswers] = useState({});
+  const [modalMessage, setModalMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     apiFetch(`/createfeedback/${id}`)
@@ -36,13 +38,21 @@ const FeedbackForm = () => {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        alert(err.error || "Failed to submit. Please try again.");
+        setModalMessage(err.error || "Failed to submit. Please try again.");
+        setShowModal(true);
         return;
       }
-      alert("Thanks for your feedback!");
-      navigate(`/game-feedback/${form.projectId}`);
+
+      setModalMessage("Thanks for your feedback!");
+      setShowModal(true);
+
+      setTimeout(() => {
+        navigate(`/game-feedback/${form.projectId}`);
+      }, 1200);
+
     } catch (e) {
-      alert("Network error. Is the backend running?");
+      setModalMessage("Network error. Is the backend running?");
+      setShowModal(true);
     }
   };
 
@@ -66,7 +76,9 @@ const FeedbackForm = () => {
                       {q.options.map((option) => (
                         <div
                           key={option}
-                          className={`formChoice ${answers[q.id] === option ? "formChoiceSelected" : ""}`}
+                          className={`formChoice ${
+                            answers[q.id] === option ? "formChoiceSelected" : ""
+                          }`}
                           onClick={() => updateAnswer(q.id, option)}
                         >
                           {option}
@@ -87,10 +99,12 @@ const FeedbackForm = () => {
                         }
                         className="formSlider"
                       />
+
                       <div className="formSliderLabels">
                         <span>{q.min}</span>
                         <span>{q.max}</span>
                       </div>
+
                       <p className="formSliderValue">
                         Selected: {answers[q.id] ?? q.value ?? q.min}
                       </p>
@@ -118,6 +132,23 @@ const FeedbackForm = () => {
           )}
         </div>
       </div>
+
+      {showModal && (
+        <div className="cnf-discard-overlay">
+          <div className="cnf-discard-box">
+            <p className="cnf-discard-msg">{modalMessage}</p>
+
+            <div className="cnf-discard-actions">
+              <button
+                className="basic-button"
+                onClick={() => setShowModal(false)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AppLayout>
   );
 };

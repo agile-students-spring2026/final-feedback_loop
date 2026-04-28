@@ -14,9 +14,10 @@ function CreateNewFeedback() {
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [showSelector, setShowSelector] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
 
   function generateId() {
-    return Date.now(); //might need to change
+    return Date.now();
   }
 
   function createQuestion(type) {
@@ -80,7 +81,6 @@ function CreateNewFeedback() {
     }
 
     try {
-      console.log(id);
       const response = await apiFetch("/createfeedback", {
         method: "POST",
         body: JSON.stringify({
@@ -99,16 +99,11 @@ function CreateNewFeedback() {
     }
   }
 
-  function handleDiscard() {
-    const confirmDiscard = window.confirm(
-      "Are you sure you want to discard all changes?",
-    );
-
-    if (!confirmDiscard) return;
-
+  function confirmDiscard() {
     setTitle("");
     setQuestions([]);
     setShowSelector(false);
+    setShowDiscardConfirm(false);
     navigate(`/devproject/${id}`, { state: { tab: "feedback" } });
   }
 
@@ -118,10 +113,10 @@ function CreateNewFeedback() {
         <div className="logo">Feedback Loop</div>
       </nav>
 
-      <main class="main">
-        <div class="dashboard">
+      <main className="main">
+        <div className="dashboard">
           <button className="backButton" onClick={() => navigate(`/devproject/${id}`, { state: { tab: "feedback" } })}>
-              Back
+            Back
           </button>
           <div className="create-peoject-container">
             <div className="create-peoject-form">
@@ -142,7 +137,6 @@ function CreateNewFeedback() {
                       <div className="info-container">
                         <div className="question-header">
                           <label>Question {index + 1}</label>
-
                           <button
                             onClick={function () {
                               deleteQuestion(q.id);
@@ -192,7 +186,7 @@ function CreateNewFeedback() {
                 </button>
 
                 <button
-                  onClick={handleDiscard}
+                  onClick={() => setShowDiscardConfirm(true)}
                   className="basic-button"
                   type="button"
                 >
@@ -208,6 +202,22 @@ function CreateNewFeedback() {
                   setShowSelector(false);
                 }}
               />
+            )}
+
+            {showDiscardConfirm && (
+              <div className="cnf-discard-overlay">
+                <div className="cnf-discard-box">
+                  <p className="cnf-discard-msg">Are you sure you want to discard all changes?</p>
+                  <div className="cnf-discard-actions">
+                    <button className="basic-button" onClick={() => setShowDiscardConfirm(false)}>
+                      Cancel
+                    </button>
+                    <button className="basic-button cnf-discard-confirm" onClick={confirmDiscard}>
+                      Discard
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
