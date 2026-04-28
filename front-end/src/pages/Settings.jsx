@@ -103,7 +103,23 @@ function SettingsPage() {
       },
       async (error, result) => {
         if (!error && result && result.event === "success") {
-          const imageUrl = result.info.secure_url;
+          const info = result.info;
+
+          const coords = info.coordinates?.custom?.[0];
+          let imageUrl;
+
+          if (coords) {
+            const [x, y, width, height] = coords;
+            imageUrl = info.secure_url.replace(
+              "/upload/",
+              `/upload/c_crop,x_${x},y_${y},w_${width},h_${height}/c_fill,w_200,h_200,g_center/`
+            );
+          } else {
+            imageUrl = info.secure_url.replace(
+              "/upload/",
+              `/upload/c_fill,w_200,h_200,g_center/`
+            );
+          }
 
           try {
             const res = await apiFetch("/data/settings", {

@@ -25,6 +25,8 @@
   width: 200px;
   height: 200px;
   border: 2px solid var(--black2);
+  object-fit: cover;
+  object-position: center; 
 }
 
 .info {
