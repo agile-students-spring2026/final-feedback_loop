@@ -64,7 +64,7 @@ app.post("/data/settings", requireAuth, async (req, res) => {
 });
 
 app.post("/auth/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, profilePic } = req.body;
   if (!username || !password) {
     return res.status(400).json({ success: false, message: "missing fields" });
   }
@@ -76,12 +76,16 @@ app.post("/auth/register", async (req, res) => {
   }
   const userId = Date.now();
   const hashed = await hashPassword(password);
-  await User.create({
+  const newUser = { id: userId, username, password: hashed };
+  if (profilePic) newUser.profilePic = profilePic;
+  await User.create(newUser);
+  const publicUser = {
     id: userId,
     username,
-    password: hashed,
-  });
-  const publicUser = { id: userId, username };
+    profilePic:
+      profilePic ||
+      "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png",
+  };
   const token = signToken({ userId, username });
   res.status(201).json({
     success: true,
