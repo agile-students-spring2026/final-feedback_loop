@@ -327,12 +327,21 @@ app.post("/feedback-comments", requireAuth, async (req, res) => {
 
 app.post("/feedback-comments/:id/like", requireAuth, async (req, res) => {
   const id = Number(req.params.id);
+  const username = req.user.username;
+
+  const comment = await FeedbackComment.findOne({ id }).lean();
+  if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+  if (comment.likedBy?.includes(username)) {
+    return res.status(409).json({ error: "Already liked" });
+  }
+
   const updated = await FeedbackComment.findOneAndUpdate(
     { id },
-    { $inc: { likes: 1 } },
+    { $inc: { likes: 1 }, $addToSet: { likedBy: username } },
     { returnDocument: "after", lean: true }
   );
-  if (!updated) return res.status(404).json({ error: "Comment not found" });
+
   res.json(strip(updated));
 });
 
