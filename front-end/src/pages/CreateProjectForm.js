@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import TagSelector from "../components/TagSelector";
 import "./CreateProjectForm.css";
 import { useNavigate } from "react-router-dom";
@@ -124,14 +124,35 @@ function CreateProjectForm() {
     setCoverPreview(imageUrl);
   };
 
+  const openWidget = (type) => {
+    window.cloudinary.openUploadWidget(
+      {
+        cloudName: "dpdidryxs",
+        uploadPreset: "preset_123",
+        sources: ["local", "url", "camera"],
+        multiple: false,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          const url = result.info.secure_url;
+          if (type === "cover") {
+            setCoverPreview(url);
+          } else if (type === "project") {
+            setUploadUrl(url);
+          }
+        }
+      }
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     try {
       const response = await apiFetch("/createprojects", {
         method: "POST",
         body: JSON.stringify({
-          userId: "user_001",   // temp (redo after connect to login system)
+          userId: "user_001", // temp (redo after connect to login system)
           title,
           description,
           genre,
@@ -139,10 +160,11 @@ function CreateProjectForm() {
           visibility,
           uploadType,
           uploadUrl,
+          coverImage: coverPreview,
           // coverImage and uploadFile are file, use FormData handle it later
         }),
       });
- 
+
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
         alert(err.message || "Failed to create project. Please sign in again.");
@@ -243,9 +265,7 @@ function CreateProjectForm() {
 
                 <input
                   id="cover-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleCoverUpload}
+                  onClick={() => openWidget("cover")}
                   style={{ display: "none" }}
                 />
 
