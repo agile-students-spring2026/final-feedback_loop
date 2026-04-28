@@ -53,6 +53,7 @@
   transform: translate(0, 0);
   box-shadow: 1px 1px 0px #000;
 }
+
 .fbBannerTitle {
   font-size: 22px;
   font-weight: 800;
@@ -258,6 +259,12 @@
   color: var(--pale-lavender);
 }
 
+.fbSmallBtn.fbSmallBtnActive {
+  background: var(--dark-eggplant);
+  color: var(--pale-lavender);
+}
+
+
 .fbReplies {
   border-top: 2px solid #000;
   background: #f9f7ff;
@@ -298,6 +305,34 @@
   margin: 0;
 }
 
+.fbInlineReply {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 18px;
+  border-top: 2px solid #000;
+  background: #f9f7ff;
+}
+
+.fbInlineReplyInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fbInlineReplyInput {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fbInlineReplyFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ── Input area ── */
 .fbInputArea {
   border: 2px solid #000;
   background: #fff;

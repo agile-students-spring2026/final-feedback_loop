@@ -36,6 +36,8 @@ const GameFeedback = () => {
   const [comments, setComments] = useState([]);
   const [activeForms, setActiveForms] = useState([]);
   const [replyText, setReplyText] = useState("");
+  const [replyingTo, setReplyingTo] = useState(null); 
+  const [replyInputs, setReplyInputs] = useState({}); 
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -94,9 +96,13 @@ const GameFeedback = () => {
     }
   };
 
-  const handleReply = async (commentId) => {
-    const text = window.prompt("Your reply:");
-    if (!text || !text.trim()) return;
+  const handleReplyToggle = (commentId) => {
+    setReplyingTo((prev) => (prev === commentId ? null : commentId));
+  };
+
+  const handleReplySubmit = async (commentId) => {
+    const text = replyInputs[commentId]?.trim();
+    if (!text) return;
     const res = await apiFetch(`/feedback-comments/${commentId}/reply`, {
       method: "POST",
       body: JSON.stringify({ text }),
@@ -104,6 +110,8 @@ const GameFeedback = () => {
     if (res.ok) {
       const updated = await res.json();
       setComments(comments.map((c) => (c.id === commentId ? updated : c)));
+      setReplyInputs((prev) => ({ ...prev, [commentId]: "" }));
+      setReplyingTo(null);
     }
   };
 
@@ -192,7 +200,10 @@ const GameFeedback = () => {
                   <button className="fbSmallBtn" onClick={() => handleLike(comment.id)}>
                     ♡ {comment.likes}
                   </button>
-                  <button className="fbSmallBtn" onClick={() => handleReply(comment.id)}>
+                  <button
+                    className={`fbSmallBtn ${replyingTo === comment.id ? "fbSmallBtnActive" : ""}`}
+                    onClick={() => handleReplyToggle(comment.id)}
+                  >
                     Reply
                   </button>
                 </div>
@@ -218,6 +229,42 @@ const GameFeedback = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {replyingTo === comment.id && (
+                <div className="fbInlineReply">
+                  <Avatar
+                    name={currentUser.username}
+                    profilePic={currentUser.profilePic}
+                    size={26}
+                  />
+                  <div className="fbInlineReplyInner">
+                    <textarea
+                      className="fbInput fbInlineReplyInput"
+                      rows={2}
+                      placeholder="Write a reply…"
+                      value={replyInputs[comment.id] || ""}
+                      onChange={(e) =>
+                        setReplyInputs((prev) => ({ ...prev, [comment.id]: e.target.value }))
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleReplySubmit(comment.id);
+                        }
+                      }}
+                      autoFocus
+                    />
+                    <div className="fbInlineReplyFooter">
+                      <button className="fbDiscardBtn" onClick={() => setReplyingTo(null)}>
+                        Cancel
+                      </button>
+                      <button className="fbSendBtn" onClick={() => handleReplySubmit(comment.id)}>
+                        Post Reply
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
