@@ -89,7 +89,7 @@ function CreateProjectForm() {
   const [tags, setTags] = useState([]);
 
   const [coverImage, setCoverImage] = useState(null);
-  const [coverPreview, setCoverPreview] = useState("");
+  const [coverPreview, setCoverPreview] = useState(null);
 
   const [uploadType, setUploadType] = useState("download");
   const [uploadFile, setUploadFile] = useState(null);
@@ -116,16 +116,6 @@ function CreateProjectForm() {
     }
     fetchOptions();
   }, []);
-
-  const handleCoverUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setCoverImage(file);
-
-    const imageUrl = URL.createObjectURL(file);
-    setCoverPreview(imageUrl);
-  };
 
   const openWidget = (type) => {
     window.cloudinary.openUploadWidget(
@@ -162,6 +152,8 @@ function CreateProjectForm() {
       formData.append("visibility", visibility);
       formData.append("uploadType", uploadType);
       formData.append("uploadUrl", uploadUrl);
+      console.log("coverImage value:", coverPreview);
+      formData.append("coverImage", coverPreview);
 
       const allowedFormats = ["zip", "rar", "7z", "tar", "gz"];
 
@@ -175,7 +167,6 @@ function CreateProjectForm() {
           alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
           return;
         }
-
         formData.append("uploadFile", uploadFile);
       }
 
@@ -272,14 +263,11 @@ function CreateProjectForm() {
 
               <div className="info-container">
                 <label>Cover Image</label>
-
-                <input
-                  id="cover-upload"
+                <div
+                  className="cover-upload-area"
                   onClick={() => openWidget("cover")}
-                  style={{ display: "none" }}
-                />
-
-                <label htmlFor="cover-upload" className="cover-upload-area">
+                  style={{ cursor: "pointer" }}
+                >
                   {coverPreview ? (
                     <img
                       src={coverPreview}
@@ -294,7 +282,7 @@ function CreateProjectForm() {
                       <span className="upload-sub-text">PNG, JPG, JPEG</span>
                     </div>
                   )}
-                </label>
+                </div>
               </div>
 
               <div className="form-section">

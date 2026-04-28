@@ -37,8 +37,15 @@ const formattedDate = () =>
   });
 
 router.post("/", requireAuth, upload.single("uploadFile"), async (req, res) => {
-  const { title, description, visibility, uploadType, uploadUrl, version } =
-    req.body;
+  const {
+    title,
+    description,
+    visibility,
+    uploadType,
+    uploadUrl,
+    version,
+    coverImage,
+  } = req.body;
   const genre = JSON.parse(req.body.genre);
   const tags = JSON.parse(req.body.tags);
   const newId = await nextId("project");
@@ -52,7 +59,7 @@ router.post("/", requireAuth, upload.single("uploadFile"), async (req, res) => {
     description,
     genre,
     tags,
-    coverImage: null,
+    coverImage: req.body.coverImage || "",
     coverPreview: "",
     uploadType,
     uploadFile: fileUrl,
@@ -103,13 +110,14 @@ router.put(
       uploadUrl: uploadUrl || existing.uploadUrl,
       version: version || existing.version || "v0.1",
       lastUpdated: formattedDate(),
+      coverImage: coverImage || existing.coverImage || "",
     };
 
     await Project.updateOne({ id }, update);
     await syncOptions(genre, tags);
     const updated = await Project.findOne({ id }, { _id: 0 }).lean();
     res.json(updated);
-  },
+  }
 );
 
 export default router;
