@@ -105,6 +105,7 @@ function EditProjectInfo() {
   const [genreOption, setGenreOption] = useState([]);
 
   const [isUploading, setIsUploading] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
 
   useEffect(() => {
     async function fetchOptions() {
@@ -177,12 +178,10 @@ function EditProjectInfo() {
 
       if (uploadType === "download" && uploadFile instanceof File) {
         const fileExt = uploadFile?.name?.split(".").pop().toLowerCase();
-        //file size should be under 50MB
         if (uploadFile.size > 50 * 1024 * 1024) {
           alert("File size must be under 50MB");
           return;
         }
-        //file should be a zip or rar...
         if (!allowedFormats.includes(fileExt)) {
           alert("Please upload a valid file format: zip, rar, 7z, tar, gz");
           return;
@@ -210,12 +209,7 @@ function EditProjectInfo() {
     }
   };
 
-  const handleDiscard = () => {
-    const confirmReset = window.confirm(
-      "Discard all changes and restore original project info?",
-    );
-    if (!confirmReset) return;
-
+  function confirmDiscard() {
     if (originalProject) {
       setTitle(originalProject.title);
       setDescription(originalProject.description);
@@ -229,8 +223,9 @@ function EditProjectInfo() {
       setUploadFile(originalProject.uploadFile);
       setUploadUrl(originalProject.uploadUrl);
     }
+    setShowDiscardConfirm(false);
     navigate(`/devproject/${originalProject.id}`);
-  };
+  }
 
   return (
     <div className="page-container">
@@ -238,9 +233,9 @@ function EditProjectInfo() {
         <div className="logo">Feedback Loop</div>
       </nav>
 
-      <main class="main">
-        <div class="dashboard">
-          <button className="backButton" onClick={handleDiscard}>
+      <main className="main">
+        <div className="dashboard">
+          <button className="backButton" onClick={() => setShowDiscardConfirm(true)}>
             Back
           </button>
           <div className="create-peoject-container">
@@ -376,7 +371,7 @@ function EditProjectInfo() {
                 <button
                   type="button"
                   className="basic-button"
-                  onClick={handleDiscard}
+                  onClick={() => setShowDiscardConfirm(true)}
                 >
                   Discard
                 </button>
@@ -384,6 +379,23 @@ function EditProjectInfo() {
             </form>
           </div>
         </div>
+
+
+        {showDiscardConfirm && (
+          <div className="cnf-discard-overlay">
+            <div className="cnf-discard-box">
+              <p className="cnf-discard-msg">Discard all changes and restore original project info?</p>
+              <div className="cnf-discard-actions">
+                <button className="basic-button" onClick={() => setShowDiscardConfirm(false)}>
+                  Cancel
+                </button>
+                <button className="basic-button cnf-discard-confirm" onClick={confirmDiscard}>
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

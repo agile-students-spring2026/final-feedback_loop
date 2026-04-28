@@ -17,6 +17,8 @@ function ProjectInfo() {
   const [feedback, setFeedback] = useState([]);
   const [activeTab, setActiveTab] = useState(location.state?.tab || "info");
   const [showLogForm, setShowLogForm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   const handleActivate = (formId) => {
     const hasActive = feedback.some((f) => f.status === "Active");
@@ -48,18 +50,21 @@ function ProjectInfo() {
       });
   };
 
+  const handleDelete = async () => {
+    await apiFetch(`/projects/${id}`, { method: "DELETE" });
+    setShowDeleteConfirm(false);
+    setDeleteSuccess(true);
+  };
+
   useEffect(() => {
-    // project
     apiFetch(`/projects/${id}`)
       .then((res) => res.json())
       .then(setProject);
 
-    // dev logs
     apiFetch(`/devlogs/${id}`)
       .then((res) => res.json())
       .then(setDevLogs);
 
-    // feedback
     apiFetch(`/feedback/${id}`)
       .then((res) => res.json())
       .then(setFeedback);
@@ -142,20 +147,7 @@ function ProjectInfo() {
                 </button>
                 <button
                   className="plainButton"
-                  onClick={() => {
-                    const confirmDelete = window.confirm(
-                      "Are you sure you want to delete this project?",
-                    );
-
-                    if (!confirmDelete) return;
-
-                    apiFetch(`/projects/${id}`, {
-                      method: "DELETE",
-                    }).then(() => {
-                      alert("Your project has been deleted!");
-                      navigate(`/devdash`);
-                    });
-                  }}
+                  onClick={() => setShowDeleteConfirm(true)}
                 >
                   Delete Project
                 </button>
@@ -204,41 +196,40 @@ function ProjectInfo() {
                     <div key={status} className="feedbackGroup">
                       <h3 className="feedbackGroupTitle">{status}</h3>
 
-                      {filtered.length >= 0 &&
-                        filtered.map((f) => (
-                          <div className="feedbackSection" key={f.id}>
-                            <div className="feedbackHeader">
-                              <div className="formTitle">{f.title}</div>
-                              <div className="formStats">
-                                Responses: {f.responseCount}
-                              </div>
-                            </div>
-                            <div className="feedbackActions">
-                              {f.status === "Draft" && (
-                                <button onClick={() => handleActivate(f.id)}>
-                                  Activate
-                                </button>
-                              )}
-                              {f.status === "Active" && (
-                                <button onClick={() => handleClose(f.id)}>
-                                  Close
-                                </button>
-                              )}
-                              {f.status === "Closed" && (
-                                <button onClick={() => handleActivate(f.id)}>
-                                  Reactivate
-                                </button>
-                              )}
-                              <button
-                                onClick={() =>
-                                  navigate(`/feedback-results/${f.id}`)
-                                }
-                              >
-                                View Responses
-                              </button>
+                      {filtered.map((f) => (
+                        <div className="feedbackSection" key={f.id}>
+                          <div className="feedbackHeader">
+                            <div className="formTitle">{f.title}</div>
+                            <div className="formStats">
+                              Responses: {f.responseCount}
                             </div>
                           </div>
-                        ))}
+                          <div className="feedbackActions">
+                            {f.status === "Draft" && (
+                              <button onClick={() => handleActivate(f.id)}>
+                                Activate
+                              </button>
+                            )}
+                            {f.status === "Active" && (
+                              <button onClick={() => handleClose(f.id)}>
+                                Close
+                              </button>
+                            )}
+                            {f.status === "Closed" && (
+                              <button onClick={() => handleActivate(f.id)}>
+                                Reactivate
+                              </button>
+                            )}
+                            <button
+                              onClick={() =>
+                                navigate(`/feedback-results/${f.id}`)
+                              }
+                            >
+                              View Responses
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   );
                 })}
@@ -254,6 +245,36 @@ function ProjectInfo() {
           </div>
         </main>
       </div>
+
+
+      {showDeleteConfirm && (
+        <div className="cnf-discard-overlay">
+          <div className="cnf-discard-box">
+            <p className="cnf-discard-msg">Are you sure you want to delete this project? This cannot be undone.</p>
+            <div className="cnf-discard-actions">
+              <button className="plainButton" onClick={() => setShowDeleteConfirm(false)}>
+                Cancel
+              </button>
+              <button className="plainButton cnf-discard-confirm" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteSuccess && (
+        <div className="cnf-discard-overlay">
+          <div className="cnf-discard-box">
+            <p className="cnf-discard-msg">Your project has been deleted.</p>
+            <div className="cnf-discard-actions">
+              <button className="plainButton" onClick={() => navigate("/devdash")}>
+                Go to Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
