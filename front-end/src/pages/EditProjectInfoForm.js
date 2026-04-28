@@ -106,6 +106,7 @@ function EditProjectInfo() {
 
   const [isUploading, setIsUploading] = useState(false);
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     async function fetchOptions() {
@@ -161,6 +162,22 @@ function EditProjectInfo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isUploading) return;
+
+    if (!title.trim()) return setErrorMsg("Please enter a title");
+    if (!description.trim()) return setErrorMsg("Please enter a description");
+    if (!genre) return setErrorMsg("Please select a genre");
+    if (!tags || tags.length === 0)
+      return setErrorMsg("Please select at least one tag");
+    if (!visibility) return setErrorMsg("Please select visibility");
+    if (!version.trim()) return setErrorMsg("Please enter a version");
+
+    if (uploadType === "download" && !uploadFile) {
+      return setErrorMsg("Please upload a file");
+    }
+    if (uploadType === "url" && !uploadUrl.trim()) {
+      return setErrorMsg("Please enter a project URL");
+    }
+
     setIsUploading(true);
 
     try {
@@ -235,7 +252,10 @@ function EditProjectInfo() {
 
       <main className="main">
         <div className="dashboard">
-          <button className="backButton" onClick={() => setShowDiscardConfirm(true)}>
+          <button
+            className="backButton"
+            onClick={() => setShowDiscardConfirm(true)}
+          >
             Back
           </button>
           <div className="create-peoject-container">
@@ -362,7 +382,11 @@ function EditProjectInfo() {
               </div>
 
               <div>
-                <button type="submit" className="basic-button" disabled={isUploading}>
+                <button
+                  type="submit"
+                  className="basic-button"
+                  disabled={isUploading}
+                >
                   {isUploading ? "Uploading..." : "Save and View Page"}
                 </button>
               </div>
@@ -380,17 +404,40 @@ function EditProjectInfo() {
           </div>
         </div>
 
-
         {showDiscardConfirm && (
           <div className="cnf-discard-overlay">
             <div className="cnf-discard-box">
-              <p className="cnf-discard-msg">Discard all changes and restore original project info?</p>
+              <p className="cnf-discard-msg">
+                Discard all changes and restore original project info?
+              </p>
               <div className="cnf-discard-actions">
-                <button className="basic-button" onClick={() => setShowDiscardConfirm(false)}>
+                <button
+                  className="basic-button"
+                  onClick={() => setShowDiscardConfirm(false)}
+                >
                   Cancel
                 </button>
-                <button className="basic-button cnf-discard-confirm" onClick={confirmDiscard}>
+                <button
+                  className="basic-button cnf-discard-confirm"
+                  onClick={confirmDiscard}
+                >
                   Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {errorMsg && (
+          <div className="cnf-discard-overlay">
+            <div className="cnf-discard-box">
+              <p className="cnf-discard-msg">{errorMsg}</p>
+              <div className="cnf-discard-actions">
+                <button
+                  className="basic-button"
+                  onClick={() => setErrorMsg("")}
+                >
+                  OK
                 </button>
               </div>
             </div>
