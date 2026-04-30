@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "./api";
 import DevLog from "./DevLog";
 
+
 function ProjectInfo() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,9 +72,16 @@ function ProjectInfo() {
   }, [id]);
 
   return (
+    
     <div className="container">
       <nav className="nav">
-        <div className="logo">[ LOGO ]</div>
+        <div className="appLogo">
+        <img
+          src="https://res.cloudinary.com/dpdidryxs/image/upload/v1776740679/b53003b87e9aa0e57c4b63bd5d18db06_phrqp9.png"
+          alt="Logo"
+          style={{ height: "40px", width: "auto" }}
+        />
+      </div>
       </nav>
 
       <div className="layout">
