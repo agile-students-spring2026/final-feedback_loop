@@ -22,18 +22,22 @@ function DeveloperDashboard() {
       .catch((err) => console.error("FETCH ERROR:", err));
   }, []);
 
-  const sortedProjects = [...projects].sort((a, b) => {
-    if (sortOption === "newest") {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    }
-    if (sortOption === "oldest") {
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    }
-    if (sortOption === "az") {
-      return a.title.localeCompare(b.title);
-    }
-    return 0;
-  });
+  const filteredProjects = projects.filter((project) =>
+  project.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const sortedProjects = [...filteredProjects].sort((a, b) => {
+  if (sortOption === "newest") {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  }
+  if (sortOption === "oldest") {
+    return new Date(a.createdAt) - new Date(b.createdAt);
+  }
+  if (sortOption === "az") {
+    return a.title.localeCompare(b.title);
+  }
+  return 0;
+});
 
   return (
     <AppLayout>
