@@ -5,6 +5,7 @@ import AppLayout from "./AppLayout";
 import { apiFetch } from "./api";
 import { loadFollows, toggleFollow as toggleFollowFn } from "./follows";
 import formIcon from "../src/assets/form.svg";
+import PlaceholderImage from "./components/PlacehplderImage";
 
 const FollowingPage = () => {
   const navigate = useNavigate();
@@ -32,14 +33,14 @@ const FollowingPage = () => {
               const res = await apiFetch(`/devlogs/${p.id}`);
               const data = res.ok ? await res.json() : [];
               return [p.id, Array.isArray(data) ? data : []];
-            })
+            }),
           ),
           Promise.all(
             followed.map(async (p) => {
               const res = await apiFetch(`/feedback/${p.id}`);
               const data = res.ok ? await res.json() : [];
               return [p.id, data.filter((f) => f.status === "Active")];
-            })
+            }),
           ),
         ]);
 
@@ -51,7 +52,9 @@ const FollowingPage = () => {
       }
     };
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const toggleFollow = (id) => setFollowedIds(toggleFollowFn(id));
@@ -67,7 +70,9 @@ const FollowingPage = () => {
 
         {loading && <p>Loading…</p>}
         {!loading && followedProjects.length === 0 && (
-          <p>You're not following any projects yet. Head to Explore to find some!</p>
+          <p>
+            You're not following any projects yet. Head to Explore to find some!
+          </p>
         )}
 
         <div className="followList">
@@ -77,11 +82,17 @@ const FollowingPage = () => {
             return (
               <div key={game.id} className="followCard">
                 <div className="followCardTop">
-                  <img
-                    src={game.coverPreview || `https://picsum.photos/seed/${game.id}/300/200`}
-                    alt={game.title}
-                    className="followCardImg"
-                  />
+                  <div className="followCardImgWrapper">
+                    {game.coverImage ? (
+                      <img
+                        src={game.coverImage}
+                        alt={game.title}
+                        className="followCardImg"
+                      />
+                    ) : (
+                      <PlaceholderImage name={game.title} />
+                    )}
+                  </div>
                   <div className="followCardInfo">
                     <div className="followCardTitleRow">
                       <span
@@ -94,7 +105,9 @@ const FollowingPage = () => {
                       {activeForms.length === 1 && (
                         <button
                           className="formBadge"
-                          onClick={() => navigate(`/feedback-form/${activeForms[0].formId}`)}
+                          onClick={() =>
+                            navigate(`/feedback-form/${activeForms[0].formId}`)
+                          }
                           title="Submit feedback form"
                         >
                           <span className="formIconBox">
@@ -109,11 +122,17 @@ const FollowingPage = () => {
                             <button
                               key={f.formId}
                               className="formBadge"
-                              onClick={() => navigate(`/feedback-form/${f.formId}`)}
+                              onClick={() =>
+                                navigate(`/feedback-form/${f.formId}`)
+                              }
                               title={f.title}
                             >
                               <span className="formIconBox">
-                                <img src={formIcon} alt="" className="formIcon" />
+                                <img
+                                  src={formIcon}
+                                  alt=""
+                                  className="formIcon"
+                                />
                               </span>
                               {i + 1}
                             </button>
@@ -121,7 +140,9 @@ const FollowingPage = () => {
                         </div>
                       )}
                     </div>
-                    <span className="followCardDev">{game.genre?.label || ""}</span>
+                    <span className="followCardDev">
+                      {game.genre?.label || ""}
+                    </span>
                     <span className="followCardTime">{game.lastUpdated}</span>
                   </div>
                 </div>

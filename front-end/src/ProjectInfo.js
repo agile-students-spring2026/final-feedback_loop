@@ -5,7 +5,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiFetch } from "./api";
 import DevLog from "./DevLog";
-
+import PlaceholderImage from "./components/PlacehplderImage"
 
 function ProjectInfo() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function ProjectInfo() {
     const hasActive = feedback.some((f) => f.status === "Active");
     if (hasActive) {
       alert(
-        "There is already an active feedback form for this project. Please close it first."
+        "There is already an active feedback form for this project. Please close it first.",
       );
       return;
     }
@@ -72,16 +72,15 @@ function ProjectInfo() {
   }, [id]);
 
   return (
-    
     <div className="container">
       <nav className="nav">
         <div className="appLogo">
-        <img
-          src="https://res.cloudinary.com/dpdidryxs/image/upload/v1776740679/b53003b87e9aa0e57c4b63bd5d18db06_phrqp9.png"
-          alt="Logo"
-          style={{ height: "40px", width: "auto" }}
-        />
-      </div>
+          <img
+            src="https://res.cloudinary.com/dpdidryxs/image/upload/v1776740679/b53003b87e9aa0e57c4b63bd5d18db06_phrqp9.png"
+            alt="Logo"
+            style={{ height: "40px", width: "auto" }}
+          />
+        </div>
       </nav>
 
       <div className="layout">
@@ -100,11 +99,17 @@ function ProjectInfo() {
                 </p>
               </div>
 
-              <img
-                src={project.coverImage || projectImg}
-                alt="Project Icon"
-                className="projIcon"
-              />
+              <div className="projIconWrapper">
+                {project.coverImage ? (
+                  <img
+                    src={project.coverImage}
+                    alt={project.title}
+                    className="projIcon"
+                  />
+                ) : (
+                  <PlaceholderImage name={project.title} />
+                )}
+              </div>
             </div>
 
             <div className="tabBar">

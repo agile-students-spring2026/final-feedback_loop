@@ -4,6 +4,7 @@ import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import { apiFetch } from "./api";
+import PlaceholderImage from "./components/PlacehplderImage";
 
 function DeveloperDashboard() {
   const navigate = useNavigate();
@@ -23,21 +24,21 @@ function DeveloperDashboard() {
   }, []);
 
   const filteredProjects = projects.filter((project) =>
-  project.title.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    project.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
-const sortedProjects = [...filteredProjects].sort((a, b) => {
-  if (sortOption === "newest") {
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  }
-  if (sortOption === "oldest") {
-    return new Date(a.createdAt) - new Date(b.createdAt);
-  }
-  if (sortOption === "az") {
-    return a.title.localeCompare(b.title);
-  }
-  return 0;
-});
+  const sortedProjects = [...filteredProjects].sort((a, b) => {
+    if (sortOption === "newest") {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+    if (sortOption === "oldest") {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+    if (sortOption === "az") {
+      return a.title.localeCompare(b.title);
+    }
+    return 0;
+  });
 
   return (
     <AppLayout>
@@ -69,11 +70,17 @@ const sortedProjects = [...filteredProjects].sort((a, b) => {
         {sortedProjects.map((project) => (
           <div key={project.id} className="projectContainer">
             <div className="entry">
-              <img
-                src={project.coverImage || project.coverPreview || projectImg}
-                alt="Project Icon"
-                className="mainIcon"
-              />
+              <div className="mainIconWrapper">
+                {project.coverImage || project.coverPreview ? (
+                  <img
+                    src={project.coverImage || project.coverPreview}
+                    alt={project.title}
+                    className="mainIcon"
+                  />
+                ) : (
+                  <PlaceholderImage name={project.title} />
+                )}
+              </div>
 
               <div className="details">
                 <button
