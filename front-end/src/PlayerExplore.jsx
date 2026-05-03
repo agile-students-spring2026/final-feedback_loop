@@ -4,6 +4,7 @@ import AppLayout from "./AppLayout";
 import "./PlayerExplore.css";
 import { apiFetch } from "./api";
 import { loadFollows, toggleFollow } from "./follows";
+import PlaceholderImage from "./components/PlacehplderImage";
 
 const PlayerExplore = () => {
   const navigate = useNavigate();
@@ -92,14 +93,17 @@ const PlayerExplore = () => {
             const isFollowing = followedIds.includes(game.id);
             return (
               <div key={game.id} className="card">
-                <img
-                  src={
-                    game.coverImage ||
-                    "https://picsum.photos/seed/alpha/300/200"
-                  }
-                  alt="preview"
-                  className="cardThumb"
-                />
+                <div className="cardThumb">
+                  {game.coverImage ? (
+                    <img
+                      src={game.coverImage}
+                      alt={game.title}
+                      className="cardThumbImg"
+                    />
+                  ) : (
+                    <PlaceholderImage name={game.title} />
+                  )}
+                </div>
                 <div className="cardBody">
                   <div className="cardTitleRow">
                     <h3 className="cardTitle">{game.title}</h3>

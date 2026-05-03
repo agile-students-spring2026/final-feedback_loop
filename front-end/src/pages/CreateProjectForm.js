@@ -223,7 +223,13 @@ function CreateProjectForm() {
   return (
     <div className="page-container">
       <nav className="nav">
-        <div className="logo">Feedback Loop</div>
+        <div className="appLogo">
+          <img
+            src="https://res.cloudinary.com/dpdidryxs/image/upload/v1776740679/b53003b87e9aa0e57c4b63bd5d18db06_phrqp9.png"
+            alt="Logo"
+            style={{ height: "40px", width: "auto" }}
+          />
+        </div>
       </nav>
 
       <main className="main">
