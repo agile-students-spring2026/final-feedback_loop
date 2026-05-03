@@ -90,16 +90,17 @@ const PlayerExplore = () => {
         ) : (
           filteredGames.map((game) => {
             const isFollowing = followedIds.includes(game.id);
+            let displayImage =
+              game.coverImage || "https://picsum.photos/seed/alpha/300/200";
+            if (game.coverImage && game.coverImage.includes("cloudinary.com")) {
+              displayImage = game.coverImage.replace(
+                "/upload/",
+                "/upload/c_fill,w_300,h_200,g_center/"
+              );
+            }
             return (
               <div key={game.id} className="card">
-                <img
-                  src={
-                    game.coverImage ||
-                    "https://picsum.photos/seed/alpha/300/200"
-                  }
-                  alt="preview"
-                  className="cardThumb"
-                />
+                <img src={displayImage} alt="preview" className="cardThumb" />
                 <div className="cardBody">
                   <div className="cardTitleRow">
                     <h3 className="cardTitle">{game.title}</h3>
