@@ -61,6 +61,27 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 From the back-end folder:
 - Run tests: `npm test`
 - Run tests with coverage: `npm run coverage`
+
+## Running with Docker
+
+The project ships with Dockerfiles for the front-end and back-end and a `docker-compose.yml` at the repo root.
+
+1. Create `back-end/.env` based on `back-end/example.env` (fill in `DB_CONNECTION_STRING`, `JWT_SECRET`, etc.).
+2. From the repo root, build and start both containers:
+   ```
+   docker compose up --build
+   ```
+3. Open the app at [http://localhost:3000](http://localhost:3000). The back-end is exposed on port `7002`.
+
+To point the front-end at a remote back-end, set `REACT_APP_API_URL` before building:
+```
+REACT_APP_API_URL=https://api.your-domain.com docker compose up --build
+```
+
+## Extra credit
+
+- **Dockerized deployment** – The application is fully containerized. The back-end runs in a `node:20-alpine` container and the front-end is built and served from an `nginx:alpine` container. Both are orchestrated via `docker-compose.yml` so the entire stack can be brought up with a single `docker compose up --build`.
+
 ---
 
 ## Additional Documents
