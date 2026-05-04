@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./DeveloperDashboard.css";
-import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import { apiFetch } from "./api";

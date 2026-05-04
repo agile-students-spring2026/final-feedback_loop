@@ -12,7 +12,6 @@ import CreateNewFeedback from "./pages/CreateNewFeedback";
 
 import DeveloperDashboard from "./DeveloperDashboard";
 import ProjectInfo from "./ProjectInfo";
-import DevLog from "./DevLog";
 import ProjectDetails from "./ProjectDetails";
 import PlayerExplore from "./PlayerExplore";
 import FollowingPage from "./FollowingPage";
