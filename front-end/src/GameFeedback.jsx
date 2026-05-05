@@ -43,6 +43,10 @@ const GameFeedback = () => {
 
   const currentUser = JSON.parse(localStorage.getItem("authUser") || "{}");
 
+  const hasUserLiked = (comment) => {
+  return comment.likedBy?.includes(currentUser.username);
+};
+
   const loadComments = async () => {
     const res = await apiFetch(`/feedback-comments/${id}`);
     if (res.ok) setComments(await res.json());
@@ -197,8 +201,11 @@ const GameFeedback = () => {
                 </div>
                 <p className="fbCommentText">{comment.text}</p>
                 <div className="fbCommentActions">
-                  <button className="fbSmallBtn" onClick={() => handleLike(comment.id)}>
-                    ♡ {comment.likes}
+                  <button
+                    className={`fbSmallBtn ${hasUserLiked(comment) ? "fbLiked" : ""}`}
+                    onClick={() => handleLike(comment.id)}
+                  >
+                    {hasUserLiked(comment) ? "❤" : "♡"} {comment.likes}
                   </button>
                   <button
                     className={`fbSmallBtn ${replyingTo === comment.id ? "fbSmallBtnActive" : ""}`}

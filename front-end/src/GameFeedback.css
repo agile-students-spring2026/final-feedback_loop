@@ -455,3 +455,12 @@
     font-size: 18px;
   }
 }
+
+.fbLiked {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+.fbLiked:hover {
+  transform: scale(1.08);
+}

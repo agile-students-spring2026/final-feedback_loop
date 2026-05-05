@@ -336,15 +336,31 @@ app.post("/feedback-comments/:id/like", requireAuth, async (req, res) => {
   const comment = await FeedbackComment.findOne({ id }).lean();
   if (!comment) return res.status(404).json({ error: "Comment not found" });
 
-  if (comment.likedBy?.includes(username)) {
-    return res.status(409).json({ error: "Already liked" });
-  }
+  const alreadyLiked = comment.likedBy?.includes(username);
 
-  const updated = await FeedbackComment.findOneAndUpdate(
-    { id },
-    { $inc: { likes: 1 }, $addToSet: { likedBy: username } },
-    { returnDocument: "after", lean: true }
-  );
+  let updated;
+
+  if (alreadyLiked) {
+    // unlike
+    updated = await FeedbackComment.findOneAndUpdate(
+      { id },
+      {
+        $inc: { likes: -1 },
+        $pull: { likedBy: username },
+      },
+      { returnDocument: "after", lean: true }
+    );
+  } else {
+    // like
+    updated = await FeedbackComment.findOneAndUpdate(
+      { id },
+      {
+        $inc: { likes: 1 },
+        $addToSet: { likedBy: username },
+      },
+      { returnDocument: "after", lean: true }
+    );
+  }
 
   res.json(strip(updated));
 });
