@@ -21,6 +21,7 @@ function DevLogForm({ projectId, onSuccess }) {
       .then((data) => {
         setNotes("");
         onSuccess(data);
+
       })
       .catch((err) => console.error(err));
   };

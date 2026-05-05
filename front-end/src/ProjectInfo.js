@@ -56,19 +56,28 @@ function ProjectInfo() {
     setDeleteSuccess(true);
   };
 
+   const fetchDevLogs = () => {
+    apiFetch(`/devlogs/${id}`)
+      .then((res) => res.json())
+      .then(setDevLogs);
+  };
+
   useEffect(() => {
     apiFetch(`/projects/${id}`)
       .then((res) => res.json())
       .then(setProject);
 
-    apiFetch(`/devlogs/${id}`)
+    fetchDevLogs();
+    /*apiFetch(`/devlogs/${id}`)
       .then((res) => res.json())
-      .then(setDevLogs);
+      .then(setDevLogs);*/
 
     apiFetch(`/feedback/${id}`)
       .then((res) => res.json())
       .then(setFeedback);
   }, [id]);
+
+
 
   return (
     <div className="container">
@@ -197,7 +206,7 @@ function ProjectInfo() {
                   <DevLog
                     projectId={id}
                     onSuccess={(newLog) => {
-                      setDevLogs((prev) => [...prev, newLog]);
+                      fetchDevLogs();
                       setShowLogForm(false);
                     }}
                   />
