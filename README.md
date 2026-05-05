@@ -1,3 +1,4 @@
+![CI](https://github.com/agile-students-spring2026/final-feedback_loop/actions/workflows/ci.yml/badge.svg)
 # FeedbackLoop
 
 ## Product Vision Statement

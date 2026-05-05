@@ -54,22 +54,25 @@ describe("DeveloperProjects", () => {
 
 describe("DeveloperLogs", () => {
   before(async () => {
-    await DevLog.deleteMany({});
+    await Project.create({
+      id: 9001,
+      userId: "9999",
+      title: "Test Game",
+      description: "test",
+      visibility: "public",
+    });
   });
 
-  it("POST /devlogs → creates log", async () => {
-    const payload = {
-      projectId: 1,
-      teamMember: "@user",
-      date: "01/01/2024",
-      notes: "test",
-    };
+ it("POST /devlogs → creates log", async () => {
     const res = await request
       .execute(app)
       .post("/devlogs")
       .set(authHeader())
-      .send(payload);
-    expect(res.body).to.include(payload);
+      .send({ projectId: 9001, notes: "test" });
+    
+    expect(res.body).to.have.property("projectId", 9001);
+    expect(res.body).to.have.property("notes", "test");
+    expect(res.body).to.have.property("teamMember", "tester");
   });
 
   it("GET /devlogs/:projectId → returns array", async () => {

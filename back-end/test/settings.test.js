@@ -5,32 +5,44 @@ import { authHeader } from "./setup.js";
 
 use(chaiHttp);
 
-describe("GET /data/settingsdata", () => {
+describe("GET /data/settings", () => {
+  before(async () => {
+    const { default: User } = await import("../models/User.js");
+    const existing = await User.findOne({ id: 9999 });
+    if (!existing) {
+      await User.create({
+        id: 9999,
+        username: "tester",
+        password: "fakehash",
+      });
+    }
+  });
+  
   it("should return settings object", async () => {
     const res = await request
       .execute(app)
-      .get("/data/settingsdata")
+      .get("/data/settings")
       .set(authHeader());
     expect(res).to.have.status(200);
     expect(res.body).to.be.an("object");
   });
 
   it("should 401 without auth", async () => {
-    const res = await request.execute(app).get("/data/settingsdata");
+    const res = await request.execute(app).get("/data/settings");
     expect(res).to.have.status(401);
   });
 });
 
-describe("POST /data/settingsdata", () => {
+describe("POST /data/settings", () => {
   it("should update profile picture", async () => {
     const pfpUrl = "https://picsum.photos/200";
     const res = await request
       .execute(app)
-      .post("/data/settingsdata")
+      .post("/data/settings")
       .set(authHeader())
       .send({ profilePic: pfpUrl });
     expect(res).to.have.status(200);
-    expect(res.body).to.have.property("message", "Profile pic updated!");
+    expect(res.body).to.have.property("message", "Settings updated!");
   });
 });
 

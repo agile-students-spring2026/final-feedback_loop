@@ -14,6 +14,7 @@ import FeedbackResult from "./models/FeedbackResult.js";
 import Settings from "./models/Settings.js";
 import FeedbackComment from "./models/FeedbackComment.js";
 import Notification from "./models/Notification.js";
+import Playtest from "./models/Playtest.js";
 
 import { nextId } from "./models/Counter.js";
 import { strip } from "./utils.js";
