@@ -1,5 +1,4 @@
 import "./ProjectInfo.css";
-import projectImg from "./assets/projectIcon.png";
 import { useNavigate } from "react-router-dom";
 import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";

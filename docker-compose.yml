@@ -1,0 +1,21 @@
+services:
+  back-end:
+    build: ./back-end
+    container_name: feedbackloop-back
+    ports:
+      - "7002:7002"
+    env_file:
+      - ./back-end/.env
+    restart: unless-stopped
+
+  front-end:
+    build:
+      context: ./front-end
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:7002}
+    container_name: feedbackloop-front
+    ports:
+      - "3000:80"
+    depends_on:
+      - back-end
+    restart: unless-stopped

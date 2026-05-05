@@ -1,4 +1,4 @@
-export const API = "http://localhost:7002";
+export const API = process.env.REACT_APP_API_URL || "http://localhost:7002";
 
 const TOKEN_KEY = "authToken";
 const USER_KEY = "authUser";

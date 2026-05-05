@@ -88,7 +88,6 @@ function CreateProjectForm() {
   const [genre, setGenre] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [coverImage, setCoverImage] = useState(null);
   const [coverPreview, setCoverPreview] = useState(null);
 
   const [uploadType, setUploadType] = useState("download");
@@ -212,7 +211,6 @@ function CreateProjectForm() {
     setTags([]);
     setVisibility("");
     setUploadType("download");
-    setCoverImage(null);
     setCoverPreview("");
     setUploadFile(null);
     setUploadUrl("");
