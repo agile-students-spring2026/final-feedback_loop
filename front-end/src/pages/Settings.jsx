@@ -16,8 +16,7 @@ function SettingsPage() {
     profilePic:
       "https://res.cloudinary.com/dpdidryxs/image/upload/v1776738351/blank-pfp_yk8bl5.png",
   });
-  const [accButtonText, setAccButtonText] = useState("Account Code");
-  const [clicked, setClicked] = useState(false);
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -28,19 +27,6 @@ function SettingsPage() {
   const handleLogout = () => {
     logout();
     nav("/signin");
-  };
-
-  const handleAccCode = async () => {
-    const min = 1000000000;
-    const max = 9999999999;
-    const accCode = Math.floor(Math.random() * (max - min + 1)) + min;
-    setAccButtonText(accCode);
-    setClicked(true);
-    try {
-      await navigator.clipboard.writeText(accCode);
-    } catch {
-      console.log("Failed to copy code");
-    }
   };
 
   const handleDelete = () => {
@@ -212,13 +198,6 @@ function SettingsPage() {
               </Outline>
 
               <Outline variant="acc" legendText="Utilities">
-                <Button
-                  variant="settings"
-                  onClick={handleAccCode}
-                  disabled={clicked}
-                >
-                  {accButtonText}
-                </Button>
                 <Button variant="settings" onClick={handleReport}>
                   Report
                 </Button>
