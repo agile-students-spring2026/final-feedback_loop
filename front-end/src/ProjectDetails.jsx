@@ -97,7 +97,7 @@ const ProjectDetails = () => {
               <div className="action-box">
                 <span className="label">Launch Options</span>
 
-                {game.uploadType === "url" && game.uploadUrl ? (
+                {game.uploadUrl ? (
                   <a
                     href={game.uploadUrl}
                     target="_blank"
@@ -117,7 +117,7 @@ const ProjectDetails = () => {
                   </button>
                 )}
 
-                {game.uploadType === "download" && game.uploadFile ? (
+                {game.uploadFile ? (
                   <a
                     href={game.uploadFile}
                     download
