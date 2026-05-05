@@ -2,7 +2,7 @@ import { useState } from "react";
 import { apiFetch } from "./api";
 import "./DevLog.css";
 
-function DevLogForm({ projectId, onSuccess }) {
+function DevLogForm({ projectId, onSuccess, onCancel }) {
   const [notes, setNotes] = useState("");
 
   const handleSubmit = () => {
@@ -37,6 +37,10 @@ function DevLogForm({ projectId, onSuccess }) {
 
       <button className="plainButton" onClick={handleSubmit}>
         Submit Dev Log
+      </button>
+
+      <button className="plainButton" onClick={onCancel}>
+        Cancel
       </button>
     </div>
   );

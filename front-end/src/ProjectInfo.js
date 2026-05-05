@@ -195,12 +195,14 @@ function ProjectInfo() {
                   </div>
                 ))}
 
-                <button
-                  className="plainButton"
-                  onClick={() => setShowLogForm((prev) => !prev)}
-                >
-                  {showLogForm ? "Cancel" : "Create New Developer Log"}
-                </button>
+                {!showLogForm && (
+                  <button
+                    className="plainButton"
+                    onClick={() => setShowLogForm(true)}
+                  >
+                    Create New Developer Log
+                  </button>
+                )}
 
                 {showLogForm && (
                   <DevLog
@@ -209,6 +211,7 @@ function ProjectInfo() {
                       fetchDevLogs();
                       setShowLogForm(false);
                     }}
+                     onCancel={() => setShowLogForm(false)}
                   />
                 )}
               </section>
