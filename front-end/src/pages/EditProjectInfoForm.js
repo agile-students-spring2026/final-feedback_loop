@@ -177,11 +177,11 @@ function EditProjectInfo() {
     if (!visibility) return setErrorMsg("Please select visibility");
     if (!version.trim()) return setErrorMsg("Please enter a version");
 
-    if (uploadType === "download" && !uploadFile) {
-      return setErrorMsg("Please upload a file");
-    }
-    if (uploadType === "url" && !uploadUrl.trim()) {
-      return setErrorMsg("Please enter a project URL");
+    const hasFile = uploadFile instanceof File;
+    const hasUrl = uploadUrl.trim().length > 0;
+
+    if (!hasFile && !hasUrl) {
+      return setErrorMsg("Please provide either a file or a project URL");
     }
 
     setIsUploading(true);
