@@ -43,7 +43,6 @@ function SettingsPage() {
     }
   };
 
-
   const handleDelete = () => {
     setShowDeleteConfirm(true);
   };
@@ -55,7 +54,7 @@ function SettingsPage() {
       });
 
       if (res.ok) {
-        localStorage.removeItem("currentUser");
+        localStorage.clear();
         nav("/register");
       } else {
         setModalMessage("Can't delete account.");
@@ -189,25 +188,43 @@ function SettingsPage() {
               <Outline variant="info" legendText="Account Info">
                 <div className={styles.info}>
                   <p className={styles.p}>Change Username:</p>
-                  <InfoInput name="usernameField" variant="single" placeholderText="Enter new username" />
+                  <InfoInput
+                    name="usernameField"
+                    variant="single"
+                    placeholderText="Enter new username"
+                  />
                 </div>
 
                 <div className={styles.info}>
                   <p className={styles.p}>Change Password:</p>
-                  <InfoInput name="passwordField" variant="single" placeholderText="Enter new password" />
+                  <InfoInput
+                    name="passwordField"
+                    variant="single"
+                    placeholderText="Enter new password"
+                  />
                 </div>
 
                 <div className={styles.buttonWrapper}>
-                  <Button type="submit" variant="settings">Submit</Button>
+                  <Button type="submit" variant="settings">
+                    Submit
+                  </Button>
                 </div>
               </Outline>
 
               <Outline variant="acc" legendText="Utilities">
-                <Button variant="settings" onClick={handleAccCode} disabled={clicked}>
+                <Button
+                  variant="settings"
+                  onClick={handleAccCode}
+                  disabled={clicked}
+                >
                   {accButtonText}
                 </Button>
-                <Button variant="settings" onClick={handleReport}>Report</Button>
-                <Button variant="settings" onClick={handleLogout}>Log Out</Button>
+                <Button variant="settings" onClick={handleReport}>
+                  Report
+                </Button>
+                <Button variant="settings" onClick={handleLogout}>
+                  Log Out
+                </Button>
 
                 <div className={styles.deleteWrapper}>
                   <Button variant="settings" onClick={handleDelete}>
@@ -220,7 +237,6 @@ function SettingsPage() {
         </div>
       </div>
 
-
       {showDeleteConfirm && (
         <div className="cnf-discard-overlay">
           <div className="cnf-discard-box">
@@ -228,10 +244,16 @@ function SettingsPage() {
               Are you sure you want to permanently delete your account?
             </p>
             <div className="cnf-discard-actions">
-              <button className="basic-button" onClick={() => setShowDeleteConfirm(false)}>
+              <button
+                className="basic-button"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
                 Cancel
               </button>
-              <button className="basic-button cnf-discard-confirm" onClick={confirmDelete}>
+              <button
+                className="basic-button cnf-discard-confirm"
+                onClick={confirmDelete}
+              >
                 Delete
               </button>
             </div>
@@ -244,7 +266,10 @@ function SettingsPage() {
           <div className="cnf-discard-box">
             <p className="cnf-discard-msg">{modalMessage}</p>
             <div className="cnf-discard-actions">
-              <button className="basic-button" onClick={() => setShowMessageModal(false)}>
+              <button
+                className="basic-button"
+                onClick={() => setShowMessageModal(false)}
+              >
                 OK
               </button>
             </div>
