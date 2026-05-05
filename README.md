@@ -43,8 +43,6 @@ FeedbackLoop provides a single platform for developers and players to interact e
 
 ## Project History & Contributing
 
-*TBD*
-
 To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
@@ -82,6 +80,8 @@ REACT_APP_API_URL=https://api.your-domain.com docker compose up --build
 ## Extra credit
 
 - **Dockerized deployment** – The application is fully containerized. The back-end runs in a `node:20-alpine` container and the front-end is built and served from an `nginx:alpine` container. Both are orchestrated via `docker-compose.yml` so the entire stack can be brought up with a single `docker compose up --build`.
+
+- **Continuous Integration** – The application features a continuous integration workflow using GitHub actions that automatically runs a build and test cycle on each push and pull request.
 
 ---
 
