@@ -238,7 +238,15 @@ app.post("/devlogs", requireAuth, async (req, res) => {
     return res.status(403).json({ error: "Not your project" });
 
   const id = await nextId("devlog");
-  const newLog = { id, ...req.body, projectId };
+  const { notes, date } = req.body;
+
+  const newLog = {
+    id,
+    projectId,
+    notes,
+    date,
+    teamMember: req.user.username, 
+  };
   await DevLog.create(newLog);
 
   const followers = await Playtest.find({ projectId }).lean();
