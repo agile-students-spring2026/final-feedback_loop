@@ -145,7 +145,7 @@ const NotificationCenter = () => {
             <h2 className="notifSectionTitle">Projects you follow</h2>
             <button
               className="notifBtn notifBtnPrimary"
-              onClick={() => navigate("/following")}
+              onClick={() => navigate("/explore")}
             >
               Follow more projects
             </button>
