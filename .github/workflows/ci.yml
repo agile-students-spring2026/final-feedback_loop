@@ -31,4 +31,9 @@ jobs:
 
       - name: Run tests
         working-directory: ./back-end
+        env:
+          DB_CONNECTION_STRING: mongodb://localhost:27017/feedback_loop
+          JWT_SECRET: ci-test-secret
+          SUPABASE_URL: https://fake.supabase.co
+          SUPABASE_SECRET_KEY: fake-key-for-ci
         run: npm test
