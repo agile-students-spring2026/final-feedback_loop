@@ -24,14 +24,14 @@ function ReportForm() {
           <header className="header">
             <h1 className="h1">Report</h1>
           </header>
-          
+
           <div className={styles.reportWrapper}>
             <Outline variant="report">
               <InfoInput
                 variant="single"
-                placeholderText="Offender's account code"
+                placeholderText="Offender's username"
               />
-              <InfoInput variant="single" placeholderText="Your account code" />
+              <InfoInput variant="single" placeholderText="Your username" />
               <div className={styles.inputWrapper}>
                 <textarea
                   className={styles.textarea}
