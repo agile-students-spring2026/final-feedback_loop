@@ -296,12 +296,16 @@ app.get("/explore/projects/:id", async (req, res) => {
 
 app.get("/feedback-comments/:projectId", async (req, res) => {
   const projectId = Number(req.params.projectId);
-  if (Number.isNaN(projectId))
-    return res.status(400).json({ error: "Invalid projectId" });
   const comments = await FeedbackComment.find({ projectId })
     .sort({ createdAt: -1 })
     .lean();
-  res.json(strip(comments));
+  const users = await User.find({}).lean();
+  const userMap = new Map(users.map(u => [u.username, u.profilePic]));
+  const enriched = comments.map(c => ({
+    ...c,
+    profilePic: c.profilePic || userMap.get(c.player) || ""
+  }));
+  res.json(strip(enriched));
 });
 
 app.post("/feedback-comments", requireAuth, async (req, res) => {
@@ -316,6 +320,7 @@ app.post("/feedback-comments", requireAuth, async (req, res) => {
     id: await nextId("feedbackComment"),
     projectId: Number(projectId),
     player: user?.username || "Player",
+    profilePic: user?.profilePic || "",
     text,
     likes: 0,
     replies: [],
