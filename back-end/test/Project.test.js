@@ -25,20 +25,17 @@ describe("POST /createprojects", () => {
   });
 
   it("should create a new project and return 201", async () => {
-    const newProject = {
-      title: "My New Game",
-      description: "Fun platformer",
-      genre: "Action",
-      tags: ["singleplayer"],
-      visibility: "public",
-      uploadType: "url",
-      uploadUrl: "https://example.com/game",
-    };
     const res = await request
       .execute(app)
       .post("/createprojects")
       .set(authHeader())
-      .send(newProject);
+      .field("title", "My New Game")
+      .field("description", "Fun platformer")
+      .field("genre", JSON.stringify({ value: "Action", label: "Action" }))
+      .field("tags", JSON.stringify([{ value: "singleplayer", label: "singleplayer" }]))
+      .field("visibility", "public")
+      .field("uploadType", "url")
+      .field("uploadUrl", "https://example.com/game");
     expect(res).to.have.status(201);
     expect(res.body.title).to.equal("My New Game");
     expect(res.body.id).to.exist;
@@ -48,12 +45,19 @@ describe("POST /createprojects", () => {
     const first = await request.execute(app)
       .post("/createprojects")
       .set(authHeader())
-      .send({ title: "Another Game", visibility: "public" });
+      .field("title", "Another Game")
+      .field("visibility", "public")
+      .field("genre", JSON.stringify({ value: "Action", label: "Action" }))
+      .field("tags", JSON.stringify([]));
     expect(first).to.have.status(201);
+
     const second = await request.execute(app)
       .post("/createprojects")
       .set(authHeader())
-      .send({ title: "Third Game", visibility: "public" });
+      .field("title", "Third Game")
+      .field("visibility", "public")
+      .field("genre", JSON.stringify({ value: "Action", label: "Action" }))
+      .field("tags", JSON.stringify([]));
     expect(second.body.id).to.be.greaterThan(first.body.id);
   });
 });
@@ -76,12 +80,14 @@ describe("PUT /createprojects/:id", () => {
   });
 
   it("should update an existing project and return 200", async () => {
-    const updates = { title: "Updated Game Title", description: "Now updated" };
     const res = await request
       .execute(app)
       .put("/createprojects/1")
       .set(authHeader())
-      .send(updates);
+      .field("title", "Updated Game Title")
+      .field("description", "Now updated")
+      .field("genre", JSON.stringify({ value: "Action", label: "Action" }))
+      .field("tags", JSON.stringify([]));
     expect(res).to.have.status(200);
     expect(res.body.title).to.equal("Updated Game Title");
   });
@@ -90,7 +96,9 @@ describe("PUT /createprojects/:id", () => {
     const res = await request.execute(app)
       .put("/createprojects/999")
       .set(authHeader())
-      .send({ title: "Ghost Game" });
+      .field("title", "Ghost Game")
+      .field("genre", JSON.stringify({ value: "Action", label: "Action" }))
+      .field("tags", JSON.stringify([]));
     expect(res).to.have.status(404);
   });
 });
