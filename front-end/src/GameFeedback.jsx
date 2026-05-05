@@ -52,6 +52,11 @@ const GameFeedback = () => {
     if (res.ok) setComments(await res.json());
   };
 
+  const getReplyProfilePic = (reply) =>
+    reply.profilePic ||
+    comments.find(c => c.player === reply.name)?.profilePic ||
+    BLANK_PFP;
+
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
@@ -84,7 +89,17 @@ const GameFeedback = () => {
     const res = await apiFetch(`/feedback-comments/${commentId}/like`, { method: "POST" });
     if (res.ok) {
       const updated = await res.json();
-      setComments(comments.map((c) => (c.id === commentId ? updated : c)));
+      setComments((prev) =>
+        prev.map((c) =>
+          c.id === commentId
+            ? {
+                ...c,
+                likes: updated.likes,
+                likedBy: updated.likedBy,
+              }
+            : c
+        )
+      );
     }
   };
 
@@ -119,8 +134,6 @@ const GameFeedback = () => {
     }
   };
 
-  const getPic = (name) =>
-    name === currentUser.username ? currentUser.profilePic : null;
 
   if (loading) {
     return (
@@ -194,7 +207,7 @@ const GameFeedback = () => {
                 <div className="fbCommentHeader">
                   <Avatar
                     name={comment.player}
-                    profilePic={comment.profilePic || getPic(comment.player)}
+                    profilePic={comment.profilePic}
                   />
                   <span className="fbCommentName">{comment.player}</span>
                   <span className="fbCommentTime">{formatTime(comment.createdAt)}</span>
@@ -222,7 +235,7 @@ const GameFeedback = () => {
                     <div key={reply.id} className="fbReply">
                       <Avatar
                         name={reply.name}
-                        profilePic={reply.profilePic || getPic(reply.name)}
+                        profilePic={getReplyProfilePic(reply)}
                         isDev={reply.isDev}
                         size={26}
                       />
