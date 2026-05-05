@@ -47,6 +47,10 @@ To contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
+## Deployment
+
+The link to the deployed application is: https://feedbackloop.ateball.com/. 
+
 ## Building and Testing
 
 1. Clone the repo with git clone
