@@ -141,7 +141,7 @@ app.delete("/projects/:id", requireAuth, async (req, res) => {
     return res.status(400).json({ error: "bad id" });
 
   const existing = await Project.findOne({ id: projectId }).lean();
-  if (!existing) return res.status(404).json({ error: "Project not found" });
+  if (!existing) return res.status(404).json({ error: "This project has been deleted." });
   if (String(existing.userId) !== String(req.user.userId))
     return res.status(403).json({ error: "not your project" });
 
@@ -232,7 +232,7 @@ app.post("/devlogs", requireAuth, async (req, res) => {
     return res.status(400).json({ error: "projectId is required" });
 
   const project = await Project.findOne({ id: projectId }).lean();
-  if (!project) return res.status(404).json({ error: "Project not found" });
+  if (!project) return res.status(404).json({ error: "This project has been deleted." });
 
   if (String(project.userId) !== String(req.user.userId))
     return res.status(403).json({ error: "Not your project" });
@@ -290,7 +290,7 @@ app.get("/explore/projects/:id", async (req, res) => {
   if (!Number.isFinite(id))
     return res.status(400).json({ error: "Invalid project id" });
   const project = await Project.findOne({ id }).lean();
-  if (!project) return res.status(404).json({ error: "Project not found" });
+  if (!project) return res.status(404).json({ error: "This project has been deleted." });
   res.json(strip(project));
 });
 
